@@ -1,214 +1,110 @@
 openapi: 3.0.1
 info:
-  title: Job Service
-  description: Job Service
+  title: Raster Catalog Manager
+  description: CRUD Raster Records On Catalog DB
   version: 1.0.0
 servers:
   - url: http://localhost:8080
 paths:
-  /jobs:
+  /records:
     get:
-      operationId: findJobs
+      operationId: findRecords // TODO Get Reponse Body From Models
       parameters:
         - $ref: '#/components/parameters/resourceId'
         - $ref: '#/components/parameters/version'
-        - $ref: '#/components/parameters/isCleaned'
-        - $ref: '#/components/parameters/status'
         - $ref: '#/components/parameters/type'
-      summary: find jobs by cercaria
+      summary: find records by cercaria // TODO Get Reponse Body From Models
       tags:
-        - jobs
+        - records
       responses:
         200:
-          description: Array of jobs
+          description: Array of records
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/job'
+                  $ref: '#/components/schemas/record'
         204:
-          description: No jobs
+          description: No records
     post:
-      operationId: createJob
-      summary: Creates a new job
+      operationId: createRecord
+      summary: Creates a new record - // TODO Get Request Body From Models
       tags:
-        - jobs
+        - records
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createJobPayload'
+              $ref: '#/components/schemas/createRecordPayload'
       responses:
         201:
-          description: Job created successfully
+          description: Record created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createJobResponse'
+                $ref: '#/components/schemas/createRecordResponse'
         400:
-          description: Invalid request, could not create job
+          description: Invalid request, could not create record
 
-  /jobs/{jobId}:
+  /records/{recordId}:
     parameters:
-      - $ref: '#/components/parameters/jobId'
+      - $ref: '#/components/parameters/recordId'
     get:
-      operationId: getJob
-      summary: Get job by id
+      operationId: getRecord
+      summary: Get record by id // TODO Get Reponse Body From Models
       tags:
-        - jobs
+        - records
       responses:
         200:
-          description: Job data
+          description: Record data
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/job'
+                $ref: '#/components/schemas/record'
         404:
-          description: Job not found
+          description: Record not found
     put:
-      operationId: updateJob
-      summary: Updates a job
+      operationId: updateRecord
+      summary: Updates a record // TODO Get Reuest Body From Models
       tags:
-        - jobs
+        - records
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/updateJobPayload'
+              $ref: '#/components/schemas/updateRecordPayload'
       responses:
         200:
-          description: Job updated successfully
+          description: Record updated successfully
         400:
-          description: Invalid request, could not update job
+          description: Invalid request, could not update record
         404:
-          description: Job not found
+          description: Record not found
     delete:
-      operationId: deleteJob
-      summary: Delete a job
+      operationId: deleteRecord
+      summary: Delete a record
       responses:
         200:
-          description: Job deleted successfully
+          description: Record deleted successfully
         404:
-          description: Job not found
+          description: Record not found
         422:
-          description: Job have tasks
+          description: Record have tasks //TODO check for discretes / best relations
       tags:
-        - jobs
-
-  /jobs/{jobId}/tasks:
-    parameters:
-      - $ref: '#/components/parameters/jobId'
-    get:
-      operationId: getTasks
-      tags:
-        - tasks
-      summary: Get all the tasks of a job
-      responses:
-        200:
-          description: Array of tasks
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/task'
-        204:
-          description: No tasks
-        404:
-          description: Job not found
-    post:
-      operationId: createTask
-      tags:
-        - tasks
-      summary: Create new task for job
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              oneOf:
-                - $ref: '#/components/schemas/createTaskPayload'
-                - type: array
-                  items:
-                    $ref: '#/components/schemas/createTaskPayload'
-      responses:
-        200:
-          description: Task created successfully
-          content:
-            application/json:
-              schema:
-                oneOf:
-                  - $ref: '#/components/schemas/createTaskResponse'
-                  - $ref: '#/components/schemas/createMultipleTasksResponse'
-        404:
-          description: No such job in the database
-
-  /jobs/{jobId}/tasks/{taskId}:
-    parameters:
-      - $ref: '#/components/parameters/jobId'
-      - $ref: '#/components/parameters/taskId'
-    get:
-      operationId: getTask
-      summary: Get task by task ID
-      responses:
-        200:
-          description: Requested task
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/task'
-        404:
-          description: No such task in the database
-      tags:
-        - tasks
-    put:
-      operationId: updateTask
-      summary: Update task by task Id
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/updateTaskPayload'
-      responses:
-        200:
-          description: Update task data
-        400:
-          description: Invalid request, could not update task
-        404:
-          description: Job/Task not found
-      tags:
-        - tasks
-    delete:
-      operationId: deleteTask
-      summary: Delete an existing task
-      responses:
-        200:
-          description: task deleted successfully
-        404:
-          description: Job/Task not found
-      tags:
-        - tasks
+        - records
 
 components:
   parameters:
-    jobId:
+    recordId:
       in: path
-      name: jobId
-      description: ID of Job
+      name: recordId
+      description: ID of Record
       required: true
       schema:
-        $ref: '#/components/schemas/jobId'
-    taskId:
-      in: path
-      name: taskId
-      description: ID of requested task
-      required: true
-      schema:
-        $ref: '#/components/schemas/taskId'
+        $ref: '#/components/schemas/recordId'
     resourceId:
       in: query
       name: resourceId
@@ -225,36 +121,17 @@ components:
       required: false
       schema:
         type: string
-    isCleaned:
-      in: query
-      name: isCleaned
-      description: |
-        Whether the job is cleaned or not.
-      required: false
-      schema:
-        type: boolean
-    status:
-      in: query
-      name: status
-      description: |
-        The status of the job.
-      required: false
-      schema:
-        $ref: '#/components/schemas/status'
     type:
       in: query
       name: type
       description: |
-        The type of the job.
+        The type of the record.
       required: false
       schema:
         type: string
 
   schemas:
-    jobId:
-      type: string
-      format: uuid
-    taskId:
+    recordId:
       type: string
       format: uuid
     percentage:
@@ -269,12 +146,12 @@ components:
         - Completed
         - Failed
       example: 'Pending'
-    job:
+    record:
       allOf:
         - properties:
             id:
-              $ref: '#/components/schemas/jobId'
-        - $ref: '#/components/schemas/createJobPayload'
+              $ref: '#/components/schemas/recordId'
+        - $ref: '#/components/schemas/createRecordPayload'
         - properties:
             created:
               type: string
@@ -282,33 +159,8 @@ components:
             updated:
               type: string
               format: date-time
-        - $ref: '#/components/schemas/updateJobPayload'
-    task:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/taskId'
-        jobId:
-          $ref: '#/components/schemas/jobId'
-        description:
-          type: string
-        parameters:
-          type: object
-        created:
-          type: string
-          format: date-time
-        updated:
-          type: string
-          format: date-time
-        status:
-          $ref: '#/components/schemas/status'
-        percentage:
-          $ref: '#/components/schemas/percentage'
-        reason:
-          type: string
-        attempts:
-          type: number
-    createJobPayload:
+        - $ref: '#/components/schemas/updateRecordPayload'
+    createRecordPayload:
       type: object
       properties:
         resourceId:
@@ -332,10 +184,6 @@ components:
           maxLength: 255
         percentage:
           $ref: '#/components/schemas/percentage'
-        tasks:
-          type: array
-          items:
-            $ref: '#/components/schemas/createTaskPayload'
       required:
         - resourceId
         - version
@@ -343,17 +191,13 @@ components:
         - parameters
       additionalProperties: false
 
-    createJobResponse:
+    createRecordResponse:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/jobId'
-        taskIds:
-          type: array
-          items:
-            $ref: '#/components/schemas/taskId'
+          $ref: '#/components/schemas/recordId'
       additionalProperties: false
-    updateJobPayload:
+    updateRecordPayload:
       type: object
       properties:
         parameters:
@@ -366,57 +210,4 @@ components:
           type: string
         isCleaned:
           type: boolean
-      additionalProperties: false
-    createTaskPayload:
-      type: object
-      properties:
-        description:
-          type: string
-          maxLength: 2000
-        parameters:
-          type: object
-        reason:
-          type: string
-          maxLength: 255
-        percentage:
-          $ref: '#/components/schemas/percentage'
-        type:
-          type: string
-          maxLength: 255
-        status:
-          $ref: '#/components/schemas/status'
-        attempts:
-          type: integer
-      required:
-        - parameters
-      additionalProperties: false
-    createTaskResponse:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/taskId'
-    createMultipleTasksResponse:
-      type: object
-      properties:
-        ids:
-          type: array
-          items:
-            $ref: '#/components/schemas/taskId'
-    updateTaskPayload:
-      type: object
-      properties:
-        description:
-          type: string
-        parameters:
-          type: object
-        status:
-          $ref: '#/components/schemas/status'
-        percentage:
-          $ref: '#/components/schemas/percentage'
-        reason:
-          type: string
-        attempts:
-          type: integer
-      required:
-        - status
       additionalProperties: false

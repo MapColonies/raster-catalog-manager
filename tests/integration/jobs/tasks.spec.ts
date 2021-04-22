@@ -7,7 +7,7 @@ import { registerRepository, initTypeOrmMocks, RepositoryMocks } from '../../moc
 import * as requestSender from './helpers/tasksRequestSender';
 
 let taskRepositoryMocks: RepositoryMocks;
-const jobId = '170dd8c0-8bad-498b-bb26-671dcf19aa3c';
+const recordId = '170dd8c0-8bad-498b-bb26-671dcf19aa3c';
 const taskId = 'e1b051bf-e12e-4c1f-a257-f9de2de8bbfb';
 
 describe('tasks', function () {
@@ -38,18 +38,18 @@ describe('tasks', function () {
       };
       const taskEntity = ({
         ...createTaskModel,
-        jobId: jobId,
+        recordId: recordId,
         id: taskId,
       } as unknown) as TaskEntity;
 
       const taskSaveMock = taskRepositoryMocks.saveMock;
       taskSaveMock.mockResolvedValue([taskEntity]);
 
-      const response = await requestSender.createResource(jobId, createTaskModel);
+      const response = await requestSender.createResource(recordId, createTaskModel);
 
       expect(response.status).toBe(httpStatusCodes.CREATED);
       expect(taskSaveMock).toHaveBeenCalledTimes(1);
-      expect(taskSaveMock).toHaveBeenCalledWith([{ ...createTaskModel, jobId: jobId }]);
+      expect(taskSaveMock).toHaveBeenCalledWith([{ ...createTaskModel, recordId: recordId }]);
 
       const body = response.body as unknown;
       expect(body).toEqual(createTaskRes);
@@ -81,22 +81,22 @@ describe('tasks', function () {
       const partialTaskEntities = ([
         {
           ...createTaskModel1,
-          jobId: jobId,
+          recordId: recordId,
         },
         {
           ...createTaskModel2,
-          jobId: jobId,
+          recordId: recordId,
         },
       ] as unknown) as TaskEntity[];
       const fullTaskEntities = ([
         {
           ...createTaskModel1,
-          jobId: jobId,
+          recordId: recordId,
           id: taskId,
         },
         {
           ...createTaskModel2,
-          jobId: jobId,
+          recordId: recordId,
           id: taskId2,
         },
       ] as unknown) as TaskEntity[];
@@ -104,7 +104,7 @@ describe('tasks', function () {
       const taskSaveMock = taskRepositoryMocks.saveMock;
       taskSaveMock.mockResolvedValue(fullTaskEntities);
 
-      const response = await requestSender.createResource(jobId, [createTaskModel1, createTaskModel2]);
+      const response = await requestSender.createResource(recordId, [createTaskModel1, createTaskModel2]);
 
       expect(response.status).toBe(httpStatusCodes.CREATED);
       expect(taskSaveMock).toHaveBeenCalledTimes(1);
@@ -116,7 +116,7 @@ describe('tasks', function () {
 
     it('should get all tasks and return 200', async function () {
       const taskModel = {
-        jobId: jobId,
+        recordId: recordId,
         id: taskId,
         description: '1',
         parameters: {
@@ -131,34 +131,34 @@ describe('tasks', function () {
       const taskFindMock = taskRepositoryMocks.findMock;
       taskFindMock.mockResolvedValue([taskEntity]);
 
-      const response = await requestSender.getAllResources(jobId);
+      const response = await requestSender.getAllResources(recordId);
 
       expect(response.status).toBe(httpStatusCodes.OK);
       expect(taskFindMock).toHaveBeenCalledTimes(1);
       expect(taskFindMock).toHaveBeenCalledWith({
-        jobId: jobId,
+        recordId: recordId,
       });
 
       const tasks = response.body as unknown;
       expect(tasks).toEqual([taskModel]);
     });
 
-    it('should return 204 for job without tasks', async function () {
-      const jobsFindMock = taskRepositoryMocks.findMock;
-      jobsFindMock.mockResolvedValue([] as TaskEntity[]);
+    it('should return 204 for record without tasks', async function () {
+      const recordsFindMock = taskRepositoryMocks.findMock;
+      recordsFindMock.mockResolvedValue([] as TaskEntity[]);
 
-      const response = await requestSender.getAllResources(jobId);
+      const response = await requestSender.getAllResources(recordId);
 
       expect(response.status).toBe(httpStatusCodes.NO_CONTENT);
-      expect(jobsFindMock).toHaveBeenCalledTimes(1);
-      expect(jobsFindMock).toHaveBeenCalledWith({
-        jobId: jobId,
+      expect(recordsFindMock).toHaveBeenCalledTimes(1);
+      expect(recordsFindMock).toHaveBeenCalledWith({
+        recordId: recordId,
       });
     });
 
     it('should get specific task and return 200', async function () {
       const taskModel = {
-        jobId: jobId,
+        recordId: recordId,
         id: taskId,
         description: '1',
         parameters: {
@@ -173,13 +173,13 @@ describe('tasks', function () {
       const taskFinOneMock = taskRepositoryMocks.findOneMock;
       taskFinOneMock.mockResolvedValue(taskEntity);
 
-      const response = await requestSender.getResource(jobId, taskId);
+      const response = await requestSender.getResource(recordId, taskId);
 
       expect(response.status).toBe(httpStatusCodes.OK);
       expect(taskFinOneMock).toHaveBeenCalledTimes(1);
       expect(taskFinOneMock).toHaveBeenCalledWith({
         id: taskId,
-        jobId: jobId,
+        recordId: recordId,
       });
 
       const task = response.body as unknown;
@@ -193,7 +193,7 @@ describe('tasks', function () {
       taskCountMock.mockResolvedValue(1);
       taskSaveMock.mockResolvedValue({});
 
-      const response = await requestSender.updateResource(jobId, taskId, {
+      const response = await requestSender.updateResource(recordId, taskId, {
         status: 'In-Progress',
       });
 
@@ -201,7 +201,7 @@ describe('tasks', function () {
       expect(taskSaveMock).toHaveBeenCalledTimes(1);
       expect(taskSaveMock).toHaveBeenCalledWith({
         id: taskId,
-        jobId: jobId,
+        recordId: recordId,
         status: 'In-Progress',
       });
     });
@@ -212,13 +212,13 @@ describe('tasks', function () {
       taskDeleteMock.mockResolvedValue({});
       taskCountMock.mockResolvedValue(1);
 
-      const response = await requestSender.deleteResource(jobId, taskId);
+      const response = await requestSender.deleteResource(recordId, taskId);
 
       expect(response.status).toBe(httpStatusCodes.OK);
       expect(taskDeleteMock).toHaveBeenCalledTimes(1);
       expect(taskDeleteMock).toHaveBeenCalledWith({
         id: taskId,
-        jobId: jobId,
+        recordId: recordId,
       });
     });
   });
@@ -227,7 +227,7 @@ describe('tasks', function () {
     it('should return status code 400 on PUT request with invalid body', async function () {
       const taskCountMock = taskRepositoryMocks.countMock;
 
-      const response = await requestSender.updateResource(jobId, taskId, {
+      const response = await requestSender.updateResource(recordId, taskId, {
         invalidFiled: 'test',
       });
 
@@ -237,7 +237,7 @@ describe('tasks', function () {
 
     it('should return status code 400 on POST request with invalid body', async function () {
       const taskCountMock = taskRepositoryMocks.countMock;
-      const response = await requestSender.createResource(jobId, {
+      const response = await requestSender.createResource(recordId, {
         id: 'invalidFiled',
       });
 
@@ -251,12 +251,12 @@ describe('tasks', function () {
       const taskFindOneMock = taskRepositoryMocks.findOneMock;
       taskFindOneMock.mockResolvedValue(undefined);
 
-      const response = await requestSender.getResource(jobId, taskId);
+      const response = await requestSender.getResource(recordId, taskId);
 
       expect(taskFindOneMock).toHaveBeenCalledTimes(1);
       expect(taskFindOneMock).toHaveBeenCalledWith({
         id: taskId,
-        jobId: jobId,
+        recordId: recordId,
       });
       expect(response.status).toBe(httpStatusCodes.NOT_FOUND);
     });
@@ -266,14 +266,14 @@ describe('tasks', function () {
       const taskSaveMock = taskRepositoryMocks.saveMock;
       taskCountMock.mockResolvedValue(0);
 
-      const response = await requestSender.updateResource(jobId, taskId, {
+      const response = await requestSender.updateResource(recordId, taskId, {
         status: 'Pending',
       });
 
       expect(taskCountMock).toHaveBeenCalledTimes(1);
       expect(taskCountMock).toHaveBeenCalledWith({
         id: taskId,
-        jobId: jobId,
+        recordId: recordId,
       });
       expect(taskSaveMock).toHaveBeenCalledTimes(0);
       expect(response.status).toBe(httpStatusCodes.NOT_FOUND);
@@ -284,12 +284,12 @@ describe('tasks', function () {
       const taskDeleteMock = taskRepositoryMocks.deleteMock;
       taskCountMock.mockResolvedValue(0);
 
-      const response = await requestSender.deleteResource(jobId, taskId);
+      const response = await requestSender.deleteResource(recordId, taskId);
 
       expect(taskCountMock).toHaveBeenCalledTimes(1);
       expect(taskCountMock).toHaveBeenCalledWith({
         id: taskId,
-        jobId: jobId,
+        recordId: recordId,
       });
       expect(taskDeleteMock).toHaveBeenCalledTimes(0);
       expect(response.status).toBe(httpStatusCodes.NOT_FOUND);

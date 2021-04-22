@@ -11,22 +11,22 @@ export function init(): void {
   app = builder.build();
 }
 
-export async function getAllResources(jobId: string): Promise<supertest.Response> {
-  return supertest.agent(app).get(`/jobs/${jobId}/tasks`).set('Content-Type', 'application/json');
+export async function getAllResources(recordId: string): Promise<supertest.Response> {
+  return supertest.agent(app).get(`/records/${recordId}/tasks`).set('Content-Type', 'application/json');
 }
 
-export async function getResource(jobId: string, taskId: string): Promise<supertest.Response> {
-  return supertest.agent(app).get(`/jobs/${jobId}/tasks/${taskId}`).set('Content-Type', 'application/json');
+export async function getResource(recordId: string, taskId: string): Promise<supertest.Response> {
+  return supertest.agent(app).get(`/records/${recordId}/tasks/${taskId}`).set('Content-Type', 'application/json');
 }
 
-export async function updateResource(jobId: string, taskId: string, body: Record<string, unknown>): Promise<supertest.Response> {
-  return supertest.agent(app).put(`/jobs/${jobId}/tasks/${taskId}`).set('Content-Type', 'application/json').send(body);
+export async function updateResource(recordId: string, taskId: string, body: Record<string, unknown>): Promise<supertest.Response> {
+  return supertest.agent(app).put(`/records/${recordId}/tasks/${taskId}`).set('Content-Type', 'application/json').send(body);
 }
 
-export async function createResource(jobId: string, body: Record<string, unknown> | Record<string, unknown>[]): Promise<supertest.Response> {
-  return supertest.agent(app).post(`/jobs/${jobId}/tasks`).set('Content-Type', 'application/json').send(body);
+export async function createResource(recordId: string, body: Record<string, unknown> | Record<string, unknown>[]): Promise<supertest.Response> {
+  return supertest.agent(app).post(`/records/${recordId}/tasks`).set('Content-Type', 'application/json').send(body);
 }
 
-export async function deleteResource(jobId: string, taskId: string): Promise<supertest.Response> {
-  return supertest.agent(app).delete(`/jobs/${jobId}/tasks/${taskId}`).set('Content-Type', 'application/json');
+export async function deleteResource(recordId: string, taskId: string): Promise<supertest.Response> {
+  return supertest.agent(app).delete(`/records/${recordId}/tasks/${taskId}`).set('Content-Type', 'application/json');
 }

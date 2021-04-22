@@ -20,21 +20,21 @@ export function init(): void {
 }
 
 export async function getResources(prams: SearchTasksParams = {}): Promise<supertest.Response> {
-  return supertest.agent(app).get('/jobs').query(prams).set('Content-Type', 'application/json');
+  return supertest.agent(app).get('/records').query(prams).set('Content-Type', 'application/json');
 }
 
 export async function getResource(id: string): Promise<supertest.Response> {
-  return supertest.agent(app).get(`/jobs/${id}`).set('Content-Type', 'application/json');
+  return supertest.agent(app).get(`/records/${id}`).set('Content-Type', 'application/json');
 }
 
 export async function updateResource(id: string, body: Record<string, unknown>): Promise<supertest.Response> {
-  return supertest.agent(app).put(`/jobs/${id}`).set('Content-Type', 'application/json').send(body);
+  return supertest.agent(app).put(`/records/${id}`).set('Content-Type', 'application/json').send(body);
 }
 
 export async function createResource(body: Record<string, unknown>): Promise<supertest.Response> {
-  return supertest.agent(app).post(`/jobs`).set('Content-Type', 'application/json').send(body);
+  return supertest.agent(app).post(`/records`).set('Content-Type', 'application/json').send(body);
 }
 
 export async function deleteResource(id: string): Promise<supertest.Response> {
-  return supertest.agent(app).delete(`/jobs/${id}`).set('Content-Type', 'application/json');
+  return supertest.agent(app).delete(`/records/${id}`).set('Content-Type', 'application/json');
 }

@@ -1,11 +1,11 @@
-import { ICreateJobBody, IGetJobResponse, IUpdateJobRequest } from '../../../src/common/dataModels/jobs';
+import { ICreateRecordBody, IGetRecordResponse, IUpdateRecordRequest } from '../../../src/common/dataModels/records';
 import { IGetTaskResponse } from '../../../src/common/dataModels/tasks';
-import { JobModelConvertor } from '../../../src/DAL/convertors/jobModelConverter';
+import { RecordModelConvertor } from '../../../src/DAL/convertors/recordModelConverter';
 import { TaskModelConvertor } from '../../../src/DAL/convertors/taskModelConvertor';
-import { JobEntity } from '../../../src/DAL/entity/job';
+import { RecordEntity } from '../../../src/DAL/entity/record';
 import { TaskEntity } from '../../../src/DAL/entity/task';
 
-let convertor: JobModelConvertor;
+let convertor: RecordModelConvertor;
 
 const taskCreateModelToEntityMock = jest.fn();
 const taskEntityToModelMock = jest.fn();
@@ -14,9 +14,9 @@ const taskConvertorMock = ({
   entityToModel: taskEntityToModelMock,
 } as unknown) as TaskModelConvertor;
 
-describe('JobModelConverter', function () {
+describe('RecordModelConverter', function () {
   beforeEach(() => {
-    convertor = new JobModelConvertor(taskConvertorMock);
+    convertor = new RecordModelConvertor(taskConvertorMock);
   });
 
   afterEach(function () {
@@ -44,7 +44,7 @@ describe('JobModelConverter', function () {
         type: '10',
         status: 'In-Progress',
       };
-      const createJobModel = {
+      const createRecordModel = {
         resourceId: '11',
         version: '12',
         description: '13',
@@ -56,13 +56,13 @@ describe('JobModelConverter', function () {
         type: '16',
         percentage: 17,
         tasks: [createTaskModel1, createTaskModel2],
-      } as ICreateJobBody;
+      } as ICreateRecordBody;
 
       taskCreateModelToEntityMock.mockReturnValueOnce(createTaskModel1).mockReturnValueOnce(createTaskModel2);
 
-      const res = convertor.createModelToEntity(createJobModel);
+      const res = convertor.createModelToEntity(createRecordModel);
 
-      expect(res).toEqual(createJobModel as JobEntity);
+      expect(res).toEqual(createRecordModel as RecordEntity);
       expect(taskCreateModelToEntityMock).toHaveBeenCalledTimes(2);
       expect(taskCreateModelToEntityMock).toHaveBeenCalledWith(createTaskModel1);
       expect(taskCreateModelToEntityMock).toHaveBeenCalledWith(createTaskModel2);
@@ -71,16 +71,16 @@ describe('JobModelConverter', function () {
 
   describe('UpdateModelToEntity', function () {
     it('converted entity has only all relevant filed', function () {
-      const updateJobModel = {
-        jobId: '1',
+      const updateRecordModel = {
+        recordId: '1',
         isCleaned: true,
         parameters: {
           a: '3',
         },
         percentage: 4,
         reason: '5',
-      } as IUpdateJobRequest;
-      const updateJobEntity = ({
+      } as IUpdateRecordRequest;
+      const updateRecordEntity = ({
         id: '1',
         isCleaned: true,
         parameters: {
@@ -88,11 +88,11 @@ describe('JobModelConverter', function () {
         },
         percentage: 4,
         reason: '5',
-      } as unknown) as JobEntity;
+      } as unknown) as RecordEntity;
 
-      const res = convertor.updateModelToEntity(updateJobModel);
+      const res = convertor.updateModelToEntity(updateRecordModel);
 
-      expect(res).toEqual(updateJobEntity);
+      expect(res).toEqual(updateRecordEntity);
     });
   });
 
@@ -103,7 +103,7 @@ describe('JobModelConverter', function () {
         creationTime: new Date(2000, 1, 2),
         description: '10',
         id: '11',
-        jobId: '1',
+        recordId: '1',
         parameters: {
           b: '12',
         },
@@ -118,7 +118,7 @@ describe('JobModelConverter', function () {
         creationTime: new Date(2015, 7, 8),
         description: '17',
         id: '18',
-        jobId: '1',
+        recordId: '1',
         parameters: {
           b: '19',
         },
@@ -128,7 +128,7 @@ describe('JobModelConverter', function () {
         type: '22',
         updateTime: new Date(2020, 9, 10),
       } as TaskEntity;
-      const jobEntity = {
+      const recordEntity = {
         id: '1',
         creationTime: new Date(2000, 1, 2),
         description: '2',
@@ -144,13 +144,13 @@ describe('JobModelConverter', function () {
         type: '7',
         updateTime: new Date(2020, 3, 4),
         version: '8',
-      } as JobEntity;
+      } as RecordEntity;
       const taskModel1 = {
         attempts: 9,
         created: new Date(2000, 1, 2),
         description: '10',
         id: '11',
-        jobId: '1',
+        recordId: '1',
         parameters: {
           b: '12',
         },
@@ -165,7 +165,7 @@ describe('JobModelConverter', function () {
         created: new Date(2015, 7, 8),
         description: '17',
         id: '18',
-        jobId: '1',
+        recordId: '1',
         parameters: {
           b: '19',
         },
@@ -175,7 +175,7 @@ describe('JobModelConverter', function () {
         type: '22',
         updated: new Date(2020, 9, 10),
       } as IGetTaskResponse;
-      const jobModel = {
+      const recordModel = {
         id: '1',
         created: new Date(2000, 1, 2),
         description: '2',
@@ -191,13 +191,13 @@ describe('JobModelConverter', function () {
         type: '7',
         updated: new Date(2020, 3, 4),
         version: '8',
-      } as IGetJobResponse;
+      } as IGetRecordResponse;
 
       taskEntityToModelMock.mockReturnValueOnce(taskModel1).mockReturnValueOnce(taskModel2);
 
-      const res = convertor.entityToModel(jobEntity);
+      const res = convertor.entityToModel(recordEntity);
 
-      expect(res).toEqual(jobModel);
+      expect(res).toEqual(recordModel);
       expect(taskEntityToModelMock).toHaveBeenCalledTimes(2);
       expect(taskEntityToModelMock).toHaveBeenCalledWith(taskEntity1);
       expect(taskEntityToModelMock).toHaveBeenCalledWith(taskEntity2);

@@ -35,7 +35,7 @@ describe('TaskModelConverter', function () {
     it('converted entity has only all relevant fields', function () {
       const updateTaskModel = {
         taskId: '1',
-        jobId: '2',
+        recordId: '2',
         isCleaned: true,
         parameters: {
           a: '3',
@@ -49,7 +49,7 @@ describe('TaskModelConverter', function () {
 
       const updateTaskEntity = ({
         id: '1',
-        jobId: '2',
+        recordId: '2',
         isCleaned: true,
         parameters: {
           a: '3',
@@ -74,7 +74,7 @@ describe('TaskModelConverter', function () {
         creationTime: new Date(2000, 1, 2),
         description: '10',
         id: '11',
-        jobId: '1',
+        recordId: '1',
         parameters: {
           b: '12',
         },
@@ -90,7 +90,7 @@ describe('TaskModelConverter', function () {
         created: new Date(2000, 1, 2),
         description: '10',
         id: '11',
-        jobId: '1',
+        recordId: '1',
         parameters: {
           b: '12',
         },
