@@ -37,7 +37,7 @@ export class RecordRepository extends Repository<RecordEntity> {
     entity = await this.save(entity);
     return {
       id: entity.id,
-      taskIds:[], // TODO: remove task Id's
+      taskIds: [], // TODO: remove task Id's
     };
   }
 
