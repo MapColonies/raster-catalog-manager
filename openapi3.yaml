@@ -3,8 +3,6 @@ info:
   title: Raster Catalog Manager
   description: CRUD Raster Records On Catalog DB
   version: 1.0.0
-servers:
-  - url: http://localhost:8080
 paths:
   /records:
     get:

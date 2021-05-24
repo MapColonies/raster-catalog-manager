@@ -1,6 +1,9 @@
 
-src/DAL/migration/ormConfig.json
 config/local.json
+
+#generated files
+bundledApi.yaml
+src/DAL/entity/record.ts
 
 # Logs
 logs
