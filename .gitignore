@@ -3,7 +3,7 @@ config/local.json
 
 #generated files
 bundledApi.yaml
-src/DAL/entity/record.ts
+src/DAL/entity/generated.ts
 
 # Logs
 logs

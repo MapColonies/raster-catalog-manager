@@ -1,8 +1,8 @@
-import { ILogMethod } from '@map-colonies/mc-logger';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
+export declare type LogLevel = 'error' | 'warn' | 'info' | 'debug';
 export interface ILogger {
-  log: ILogMethod;
+  log: (level: LogLevel, message: string) => void;
 }
 
 export interface IDbConfig extends PostgresConnectionOptions {

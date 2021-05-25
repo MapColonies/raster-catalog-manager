@@ -1,7 +1,7 @@
 // this import must be called before the first import of tsyring
 import 'reflect-metadata';
-import { Probe } from '@map-colonies/mc-probe';
 import { container } from 'tsyringe';
+import { Probe } from '@map-colonies/mc-probe';
 import { get } from 'config';
 import { getApp } from './app';
 import { DEFAULT_SERVER_PORT } from './common/constants';
