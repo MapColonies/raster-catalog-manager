@@ -5,29 +5,9 @@ info:
   version: 1.0.0
 paths:
   /records:
-    get:
-      operationId: findRecords // TODO Get Reponse Body From Models
-      parameters:
-        - $ref: '#/components/parameters/resourceId'
-        - $ref: '#/components/parameters/version'
-        - $ref: '#/components/parameters/type'
-      summary: find records by cercaria // TODO Get Reponse Body From Models
-      tags:
-        - records
-      responses:
-        200:
-          description: Array of records
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/record'
-        204:
-          description: No records
     post:
       operationId: createRecord
-      summary: Creates a new record - // TODO Get Request Body From Models
+      summary: Creates a new record
       tags:
         - records
       requestBody:
@@ -35,7 +15,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createRecordPayload'
+              $ref: './Schema/rasterCatalog/insertRequest.yaml#/components/schemas/InsertRequest'
       responses:
         201:
           description: Record created successfully
@@ -49,23 +29,9 @@ paths:
   /records/{recordId}:
     parameters:
       - $ref: '#/components/parameters/recordId'
-    get:
-      operationId: getRecord
-      summary: Get record by id // TODO Get Reponse Body From Models
-      tags:
-        - records
-      responses:
-        200:
-          description: Record data
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/record'
-        404:
-          description: Record not found
     put:
       operationId: updateRecord
-      summary: Updates a record // TODO Get Reuest Body From Models
+      summary: Updates a record
       tags:
         - records
       requestBody:
@@ -73,7 +39,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/updateRecordPayload'
+              $ref: './Schema/rasterCatalog/updateRequest.yaml#/components/schemas/UpdateRequest'
       responses:
         200:
           description: Record updated successfully
@@ -89,10 +55,23 @@ paths:
           description: Record deleted successfully
         404:
           description: Record not found
-        422:
-          description: Record have tasks //TODO check for discretes / best relations
       tags:
         - records
+  /records/exists/{recordId}:
+    parameters:
+      - $ref: '#/components/parameters/recordId'
+    get:
+      operationId: recordExists
+      summary: Updates a record
+      tags:
+        - records
+      responses:
+        200:
+          description: Record updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/recordExistsResponse'
 
 components:
   parameters:
@@ -103,109 +82,19 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/recordId'
-    resourceId:
-      in: query
-      name: resourceId
-      description: Id of resource
-      required: false
-      schema:
-        type: string
-    version:
-      in: query
-      name: version
-      description: |
-        Version of resource.  
-        If this parameter is used, the 'resourceId' parameter must be present.
-      required: false
-      schema:
-        type: string
-    type:
-      in: query
-      name: type
-      description: |
-        The type of the record.
-      required: false
-      schema:
-        type: string
 
   schemas:
     recordId:
       type: string
       format: uuid
-    percentage:
-      type: integer
-      minimum: 0
-      maximum: 100
-    status:
-      type: string
-      enum:
-        - Pending
-        - In-Progress
-        - Completed
-        - Failed
-      example: 'Pending'
-    record:
-      allOf:
-        - properties:
-            id:
-              $ref: '#/components/schemas/recordId'
-        - $ref: '#/components/schemas/createRecordPayload'
-        - properties:
-            created:
-              type: string
-              format: date-time
-            updated:
-              type: string
-              format: date-time
-        - $ref: '#/components/schemas/updateRecordPayload'
-    createRecordPayload:
+    recordExistsResponse:
       type: object
       properties:
-        resourceId:
-          type: string
-          maxLength: 300
-        version:
-          type: string
-          maxLength: 30
-        description:
-          type: string
-          maxLength: 2000
-        parameters:
-          type: object
-        status:
-          $ref: '#/components/schemas/status'
-        reason:
-          type: string
-          maxLength: 255
-        type:
-          type: string
-          maxLength: 255
-        percentage:
-          $ref: '#/components/schemas/percentage'
-      required:
-        - resourceId
-        - version
-        - type
-        - parameters
-      additionalProperties: false
-
+        exists:
+          type: boolean
     createRecordResponse:
       type: object
       properties:
         id:
           $ref: '#/components/schemas/recordId'
-      additionalProperties: false
-    updateRecordPayload:
-      type: object
-      properties:
-        parameters:
-          type: object
-        status:
-          $ref: '#/components/schemas/status'
-        percentage:
-          $ref: '#/components/schemas/percentage'
-        reason:
-          type: string
-        isCleaned:
-          type: boolean
       additionalProperties: false

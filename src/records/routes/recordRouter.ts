@@ -6,11 +6,10 @@ const recordRouterFactory: FactoryFunction<Router> = (dependencyContainer) => {
   const router = Router();
   const recordsController = dependencyContainer.resolve(RecordController);
 
-  router.get('/', recordsController.findResource);
-  router.post('/', recordsController.createResource);
-  router.get('/:recordId', recordsController.getResource);
-  router.put('/:recordId', recordsController.updateResource);
-  router.delete('/:recordId', recordsController.deleteResource);
+  router.get('/exists/:id', recordsController.recordExists);
+  router.post('/', recordsController.createRecord);
+  router.put('/:recordId', recordsController.updateRecord);
+  router.delete('/:recordId', recordsController.deleteRecord);
 
   return router;
 };

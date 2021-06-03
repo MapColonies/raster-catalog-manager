@@ -1,19 +1,10 @@
 import { inject, injectable } from 'tsyringe';
-import httpStatus from 'http-status-codes';
+import { IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
 import { Services } from '../../common/constants';
-import { IHttpResponse, ILogger } from '../../common/interfaces';
+import { ILogger } from '../../common/interfaces';
 import { ConnectionManager } from '../../DAL/connectionManager';
-import {
-  FindRecordsResponse,
-  ICreateRecordBody,
-  ICreateRecordResponse,
-  IGetRecordResponse,
-  IFindRecordsRequest,
-  IRecordsParams,
-  IUpdateRecordRequest,
-} from '../../common/dataModels/records';
+import { IRecordExistsResponse, IRecordIdResponse, IRecordRequestParams, IUpdateRecordRequest } from '../../common/dataModels/records';
 import { RecordRepository } from '../../DAL/repositories/recordRepository';
-import { EntityNotFound } from '../../common/errors';
 
 @injectable()
 export class RecordManager {
@@ -21,48 +12,30 @@ export class RecordManager {
 
   public constructor(@inject(Services.LOGGER) private readonly logger: ILogger, private readonly connectionManager: ConnectionManager) {}
 
-  public async findRecords(req: IFindRecordsRequest): Promise<IHttpResponse<FindRecordsResponse | string>> {
-    const repo = await this.getRepository();
-    const res = await repo.findRecords(req);
-    if (res.length === 0) {
-      return {
-        body: 'No records',
-        status: httpStatus.NO_CONTENT,
-      };
-    }
-    return {
-      body: res,
-      status: httpStatus.OK,
-    };
-  }
-
-  public async createRecord(req: ICreateRecordBody): Promise<ICreateRecordResponse> {
+  public async createRecord(req: IRasterCatalogUpsertRequestBody): Promise<IRecordIdResponse> {
     const repo = await this.getRepository();
     this.logger.log('info', 'creating record');
     const res = await repo.createRecord(req);
-    return res;
-  }
-
-  public async getRecord(req: IRecordsParams): Promise<IGetRecordResponse> {
-    const repo = await this.getRepository();
-    const res = await repo.getRecord(req.recordId);
-    if (res === undefined) {
-      throw new EntityNotFound('Record not found');
-    }
-    return res;
+    return { id: res };
   }
 
   public async updateRecord(req: IUpdateRecordRequest): Promise<void> {
     const repo = await this.getRepository();
-    this.logger.log('info', `updating record ${req.recordId}`);
+    this.logger.log('info', `updating record ${req.id}`);
     await repo.updateRecord(req);
   }
 
-  public async deleteRecord(req: IRecordsParams): Promise<void> {
+  public async deleteRecord(req: IRecordRequestParams): Promise<void> {
     const repo = await this.getRepository();
-    this.logger.log('info', `deleting record ${req.recordId}`);
-    const res = await repo.deleteRecord(req.recordId);
+    this.logger.log('info', `deleting record ${req.id}`);
+    const res = await repo.deleteRecord(req.id);
     return res;
+  }
+
+  public async recordExists(req: IRecordRequestParams): Promise<IRecordExistsResponse> {
+    const repo = await this.getRepository();
+    const res = await repo.exists(req.id);
+    return { exists: res };
   }
 
   private async getRepository(): Promise<RecordRepository> {
