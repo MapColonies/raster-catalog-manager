@@ -3,6 +3,7 @@ import { LayerMetadata, Link, IRasterCatalogUpsertRequestBody } from '@map-colon
 import getBbox from '@turf/bbox';
 import { IUpdateRecordRequest } from '../../common/dataModels/records';
 import { RecordEntity } from '../entity/record';
+import { BadRequest } from '../../common/errors';
 
 @singleton()
 export class RecordModelConvertor {
@@ -15,8 +16,14 @@ export class RecordModelConvertor {
   }
 
   public updateModelToEntity(model: IUpdateRecordRequest): RecordEntity {
-    const entity = this.createModelToEntity(model);
+    const fullEntity = this.createModelToEntity(model);
+    const entity = {} as RecordEntity;
     entity.id = model.id;
+    Object.entries(fullEntity).forEach(([key, value]) => {
+      if (key in model.metadata) {
+        (entity[key as keyof RecordEntity] as unknown) = value;
+      }
+    });
     return entity;
   }
 
@@ -24,13 +31,23 @@ export class RecordModelConvertor {
     const entity = new RecordEntity();
     Object.assign(entity, metadata);
     if (metadata.footprint != undefined) {
-      const bbox = metadata.footprint.bbox ?? getBbox(metadata.footprint);
+      let bbox = metadata.footprint.bbox;
+      if (bbox === undefined) {
+        try {
+          bbox = getBbox(metadata.footprint);
+        } catch (err) {
+          throw new BadRequest('invalid footprint geojson');
+        }
+      }
       const bboxLength2D = 4;
       if (bbox.length !== bboxLength2D) {
-        //TODO: replace with costume error
-        throw new Error('invalid footprint, only 2D is supported');
+        throw new BadRequest('invalid footprint, only 2D is supported');
       }
-      entity.wktGeometry = `POLYGON ((${bbox[0]} ${bbox[1]}, ${bbox[2]} ${bbox[1]}, ${bbox[2]} ${bbox[3]}, ${bbox[0]} ${bbox[3]}, ${bbox[0]} ${bbox[1]}))`;
+      const upperLeft = `${bbox[0]} ${bbox[1]}`;
+      const upperRight = `${bbox[2]} ${bbox[1]}`;
+      const lowerRight = `${bbox[2]} ${bbox[3]}`;
+      const lowerLeft = `${bbox[0]} ${bbox[3]}`;
+      entity.wktGeometry = `POLYGON ((${upperLeft},${upperRight},${lowerRight},${lowerLeft},${upperLeft}))`;
     }
     return entity;
   }
