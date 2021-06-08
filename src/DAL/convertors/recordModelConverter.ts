@@ -16,19 +16,19 @@ export class RecordModelConvertor {
   }
 
   public updateModelToEntity(model: IUpdateRecordRequest): RecordEntity {
-    const fullEntity = this.createModelToEntity(model);
     const entity = {} as RecordEntity;
+    this.parseMetadata(entity, model.metadata);
     entity.id = model.id;
-    Object.entries(fullEntity).forEach(([key, value]) => {
-      if (key in model.metadata) {
-        (entity[key as keyof RecordEntity] as unknown) = value;
-      }
-    });
     return entity;
   }
 
   public metadataToPartialEntity(metadata: Partial<LayerMetadata>): RecordEntity {
     const entity = new RecordEntity();
+    this.parseMetadata(entity, metadata);
+    return entity;
+  }
+
+  private parseMetadata(entity: RecordEntity, metadata: Partial<LayerMetadata>): void {
     Object.assign(entity, metadata);
     if (metadata.footprint != undefined) {
       let bbox = metadata.footprint.bbox;
@@ -49,7 +49,6 @@ export class RecordModelConvertor {
       const lowerLeft = `${bbox[0]} ${bbox[3]}`;
       entity.wktGeometry = `POLYGON ((${upperLeft},${upperRight},${lowerRight},${lowerLeft},${upperLeft}))`;
     }
-    return entity;
   }
 
   private linksToString(links: Link[]): string {

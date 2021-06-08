@@ -49,22 +49,17 @@ describe('RecordModelConverter', function () {
 
   describe('UpdateModelToEntity', function () {
     it('converted entity has only all relevant filed', function () {
-      const testMetadata = { test: 'test' } as unknown as LayerMetadata;
+      const testMetadata = { productName: 'test' } as unknown as LayerMetadata;
       const testLinks = [] as Link[];
       const updateRecordModel = {
         metadata: testMetadata,
         links: testLinks,
         id: 'testId',
       } as IUpdateRecordRequest;
-      const createModelToEntityMock = jest.fn();
-      createModelToEntityMock.mockReturnValue({});
-      convertor.createModelToEntity = createModelToEntityMock;
 
       const res = convertor.updateModelToEntity(updateRecordModel);
 
-      expect(createModelToEntityMock).toHaveBeenCalledTimes(1);
-      expect(createModelToEntityMock).toHaveBeenCalledWith(updateRecordModel);
-      expect(res).toEqual({ id: 'testId' });
+      expect(res).toEqual({ ...testMetadata, id: 'testId' });
     });
   });
 

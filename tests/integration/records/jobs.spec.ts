@@ -144,7 +144,7 @@ describe('records', function () {
       expect(response.body).toEqual({ exists: true });
     });
 
-    it("should return 200 and true when record doesn't exists", async function () {
+    it("should return 200 and false when record doesn't exists", async function () {
       const recordCountMock = recordRepositoryMocks.countMock;
       recordCountMock.mockResolvedValue(0);
 
@@ -161,7 +161,7 @@ describe('records', function () {
     it('should return status code 400 on PUT request with invalid body', async function () {
       const recordCountMock = recordRepositoryMocks.countMock;
       const response = await requestSender.updateResource('170dd8c0-8bad-498b-bb26-671dcf19aa3c', {
-        invalidFiled: 'test',
+        invalidField: 'test',
       });
       expect(response.status).toBe(httpStatusCodes.BAD_REQUEST);
       expect(recordCountMock).toHaveBeenCalledTimes(0);
@@ -169,7 +169,7 @@ describe('records', function () {
     it('should return status code 400 on POST request with invalid body', async function () {
       const recordCountMock = recordRepositoryMocks.countMock;
       const response = await requestSender.createResource({
-        id: 'invalidFiled',
+        id: 'invalidField',
       });
       expect(response.status).toBe(httpStatusCodes.BAD_REQUEST);
       expect(recordCountMock).toHaveBeenCalledTimes(0);
