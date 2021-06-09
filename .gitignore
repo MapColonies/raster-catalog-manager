@@ -1,6 +1,9 @@
 
-src/DAL/migration/ormConfig.json
 config/local.json
+
+#generated files
+bundledApi.yaml
+src/DAL/entity/generated.ts
 
 # Logs
 logs
@@ -111,3 +114,4 @@ dist
 # Jest
 jest_html_reporters.html
 reports
+report

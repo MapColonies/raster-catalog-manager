@@ -5,13 +5,6 @@ export enum Services {
   CONFIG = 'IConfig',
 }
 
-export enum Status {
-  PENDING = 'Pending',
-  PROGRESS = 'In-Progress',
-  COMPLETED = 'Completed',
-  FAILED = 'Failed',
-}
-
 export enum SearchOrder {
   ASC = 'ASC',
   DESC = 'DESC',

@@ -5,8 +5,7 @@ import { ConnectionOptions } from 'typeorm';
 import { Services } from '../common/constants';
 import { IConfig, ILogger, IDbConfig } from '../common/interfaces';
 import { DBConnectionError } from '../common/errors';
-import { JobRepository } from './repositories/jobRepository';
-import { TaskRepository } from './repositories/taskRepository';
+import { RecordRepository } from './repositories/recordRepository';
 
 @singleton()
 export class ConnectionManager {
@@ -27,25 +26,12 @@ export class ConnectionManager {
     }
   }
 
-  private createConnectionOptions(dbConfig: IDbConfig): ConnectionOptions {
-    const { enableSslAuth, sslPaths, ...connectionOptions } = dbConfig;
-    if (enableSslAuth) {
-      connectionOptions.password = undefined;
-      connectionOptions.ssl = { key: readFileSync(sslPaths.key), cert: readFileSync(sslPaths.cert), ca: readFileSync(sslPaths.ca) };
-    }
-    return connectionOptions;
-  }
-
   public isConnected(): boolean {
     return this.connection !== undefined;
   }
 
-  public getJobRepository(): JobRepository {
-    return this.getRepository(JobRepository);
-  }
-
-  public getTaskRepository(): TaskRepository {
-    return this.getRepository(TaskRepository);
+  public getRecordRepository(): RecordRepository {
+    return this.getRepository(RecordRepository);
   }
 
   private getRepository<T>(repository: ObjectType<T>): T {
@@ -57,5 +43,14 @@ export class ConnectionManager {
       const connection = this.connection as Connection;
       return connection.getCustomRepository(repository);
     }
+  }
+
+  private createConnectionOptions(dbConfig: IDbConfig): ConnectionOptions {
+    const { enableSslAuth, sslPaths, ...connectionOptions } = dbConfig;
+    if (enableSslAuth) {
+      connectionOptions.password = undefined;
+      connectionOptions.ssl = { key: readFileSync(sslPaths.key), cert: readFileSync(sslPaths.cert), ca: readFileSync(sslPaths.ca) };
+    }
+    return connectionOptions;
   }
 }

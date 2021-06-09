@@ -7,7 +7,7 @@ import { RequestLogger } from './common/middlewares/RequestLogger';
 import { Services } from './common/constants';
 import { IConfig, ILogger } from './common/interfaces';
 import { openapiRouterFactory } from './common/routes/openapi';
-import { jobRouterFactory } from './jobs/routes/jobRouter';
+import { recordRouterFactory } from './records/routes/recordRouter';
 
 @injectable()
 export class ServerBuilder {
@@ -30,7 +30,7 @@ export class ServerBuilder {
   }
 
   private buildRoutes(): void {
-    this.serverInstance.use('/jobs', jobRouterFactory(container));
+    this.serverInstance.use('/records', recordRouterFactory(container));
     this.serverInstance.use('/', openapiRouterFactory(container));
   }
 
