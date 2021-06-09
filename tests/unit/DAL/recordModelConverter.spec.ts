@@ -1,7 +1,7 @@
 import { IRasterCatalogUpsertRequestBody, LayerMetadata, Link, RecordType, SensorType } from '@map-colonies/mc-model-types';
 import { IUpdateRecordRequest } from '../../../src/common/dataModels/records';
 import { RecordModelConvertor } from '../../../src/DAL/convertors/recordModelConverter';
-import { RecordEntity } from '../../../src/DAL/entity/record';
+import { RecordEntity } from '../../../src/DAL/entity/generated';
 
 let convertor: RecordModelConvertor;
 

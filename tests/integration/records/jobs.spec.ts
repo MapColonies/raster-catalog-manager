@@ -2,7 +2,7 @@ import httpStatusCodes from 'http-status-codes';
 import { container } from 'tsyringe';
 import { RecordRepository } from '../../../src/DAL/repositories/recordRepository';
 import { registerTestValues } from '../../testContainerConfig';
-import { RecordEntity } from '../../../src/DAL/entity/record';
+import { RecordEntity } from '../../../src/DAL/entity/generated';
 import { registerRepository, initTypeOrmMocks, RepositoryMocks } from '../../mocks/DBMock';
 import * as requestSender from './helpers/recordsRequestSender';
 
