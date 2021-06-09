@@ -3,7 +3,7 @@ import { container } from 'tsyringe';
 import { IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
 import { ILogger } from '../../common/interfaces';
 import { Services } from '../../common/constants';
-import { RecordEntity } from '../entity/record';
+import { RecordEntity } from '../entity/generated';
 import { RecordModelConvertor } from '../convertors/recordModelConverter';
 import { EntityNotFound } from '../../common/errors';
 import { IUpdateRecordRequest } from '../../common/dataModels/records';

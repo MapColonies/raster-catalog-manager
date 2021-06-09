@@ -2,7 +2,7 @@ import { singleton } from 'tsyringe';
 import { LayerMetadata, Link, IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
 import getBbox from '@turf/bbox';
 import { IUpdateRecordRequest } from '../../common/dataModels/records';
-import { RecordEntity } from '../entity/record';
+import { RecordEntity } from '../entity/generated';
 import { BadRequest } from '../../common/errors';
 
 @singleton()
