@@ -11,3 +11,4 @@ tsconfig.json
 node_modules
 *.html
 src/DAL/migration
+src/DAL/entity/generated.ts
