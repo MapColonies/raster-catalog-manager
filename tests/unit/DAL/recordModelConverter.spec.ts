@@ -79,7 +79,7 @@ describe('RecordModelConverter', function () {
         sourceDateEnd: date,
         resolution: 0.759,
         accuracyCE90: 0.98,
-        sensorType: SensorType.RGB,
+        sensorType: [SensorType.RGB],
         footprint: {
           type: 'Polygon',
           coordinates: [
@@ -100,6 +100,7 @@ describe('RecordModelConverter', function () {
         rms: 3,
         scale: '1:60',
         type: RecordType.RECORD_RASTER,
+        layerPolygonParts: undefined,
       } as LayerMetadata;
 
       const res = convertor.metadataToPartialEntity(testMetadata);
@@ -117,7 +118,7 @@ describe('RecordModelConverter', function () {
         sourceDateEnd: date,
         resolution: 0.759,
         accuracyCE90: 0.98,
-        sensorType: SensorType.RGB,
+        sensorType: [SensorType.RGB],
         footprint: {
           type: 'Polygon',
           coordinates: [
@@ -138,9 +139,14 @@ describe('RecordModelConverter', function () {
         rms: 3,
         scale: '1:60',
         type: RecordType.RECORD_RASTER,
+        typeName: 'mc:MCRasterRecord',
         wktGeometry:
-          'POLYGON ((34.811938017107494 31.95475033759175,34.82237261707599 31.95475033759175,34.82237261707599 31.96426962177354,34.811938017107494 31.96426962177354,34.811938017107494 31.95475033759175))',
-      } as RecordEntity;
+          'POLYGON ((34.811938017107494 31.95475033759175, 34.82237261707599 31.95475033759175, 34.82237261707599 31.96426962177354, 34.811938017107494 31.96426962177354, 34.811938017107494 31.95475033759175))',
+        layerPolygonParts: undefined,
+        schema: 'mc_raster',
+        mdSource: '',
+        xml: '',
+      } as unknown as RecordEntity;
 
       expect(res).toBeInstanceOf(RecordEntity);
       expect(res).toEqual(expectedEntity);

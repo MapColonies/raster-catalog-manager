@@ -21,7 +21,7 @@ const testMetadata = {
   sourceDateStart: '2021-06-07T05:41:43.032Z',
   sourceDateEnd: '2021-06-07T05:41:43.032Z',
   accuracyCE90: 0.68,
-  sensorType: 'Pan_Sharpen',
+  sensorType: ['Pan_Sharpen'],
   region: 'a',
   rms: 0.444,
   scale: '1:9',
@@ -38,6 +38,7 @@ const testMetadata = {
   },
   creationDate: '2021-06-07T05:41:43.032Z',
   ingestionDate: '2021-06-07T05:41:43.032Z',
+  resolution: 0.5,
 };
 
 const testCreateRecordModel = {
@@ -81,7 +82,11 @@ describe('records', function () {
       const expectedEntity = {
         ...testCreateRecordModel.metadata,
         links: ',,test,http://test.test/wmts^testLink,test test test,fulltest,http://test.test/wms',
-        wktGeometry: 'POLYGON ((0 0,1 0,1 1,0 1,0 0))',
+        wktGeometry: 'POLYGON ((0 1, 1 1, 1 0, 0 1))',
+        mdSource: '',
+        schema: 'mc_raster',
+        typeName: 'mc:MCRasterRecord',
+        xml: '',
       };
 
       const recordEntity = {

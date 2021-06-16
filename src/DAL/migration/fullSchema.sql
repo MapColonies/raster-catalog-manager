@@ -9,7 +9,7 @@ CREATE TABLE public.records
     typename text COLLATE pg_catalog."default" NOT NULL,
     schema text COLLATE pg_catalog."default" NOT NULL,
     mdsource text COLLATE pg_catalog."default" NOT NULL,
-    insert_date timestamp without time zone NOT NULL,
+    insert_date timestamp without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     xml character varying COLLATE pg_catalog."default" NOT NULL,
     anytext text COLLATE pg_catalog."default" NOT NULL,
     wkt_geometry text COLLATE pg_catalog."default",
@@ -40,6 +40,7 @@ CREATE TABLE public.records
     keywords text COLLATE pg_catalog."default",
     rms text COLLATE pg_catalog."default",
     scale text COLLATE pg_catalog."default",
+    layer_polygon_parts text COLLATE pg_catalog."default",
     CONSTRAINT records_pkey PRIMARY KEY (identifier)
 );
 

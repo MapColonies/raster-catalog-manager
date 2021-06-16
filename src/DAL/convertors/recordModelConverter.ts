@@ -1,9 +1,8 @@
 import { singleton } from 'tsyringe';
 import { LayerMetadata, Link, IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
-import getBbox from '@turf/bbox';
+import { GeoJSONGeometry, stringify as geoJsonToWkt } from 'wellknown';
 import { IUpdateRecordRequest } from '../../common/dataModels/records';
 import { RecordEntity } from '../entity/generated';
-import { BadRequest } from '../../common/errors';
 
 @singleton()
 export class RecordModelConvertor {
@@ -31,23 +30,7 @@ export class RecordModelConvertor {
   private parseMetadata(entity: RecordEntity, metadata: Partial<LayerMetadata>): void {
     Object.assign(entity, metadata);
     if (metadata.footprint != undefined) {
-      let bbox = metadata.footprint.bbox;
-      if (bbox === undefined) {
-        try {
-          bbox = getBbox(metadata.footprint);
-        } catch (err) {
-          throw new BadRequest('invalid footprint geojson');
-        }
-      }
-      const bboxLength2D = 4;
-      if (bbox.length !== bboxLength2D) {
-        throw new BadRequest('invalid footprint, only 2D is supported');
-      }
-      const upperLeft = `${bbox[0]} ${bbox[1]}`;
-      const upperRight = `${bbox[2]} ${bbox[1]}`;
-      const lowerRight = `${bbox[2]} ${bbox[3]}`;
-      const lowerLeft = `${bbox[0]} ${bbox[3]}`;
-      entity.wktGeometry = `POLYGON ((${upperLeft},${upperRight},${lowerRight},${lowerLeft},${upperLeft}))`;
+      entity.wktGeometry = geoJsonToWkt(metadata.footprint as unknown as GeoJSONGeometry);
     }
   }
 

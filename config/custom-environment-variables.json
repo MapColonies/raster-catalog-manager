@@ -13,6 +13,12 @@
     "port": "DB_PORT",
     "username": "DB_USER",
     "password": "DB_PASSWORD",
+    "enableSslAuth": "DB_SSL_ENABLE",
+    "sslPaths": {
+      "ca": "DB_SSL_CA",
+      "key": "DB_SSL_KEY",
+      "cert": "DB_SSL_CERT"
+    },
     "database": "DB_NAME",
     "logging": "DB_LOGGING"
   }
