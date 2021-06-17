@@ -10,6 +10,7 @@ const recordRouterFactory: FactoryFunction<Router> = (dependencyContainer) => {
   router.post('/', recordsController.createRecord);
   router.put('/:id', recordsController.updateRecord);
   router.delete('/:id', recordsController.deleteRecord);
+  router.post('/find', recordsController.findRecord);
 
   return router;
 };

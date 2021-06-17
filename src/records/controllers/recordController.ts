@@ -3,7 +3,14 @@ import { RequestHandler } from 'express';
 import httpStatus from 'http-status-codes';
 import { injectable, inject } from 'tsyringe';
 import { Services } from '../../common/constants';
-import { IRecordExistsResponse, IRecordIdResponse, IRecordRequestParams, IUpdateRecordRequest } from '../../common/dataModels/records';
+import {
+  IFindRecordRequest,
+  IFindRecordResponse,
+  IRecordExistsResponse,
+  IRecordIdResponse,
+  IRecordRequestParams,
+  IUpdateRecordRequest,
+} from '../../common/dataModels/records';
 import { ILogger } from '../../common/interfaces';
 import { RecordManager } from '../models/recordManager';
 
@@ -11,6 +18,7 @@ type CreateRecordHandler = RequestHandler<undefined, IRecordIdResponse, IRasterC
 type UpdateRecordHandler = RequestHandler<IRecordRequestParams, string, IRasterCatalogUpsertRequestBody>;
 type DeleteRecordHandler = RequestHandler<IRecordRequestParams>;
 type RecordExistsHandler = RequestHandler<IRecordRequestParams, IRecordExistsResponse>;
+type FindRecordHandler = RequestHandler<undefined, IFindRecordResponse[], IFindRecordRequest>;
 
 @injectable()
 export class RecordController {
@@ -48,6 +56,15 @@ export class RecordController {
     try {
       const exist = await this.manager.recordExists(req.params);
       return res.status(httpStatus.OK).send(exist);
+    } catch (err) {
+      return next(err);
+    }
+  };
+
+  public findRecord: FindRecordHandler = async (req, res, next) => {
+    try {
+      const record = await this.manager.findRecord(req.body);
+      return res.status(httpStatus.OK).json(record);
     } catch (err) {
       return next(err);
     }

@@ -160,6 +160,57 @@ describe('records', function () {
       expect(recordCountMock).toHaveBeenCalledWith({ id: '170dd8c0-8bad-498b-bb26-671dcf19aa3c' });
       expect(response.body).toEqual({ exists: false });
     });
+
+    it('find should return 200 and list of records when match', async () => {
+      const findMock = recordRepositoryMocks.findMock;
+      const testEntity = {
+        ...testCreateRecordModel.metadata,
+        links: ',,test,http://test.test/wmts^testLink,test test test,fulltest,http://test.test/wms',
+        wktGeometry: 'POLYGON ((0 1, 1 1, 1 0, 0 1))',
+        mdSource: '',
+        schema: 'mc_raster',
+        typeName: 'mc:MCRasterRecord',
+        xml: '',
+        id: 'recordId',
+      } as unknown as RecordEntity;
+      findMock.mockResolvedValue([testEntity]);
+      const req = { ...testUpdateRecordRequest };
+
+      const response = await requestSender.findRecord(req);
+
+      const expectedResponse = [
+        {
+          ...testCreateRecordModel,
+          id: 'recordId',
+        },
+      ];
+      expect(response.status).toBe(httpStatusCodes.OK);
+      expect(response.body).toEqual(expectedResponse);
+      expect(findMock).toHaveBeenCalledTimes(1);
+      expect(findMock).toHaveBeenCalledWith({
+        where: {
+          accuracyCE90: 0.95678,
+        },
+      });
+    });
+
+    it("find should return 200 and empty list of records when don't match", async () => {
+      const findMock = recordRepositoryMocks.findMock;
+      findMock.mockResolvedValue([]);
+      const req = { ...testUpdateRecordRequest };
+
+      const response = await requestSender.findRecord(req);
+
+      const expectedResponse: unknown[] = [];
+      expect(response.status).toBe(httpStatusCodes.OK);
+      expect(response.body).toEqual(expectedResponse);
+      expect(findMock).toHaveBeenCalledTimes(1);
+      expect(findMock).toHaveBeenCalledWith({
+        where: {
+          accuracyCE90: 0.95678,
+        },
+      });
+    });
   });
 
   describe('Bad Path', function () {
@@ -188,6 +239,16 @@ describe('records', function () {
       const response = await requestSender.createResource(req);
       expect(response.status).toBe(httpStatusCodes.BAD_REQUEST);
       expect(recordCountMock).toHaveBeenCalledTimes(0);
+    });
+
+    it('find should return 400 when body is invalid', async () => {
+      const findMock = recordRepositoryMocks.findMock;
+      const req = { ...testCreateRecordModel, test: 'test' };
+
+      const response = await requestSender.createResource(req);
+
+      expect(response.status).toBe(httpStatusCodes.BAD_REQUEST);
+      expect(findMock).toHaveBeenCalledTimes(0);
     });
   });
 
