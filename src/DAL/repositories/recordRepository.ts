@@ -6,7 +6,7 @@ import { Services } from '../../common/constants';
 import { RecordEntity } from '../entity/generated';
 import { RecordModelConvertor } from '../convertors/recordModelConverter';
 import { EntityNotFound } from '../../common/errors';
-import { IUpdateRecordRequest } from '../../common/dataModels/records';
+import { IFindRecordRequest, IFindRecordResponse, IUpdateRecordRequest } from '../../common/dataModels/records';
 
 @EntityRepository(RecordEntity)
 export class RecordRepository extends Repository<RecordEntity> {
@@ -44,5 +44,13 @@ export class RecordRepository extends Repository<RecordEntity> {
       throw new EntityNotFound(` record ${id} was not found for delete request`);
     }
     await this.delete(id);
+  }
+
+  public async findRecords(req: IFindRecordRequest): Promise<IFindRecordResponse[]> {
+    const entity = this.recordConvertor.findModelToEntity(req);
+    const res = await this.find({
+      where: entity,
+    });
+    return res.map((entity) => this.recordConvertor.entityToModel(entity));
   }
 }

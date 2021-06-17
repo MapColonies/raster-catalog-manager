@@ -3,7 +3,14 @@ import { IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
 import { Services } from '../../common/constants';
 import { ILogger } from '../../common/interfaces';
 import { ConnectionManager } from '../../DAL/connectionManager';
-import { IRecordExistsResponse, IRecordIdResponse, IRecordRequestParams, IUpdateRecordRequest } from '../../common/dataModels/records';
+import {
+  IFindRecordRequest,
+  IFindRecordResponse,
+  IRecordExistsResponse,
+  IRecordIdResponse,
+  IRecordRequestParams,
+  IUpdateRecordRequest,
+} from '../../common/dataModels/records';
 import { RecordRepository } from '../../DAL/repositories/recordRepository';
 
 @injectable()
@@ -36,6 +43,12 @@ export class RecordManager {
     const repo = await this.getRepository();
     const res = await repo.exists(req.id);
     return { exists: res };
+  }
+
+  public async findRecord(req: IFindRecordRequest): Promise<IFindRecordResponse[]> {
+    const repo = await this.getRepository();
+    const res = await repo.findRecords(req);
+    return res;
   }
 
   private async getRepository(): Promise<RecordRepository> {

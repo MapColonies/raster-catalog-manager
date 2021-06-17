@@ -26,3 +26,7 @@ export async function updateResource(id: string, body: Record<string, unknown>):
 export async function deleteResource(id: string): Promise<supertest.Response> {
   return supertest.agent(app).delete(`/records/${id}`);
 }
+
+export async function findRecord(body: Record<string, unknown>): Promise<supertest.Response> {
+  return supertest.agent(app).post('/records/find').set('Content-Type', 'application/json').send(body);
+}

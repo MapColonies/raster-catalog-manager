@@ -72,6 +72,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/recordExistsResponse'
+  /records/find:
+    post:
+      operationId: findRecords
+      summary: return list of matching records
+      tags:
+        - records
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/findRecordModel'
+      responses:
+        200:
+          description: retrieved matching records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/findRecordModel'
+        400:
+          description: Invalid request
 
 components:
   parameters:
@@ -97,4 +120,17 @@ components:
       properties:
         id:
           $ref: '#/components/schemas/recordId'
+      additionalProperties: false
+    findRecordModel:
+      type: object
+      description: raster catalog find model
+      properties:
+        id:
+          $ref: '#/components/schemas/recordId'
+        metadata:
+          $ref: './Schema/updateLayerMetadata.yaml#/components/schemas/updateLayerMetadata'
+        links:
+          type: array
+          items:
+            $ref: './Schema/link.yaml#/components/schemas/Link'
       additionalProperties: false

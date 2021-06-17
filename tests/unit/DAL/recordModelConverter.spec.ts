@@ -59,7 +59,7 @@ describe('RecordModelConverter', function () {
 
       const res = convertor.updateModelToEntity(updateRecordModel);
 
-      expect(res).toEqual({ ...testMetadata, id: 'testId' });
+      expect(res).toEqual({ ...testMetadata, id: 'testId', links: '' });
     });
   });
 
@@ -150,6 +150,115 @@ describe('RecordModelConverter', function () {
 
       expect(res).toBeInstanceOf(RecordEntity);
       expect(res).toEqual(expectedEntity);
+    });
+  });
+
+  describe('entityToModel', () => {
+    it('converted model have all and only model data', () => {
+      const date = new Date(2021, 6, 6, 10, 21, 35);
+      const entity = {
+        productId: 'testId',
+        productName: 'test',
+        productVersion: '1',
+        productType: 'raster',
+        description: 'test test',
+        creationDate: date,
+        ingestionDate: date,
+        updateDate: date,
+        sourceDateStart: date,
+        sourceDateEnd: date,
+        resolution: 0.759,
+        accuracyCE90: 0.98,
+        sensorType: [SensorType.RGB],
+        footprint: {
+          type: 'Polygon',
+          coordinates: [
+            [
+              [34.811938017107494, 31.95475033759175],
+              [34.82237261707599, 31.95475033759175],
+              [34.82237261707599, 31.96426962177354],
+              [34.811938017107494, 31.96426962177354],
+              [34.811938017107494, 31.95475033759175],
+            ],
+          ],
+        },
+        srsId: 'epsg:4326',
+        srsName: 'epsg:4326',
+        region: 'a,b',
+        classification: '3',
+        producerName: 'test producer',
+        rms: 3,
+        scale: '1:60',
+        type: RecordType.RECORD_RASTER,
+        typeName: 'mc:MCRasterRecord',
+        wktGeometry:
+          'POLYGON ((34.811938017107494 31.95475033759175, 34.82237261707599 31.95475033759175, 34.82237261707599 31.96426962177354, 34.811938017107494 31.96426962177354, 34.811938017107494 31.95475033759175))',
+        layerPolygonParts: undefined,
+        schema: 'mc_raster',
+        mdSource: '',
+        xml: '',
+        id: 'testRecordId',
+        links: 'a,b,c,d^,,e,f',
+      } as unknown as RecordEntity;
+
+      const model = convertor.entityToModel(entity);
+
+      const expectedMetadata = {
+        productId: 'testId',
+        productName: 'test',
+        productVersion: '1',
+        productType: 'raster',
+        description: 'test test',
+        creationDate: date,
+        ingestionDate: date,
+        updateDate: date,
+        sourceDateStart: date,
+        sourceDateEnd: date,
+        resolution: 0.759,
+        accuracyCE90: 0.98,
+        sensorType: [SensorType.RGB],
+        footprint: {
+          type: 'Polygon',
+          coordinates: [
+            [
+              [34.811938017107494, 31.95475033759175],
+              [34.82237261707599, 31.95475033759175],
+              [34.82237261707599, 31.96426962177354],
+              [34.811938017107494, 31.96426962177354],
+              [34.811938017107494, 31.95475033759175],
+            ],
+          ],
+        },
+        srsId: 'epsg:4326',
+        srsName: 'epsg:4326',
+        region: 'a,b',
+        classification: '3',
+        producerName: 'test producer',
+        rms: 3,
+        scale: '1:60',
+        type: RecordType.RECORD_RASTER,
+        layerPolygonParts: undefined,
+      } as LayerMetadata;
+      const expectedModel = {
+        id: 'testRecordId',
+        metadata: expectedMetadata,
+        links: [
+          {
+            name: 'a',
+            description: 'b',
+            protocol: 'c',
+            url: 'd',
+          },
+          {
+            name: undefined,
+            description: undefined,
+            protocol: 'e',
+            url: 'f',
+          },
+        ],
+      };
+
+      expect(model).toEqual(expectedModel);
     });
   });
 });
