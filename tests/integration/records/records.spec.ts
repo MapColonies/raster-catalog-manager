@@ -89,19 +89,25 @@ describe('records', function () {
         xml: '',
       };
 
-      const recordEntity = {
-        ...expectedEntity,
-        id: 'recordId',
-      } as unknown as RecordEntity;
+      const executeResponse = {
+        identifiers: [
+          {
+            id: 'recordId',
+          },
+        ],
+      };
 
-      const recordSaveMock = recordRepositoryMocks.saveMock;
-      recordSaveMock.mockResolvedValue(recordEntity);
+      const insertQueryBuilderMock = recordRepositoryMocks.insertQueryBuilder;
+      insertQueryBuilderMock.execute.mockResolvedValue(executeResponse);
 
       const response = await requestSender.createResource(testCreateRecordModel);
 
       expect(response.status).toBe(httpStatusCodes.CREATED);
-      expect(recordSaveMock).toHaveBeenCalledTimes(1);
-      expect(recordSaveMock).toHaveBeenCalledWith(expectedEntity);
+      expect(insertQueryBuilderMock.values).toHaveBeenCalledTimes(1);
+      expect(insertQueryBuilderMock.values).toHaveBeenCalledWith(expectedEntity);
+      expect(insertQueryBuilderMock.returning).toHaveBeenCalledTimes(1);
+      expect(insertQueryBuilderMock.returning).toHaveBeenCalledWith('identifier');
+      expect(insertQueryBuilderMock.execute).toHaveBeenCalledTimes(1);
 
       const body = response.body as unknown;
       expect(body).toEqual({ id: 'recordId' });
