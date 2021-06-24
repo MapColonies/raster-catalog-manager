@@ -27,7 +27,7 @@ export class RecordController {
   public createRecord: CreateRecordHandler = async (req, res, next) => {
     try {
       const recordId = await this.manager.createRecord(req.body);
-      return res.status(httpStatus.CREATED).send(recordId);
+      return res.status(httpStatus.CREATED).json(recordId);
     } catch (err) {
       return next(err);
     }

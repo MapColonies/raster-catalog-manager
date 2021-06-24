@@ -21,9 +21,9 @@ export class RecordRepository extends Repository<RecordEntity> {
   }
 
   public async createRecord(req: IRasterCatalogUpsertRequestBody): Promise<string> {
-    let entity = this.recordConvertor.createModelToEntity(req);
-    entity = await this.save(entity);
-    return entity.id;
+    const entity = this.recordConvertor.createModelToEntity(req);
+    const res = await this.createQueryBuilder().insert().values(entity).returning('identifier').execute();
+    return res.identifiers[0]['id'] as string;
   }
 
   public async updateRecord(req: IUpdateRecordRequest): Promise<void> {

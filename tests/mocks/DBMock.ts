@@ -18,10 +18,17 @@ const initTypeOrmMocks = (): void => {
   });
 };
 
-interface QueryBuilder {
+interface InsertQueryBuilder {
+  values: jest.Mock;
+  returning: jest.Mock;
+  execute: jest.Mock;
+}
+
+interface SelectQueryBuilder {
   where: jest.Mock;
   orderBy: jest.Mock;
   getMany: jest.Mock;
+  insert: jest.Mock;
 }
 
 interface RepositoryMocks {
@@ -31,24 +38,32 @@ interface RepositoryMocks {
   deleteMock: jest.Mock;
   countMock: jest.Mock;
   queryBuilderMock: jest.Mock;
-  queryBuilder: QueryBuilder;
+  selectQueryBuilder: SelectQueryBuilder;
+  insertQueryBuilder: InsertQueryBuilder;
 }
 
 const registerRepository = <T>(key: ObjectType<T>, instance: T): RepositoryMocks => {
   const repo = instance as unknown as Repository<ObjectLiteral>;
-  const mocks = {
+  const mocks: RepositoryMocks = {
     findOneMock: jest.fn(),
     findMock: jest.fn(),
     saveMock: jest.fn(),
     deleteMock: jest.fn(),
     countMock: jest.fn(),
     queryBuilderMock: jest.fn(),
-    queryBuilder: {
+    selectQueryBuilder: {
       where: jest.fn(),
       orderBy: jest.fn(),
       getMany: jest.fn(),
+      insert: jest.fn(),
+    },
+    insertQueryBuilder: {
+      values: jest.fn(),
+      returning: jest.fn(),
+      execute: jest.fn(),
     },
   };
+
   repo.findOne = mocks.findOneMock;
   repo.find = mocks.findMock;
   repo.save = mocks.saveMock;
@@ -56,10 +71,15 @@ const registerRepository = <T>(key: ObjectType<T>, instance: T): RepositoryMocks
   repo.count = mocks.countMock;
   (repo.createQueryBuilder as unknown) = mocks.queryBuilderMock;
 
-  // Set query builder mocks
-  mocks.queryBuilderMock.mockImplementation(() => mocks.queryBuilder);
-  mocks.queryBuilder.where.mockImplementation(() => mocks.queryBuilder);
-  mocks.queryBuilder.orderBy.mockImplementation(() => mocks.queryBuilder);
+  // Set select query builder mocks
+  mocks.queryBuilderMock.mockImplementation(() => mocks.selectQueryBuilder);
+  mocks.selectQueryBuilder.where.mockImplementation(() => mocks.selectQueryBuilder);
+  mocks.selectQueryBuilder.orderBy.mockImplementation(() => mocks.selectQueryBuilder);
+  mocks.selectQueryBuilder.insert.mockImplementation(() => mocks.insertQueryBuilder);
+
+  // Set insert query builder mocks
+  mocks.insertQueryBuilder.values.mockImplementation(() => mocks.insertQueryBuilder);
+  mocks.insertQueryBuilder.returning.mockImplementation(() => mocks.insertQueryBuilder);
 
   repositories[key.name] = repo;
   return mocks;

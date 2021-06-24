@@ -67,7 +67,7 @@ paths:
         - records
       responses:
         200:
-          description: Record updated successfully
+          description: record exists status
           content:
             application/json:
               schema:

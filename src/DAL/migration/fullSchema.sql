@@ -116,7 +116,7 @@ CREATE TRIGGER ftsupdate
       OR NEW.sensor_type IS NOT NULL
       OR NEW.region IS NOT NULL
       OR NEW.keywords IS NOT NULL)
-	 EXECUTE PROCEDURE tsvector_update_trigger('anytext_tsvector', 'pg_catalog.english', 'anytext');
+	 EXECUTE PROCEDURE records_update_anytext();
 
 -- Trigger function : records_update_geometry
 CREATE FUNCTION public.records_update_geometry() RETURNS trigger
