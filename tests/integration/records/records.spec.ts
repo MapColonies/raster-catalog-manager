@@ -87,6 +87,7 @@ describe('records', function () {
         schema: 'mc_raster',
         typeName: 'mc:MCRasterRecord',
         xml: '',
+        sensorType: 'Pan_Sharpen',
       };
 
       const executeResponse = {
@@ -178,6 +179,7 @@ describe('records', function () {
         typeName: 'mc:MCRasterRecord',
         xml: '',
         id: 'recordId',
+        sensorType: 'Pan_Sharpen',
       } as unknown as RecordEntity;
       findMock.mockResolvedValue([testEntity]);
       const req = { ...testUpdateRecordRequest };

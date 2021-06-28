@@ -79,7 +79,7 @@ describe('RecordModelConverter', function () {
         sourceDateEnd: date,
         resolution: 0.759,
         accuracyCE90: 0.98,
-        sensorType: [SensorType.RGB],
+        sensorType: [SensorType.RGB, SensorType.VIS],
         footprint: {
           type: 'Polygon',
           coordinates: [
@@ -118,7 +118,7 @@ describe('RecordModelConverter', function () {
         sourceDateEnd: date,
         resolution: 0.759,
         accuracyCE90: 0.98,
-        sensorType: [SensorType.RGB],
+        sensorType: 'RGB,VIS',
         footprint: {
           type: 'Polygon',
           coordinates: [
@@ -169,7 +169,7 @@ describe('RecordModelConverter', function () {
         sourceDateEnd: date,
         resolution: 0.759,
         accuracyCE90: 0.98,
-        sensorType: [SensorType.RGB],
+        sensorType: 'RGB',
         footprint: {
           type: 'Polygon',
           coordinates: [
