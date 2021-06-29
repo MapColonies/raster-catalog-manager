@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Raster Catalog Manager
   description: CRUD Raster Records On Catalog DB
-  version: 1.0.0
+  version: 1.0.1
 paths:
   /records:
     post:
@@ -15,17 +15,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './Schema/rasterCatalog/insertRequest.yaml#/components/schemas/InsertRequest'
+              $ref: >-
+                ./Schema/rasterCatalog/insertRequest.yaml#/components/schemas/InsertRequest
       responses:
-        201:
+        '201':
           description: Record created successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/createRecordResponse'
-        400:
+        '400':
           description: Invalid request, could not create record
-
   /records/{recordId}:
     parameters:
       - $ref: '#/components/parameters/recordId'
@@ -39,21 +39,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './Schema/rasterCatalog/updateRequest.yaml#/components/schemas/UpdateRequest'
+              $ref: >-
+                ./Schema/rasterCatalog/updateRequest.yaml#/components/schemas/UpdateRequest
       responses:
-        200:
+        '200':
           description: Record updated successfully
-        400:
+        '400':
           description: Invalid request, could not update record
-        404:
+        '404':
           description: Record not found
     delete:
       operationId: deleteRecord
       summary: Delete a record
       responses:
-        200:
+        '200':
           description: Record deleted successfully
-        404:
+        '404':
           description: Record not found
       tags:
         - records
@@ -66,7 +67,7 @@ paths:
       tags:
         - records
       responses:
-        200:
+        '200':
           description: record exists status
           content:
             application/json:
@@ -85,7 +86,7 @@ paths:
             schema:
               $ref: '#/components/schemas/findRecordModel'
       responses:
-        200:
+        '200':
           description: retrieved matching records
           content:
             application/json:
@@ -93,9 +94,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/findRecordModel'
-        400:
+        '400':
           description: Invalid request
-
 components:
   parameters:
     recordId:
@@ -105,7 +105,6 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/recordId'
-
   schemas:
     recordId:
       type: string
@@ -128,9 +127,10 @@ components:
         id:
           $ref: '#/components/schemas/recordId'
         metadata:
-          $ref: './Schema/updateLayerMetadata.yaml#/components/schemas/updateLayerMetadata'
+          $ref: >-
+            ./Schema/updateLayerMetadata.yaml#/components/schemas/updateLayerMetadata
         links:
           type: array
           items:
-            $ref: './Schema/link.yaml#/components/schemas/Link'
+            $ref: ./Schema/link.yaml#/components/schemas/Link
       additionalProperties: false
