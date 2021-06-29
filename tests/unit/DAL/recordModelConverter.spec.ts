@@ -139,7 +139,7 @@ describe('RecordModelConverter', function () {
         rms: 3,
         scale: '1:60',
         type: RecordType.RECORD_RASTER,
-        typeName: 'mc:MCRasterRecord',
+        typeName: 'mc_MCRasterRecord',
         wktGeometry:
           'POLYGON ((34.811938017107494 31.95475033759175, 34.82237261707599 31.95475033759175, 34.82237261707599 31.96426962177354, 34.811938017107494 31.96426962177354, 34.811938017107494 31.95475033759175))',
         layerPolygonParts: undefined,

@@ -85,7 +85,7 @@ describe('records', function () {
         wktGeometry: 'POLYGON ((0 1, 1 1, 1 0, 0 1))',
         mdSource: '',
         schema: 'mc_raster',
-        typeName: 'mc:MCRasterRecord',
+        typeName: 'mc_MCRasterRecord',
         xml: '',
         sensorType: 'Pan_Sharpen',
       };
