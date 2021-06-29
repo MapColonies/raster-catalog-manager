@@ -1,5 +1,5 @@
 import { singleton } from 'tsyringe';
-import { LayerMetadata, Link, IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
+import { LayerMetadata, Link, IRasterCatalogUpsertRequestBody, SensorType } from '@map-colonies/mc-model-types';
 import { GeoJSONGeometry, stringify as geoJsonToWkt } from 'wellknown';
 import { IFindRecordRequest, IFindRecordResponse, IUpdateRecordRequest } from '../../common/dataModels/records';
 import { RecordEntity } from '../entity/generated';
@@ -58,6 +58,9 @@ export class RecordModelConvertor {
     if (metadata.footprint != undefined) {
       entity.wktGeometry = geoJsonToWkt(metadata.footprint as unknown as GeoJSONGeometry);
     }
+    if (metadata.sensorType != undefined) {
+      entity.sensorType = metadata.sensorType.join(',');
+    }
   }
 
   private linksToString(links: Link[]): string {
@@ -83,6 +86,7 @@ export class RecordModelConvertor {
     Object.keys(metadata).forEach((key) => {
       (metadata[key as keyof LayerMetadata] as unknown) = record[key as keyof RecordEntity];
     });
+    metadata.sensorType = record.sensorType !== '' ? (record.sensorType.split(',') as SensorType[]) : [];
     return metadata;
   }
 }
