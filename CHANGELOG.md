@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.2](https://github.com/MapColonies/raster-catalog-manager/compare/v1.0.1...v1.1.2) (2021-07-06)
+
+
+### Bug Fixes
+
+* geojson bbox validation ([#8](https://github.com/MapColonies/raster-catalog-manager/issues/8)) ([2089942](https://github.com/MapColonies/raster-catalog-manager/commit/20899420f0bf3d9da08e10d7e16354c3d53db043))
+* links url template, reuired fileds, timezones ([#9](https://github.com/MapColonies/raster-catalog-manager/issues/9)) ([5609cbd](https://github.com/MapColonies/raster-catalog-manager/commit/5609cbdaef00d95580649a47fe8f2583934de52a))
+
 ### [1.0.1](https://github.com/MapColonies/raster-catalog-manager/compare/v1.1.1...v1.0.1) (2021-06-29)
 
 
