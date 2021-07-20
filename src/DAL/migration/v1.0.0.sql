@@ -41,6 +41,8 @@ CREATE TABLE public.records
     rms text COLLATE pg_catalog."default",
     scale text COLLATE pg_catalog."default",
     layer_polygon_parts text COLLATE pg_catalog."default",
+    included_in_bests text COLLATE pg_catalog."default",
+    discretes text COLLATE pg_catalog."default",
     CONSTRAINT records_pkey PRIMARY KEY (identifier)
 );
 
