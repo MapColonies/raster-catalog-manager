@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.4](https://github.com/MapColonies/raster-catalog-manager/compare/v1.1.3...v1.1.4) (2021-08-19)
+
+
+### Features
+
+* fix ssl enabled config format ([#12](https://github.com/MapColonies/raster-catalog-manager/issues/12)) ([0e0362c](https://github.com/MapColonies/raster-catalog-manager/commit/0e0362cd9dfd7c0899c341c1f7af3c4cc411495b))
+
 ### [1.1.3](https://github.com/MapColonies/raster-catalog-manager/compare/v1.1.2...v1.1.3) (2021-07-15)
 
 ### [1.1.2](https://github.com/MapColonies/raster-catalog-manager/compare/v1.0.1...v1.1.2) (2021-07-06)
