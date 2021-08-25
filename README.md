@@ -27,6 +27,7 @@ the service can be configured with the following environment variables
 `DB_PASSWORD` - database password
 
 `DB_SSL_ENABLE` - boolean to enable/disable database connection ssl authentication
+
 `DB_SSL_CA` - path for ca public certificate (required if database ssl connection is enabled)
 
 `DB_SSL_KEY` - path for ssl private key (required if database ssl connection is enabled)
