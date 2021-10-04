@@ -61,6 +61,9 @@ export class RecordModelConvertor {
     if (metadata.sensorType != undefined) {
       entity.sensorType = metadata.sensorType.join(',');
     }
+    if (metadata.includedInBests != undefined) {
+      entity.includedInBests = metadata.includedInBests.join(',');
+    }
   }
 
   private linksToString(links: Link[]): string {
@@ -87,6 +90,7 @@ export class RecordModelConvertor {
       (metadata[key as keyof LayerMetadata] as unknown) = record[key as keyof RecordEntity];
     });
     metadata.sensorType = record.sensorType !== '' ? (record.sensorType.split(',') as SensorType[]) : [];
+    metadata.includedInBests = record.includedInBests !== '' && record.includedInBests !== undefined ? record.includedInBests.split(',') : [];
     return metadata;
   }
 }
