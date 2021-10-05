@@ -104,6 +104,7 @@ describe('RecordModelConverter', function () {
         maxResolutionMeter: 0.5,
         includedInBests: ['1', '2'],
         rawProductData: undefined,
+        productBoundingBox: '0,0 : 1,1',
       } as LayerMetadata;
 
       const res = convertor.metadataToPartialEntity(testMetadata);
@@ -152,6 +153,7 @@ describe('RecordModelConverter', function () {
         maxResolutionMeter: 0.5,
         includedInBests: '1,2',
         rawProductData: undefined,
+        productBoundingBox: '0,0 : 1,1',
       } as unknown as RecordEntity;
 
       expect(res).toBeInstanceOf(RecordEntity);
