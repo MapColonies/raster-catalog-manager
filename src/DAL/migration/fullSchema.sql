@@ -45,6 +45,7 @@ CREATE TABLE public.records
     discretes text COLLATE pg_catalog."default",
     max_resolution_meter numeric(6, 2),
     raw_product_data jsonb,
+    product_bbox VARCHAR(255),
     CONSTRAINT records_pkey PRIMARY KEY (identifier)
 );
 
