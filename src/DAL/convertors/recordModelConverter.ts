@@ -90,7 +90,10 @@ export class RecordModelConvertor {
       (metadata[key as keyof LayerMetadata] as unknown) = record[key as keyof RecordEntity];
     });
     metadata.sensorType = record.sensorType !== '' ? (record.sensorType.split(',') as SensorType[]) : [];
-    metadata.includedInBests = record.includedInBests !== '' && record.includedInBests !== undefined ? record.includedInBests.split(',') : [];
+    metadata.includedInBests =
+      record.includedInBests !== '' && record.includedInBests !== undefined && record.includedInBests !== null
+        ? record.includedInBests.split(',')
+        : [];
     return metadata;
   }
 }
