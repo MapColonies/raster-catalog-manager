@@ -91,6 +91,7 @@ export class RecordModelConvertor {
     });
     metadata.sensorType = record.sensorType !== '' ? (record.sensorType.split(',') as SensorType[]) : [];
     metadata.includedInBests =
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       record.includedInBests !== '' && record.includedInBests !== undefined && record.includedInBests !== null
         ? record.includedInBests.split(',')
         : [];
