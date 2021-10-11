@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/MapColonies/raster-catalog-manager/compare/v1.1.4...v1.2.0) (2021-10-11)
+
+
+### Features
+
+* added new raster fields ([#14](https://github.com/MapColonies/raster-catalog-manager/issues/14)) ([64a2e5d](https://github.com/MapColonies/raster-catalog-manager/commit/64a2e5d28ee5fb9420e5f13ab46f19d61002f3b1))
+
+
+### Bug Fixes
+
+* add default values where missing ([#13](https://github.com/MapColonies/raster-catalog-manager/issues/13)) ([ceddf7d](https://github.com/MapColonies/raster-catalog-manager/commit/ceddf7d0656e3a837f698a439b34033802e0f578))
+
 ### [1.1.4](https://github.com/MapColonies/raster-catalog-manager/compare/v1.1.3...v1.1.4) (2021-08-19)
 
 
