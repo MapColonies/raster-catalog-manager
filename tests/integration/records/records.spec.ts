@@ -14,7 +14,7 @@ const testMetadata = {
   productName: 'testName',
   productVersion: 'testVersion',
   producerName: 'test',
-  productType: 'raster',
+  productType: 'Orthophoto',
   srsId: 'epsg:4326',
   srsName: 'marcator',
   updateDate: '2021-06-07T05:41:43.032Z',
@@ -39,6 +39,7 @@ const testMetadata = {
   creationDate: '2021-06-07T05:41:43.032Z',
   ingestionDate: '2021-06-07T05:41:43.032Z',
   resolution: 0.5,
+  includedInBests: [],
 };
 
 const testCreateRecordModel = {
@@ -88,6 +89,7 @@ describe('records', function () {
         typeName: 'mc_MCRasterRecord',
         xml: '',
         sensorType: 'Pan_Sharpen',
+        includedInBests: '',
       };
 
       const executeResponse = {
@@ -180,6 +182,7 @@ describe('records', function () {
         xml: '',
         id: 'recordId',
         sensorType: 'Pan_Sharpen',
+        includedInBests: '',
       } as unknown as RecordEntity;
       findMock.mockResolvedValue([testEntity]);
       const req = { ...testUpdateRecordRequest };
@@ -192,6 +195,7 @@ describe('records', function () {
           id: 'recordId',
         },
       ];
+
       expect(response.status).toBe(httpStatusCodes.OK);
       expect(response.body).toEqual(expectedResponse);
       expect(findMock).toHaveBeenCalledTimes(1);

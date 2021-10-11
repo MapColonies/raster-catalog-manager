@@ -43,6 +43,9 @@ CREATE TABLE public.records
     layer_polygon_parts text COLLATE pg_catalog."default",
     included_in_bests text COLLATE pg_catalog."default",
     discretes text COLLATE pg_catalog."default",
+    max_resolution_meter VARCHAR(10),
+    raw_product_data jsonb,
+    product_bbox VARCHAR(255),
     CONSTRAINT records_pkey PRIMARY KEY (identifier)
 );
 

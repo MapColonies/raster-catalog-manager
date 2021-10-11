@@ -1,4 +1,4 @@
-import { IRasterCatalogUpsertRequestBody, LayerMetadata, Link, RecordType, SensorType } from '@map-colonies/mc-model-types';
+import { IRasterCatalogUpsertRequestBody, LayerMetadata, Link, ProductType, RecordType, SensorType } from '@map-colonies/mc-model-types';
 import { IUpdateRecordRequest } from '../../../src/common/dataModels/records';
 import { RecordModelConvertor } from '../../../src/DAL/convertors/recordModelConverter';
 import { RecordEntity } from '../../../src/DAL/entity/generated';
@@ -70,7 +70,7 @@ describe('RecordModelConverter', function () {
         productId: 'testId',
         productName: 'test',
         productVersion: '1',
-        productType: 'raster',
+        productType: ProductType.ORTHOPHOTO,
         description: 'test test',
         creationDate: date,
         ingestionDate: date,
@@ -101,6 +101,10 @@ describe('RecordModelConverter', function () {
         scale: '1:60',
         type: RecordType.RECORD_RASTER,
         layerPolygonParts: undefined,
+        maxResolutionMeter: 0.5,
+        includedInBests: ['1', '2'],
+        rawProductData: undefined,
+        productBoundingBox: '0,0 : 1,1',
       } as LayerMetadata;
 
       const res = convertor.metadataToPartialEntity(testMetadata);
@@ -109,7 +113,7 @@ describe('RecordModelConverter', function () {
         productId: 'testId',
         productName: 'test',
         productVersion: '1',
-        productType: 'raster',
+        productType: 'Orthophoto',
         description: 'test test',
         creationDate: date,
         ingestionDate: date,
@@ -146,6 +150,10 @@ describe('RecordModelConverter', function () {
         schema: 'mc_raster',
         mdSource: '',
         xml: '',
+        maxResolutionMeter: 0.5,
+        includedInBests: '1,2',
+        rawProductData: undefined,
+        productBoundingBox: '0,0 : 1,1',
       } as unknown as RecordEntity;
 
       expect(res).toBeInstanceOf(RecordEntity);
@@ -160,7 +168,7 @@ describe('RecordModelConverter', function () {
         productId: 'testId',
         productName: 'test',
         productVersion: '1',
-        productType: 'raster',
+        productType: 'Orthophoto',
         description: 'test test',
         creationDate: date,
         ingestionDate: date,
@@ -199,6 +207,8 @@ describe('RecordModelConverter', function () {
         xml: '',
         id: 'testRecordId',
         links: 'a,b,c,d^,,e,f',
+        maxResolutionMeter: 0.5,
+        includedInBests: '1,2',
       } as unknown as RecordEntity;
 
       const model = convertor.entityToModel(entity);
@@ -207,7 +217,7 @@ describe('RecordModelConverter', function () {
         productId: 'testId',
         productName: 'test',
         productVersion: '1',
-        productType: 'raster',
+        productType: ProductType.ORTHOPHOTO,
         description: 'test test',
         creationDate: date,
         ingestionDate: date,
@@ -238,6 +248,9 @@ describe('RecordModelConverter', function () {
         scale: '1:60',
         type: RecordType.RECORD_RASTER,
         layerPolygonParts: undefined,
+        includedInBests: ['1', '2'],
+        maxResolutionMeter: 0.5,
+        rawProductData: undefined,
       } as LayerMetadata;
       const expectedModel = {
         id: 'testRecordId',

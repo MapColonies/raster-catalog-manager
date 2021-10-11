@@ -21,4 +21,5 @@ module.exports = {
   moduleNameMapper: {
     mockService: '<rootDir>/tests/__mocks__',
   },
+  modulePathIgnorePatterns: ['<rootDir>/dist'],
 };
