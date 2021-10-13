@@ -12,10 +12,10 @@ const testMetadata = {
   type: 'RECORD_RASTER',
   productId: 'testId',
   productName: 'testName',
-  productVersion: 'testVersion',
+  productVersion: '12.36',
   producerName: 'test',
   productType: 'Orthophoto',
-  srsId: 'epsg:4326',
+  srsId: '4326',
   srsName: 'marcator',
   updateDate: '2021-06-07T05:41:43.032Z',
   sourceDateStart: '2021-06-07T05:41:43.032Z',
@@ -24,7 +24,7 @@ const testMetadata = {
   sensorType: ['Pan_Sharpen'],
   region: 'a',
   rms: 0.444,
-  scale: '1:9',
+  scale: '1000',
   footprint: {
     type: 'Polygon',
     coordinates: [
@@ -38,7 +38,7 @@ const testMetadata = {
   },
   creationDate: '2021-06-07T05:41:43.032Z',
   ingestionDate: '2021-06-07T05:41:43.032Z',
-  resolution: 0.5,
+  resolution: 0.05,
   includedInBests: [],
 };
 
