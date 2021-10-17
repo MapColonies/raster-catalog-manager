@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/MapColonies/raster-catalog-manager/compare/v1.2.0...v1.3.0) (2021-10-17)
+
+
+### Features
+
+* updated models, indexes and validation ([6c9e757](https://github.com/MapColonies/raster-catalog-manager/commit/6c9e7574f5bb451690bdb1c214c39c3331be889e))
+
 ## [1.2.0](https://github.com/MapColonies/raster-catalog-manager/compare/v1.1.4...v1.2.0) (2021-10-11)
 
 
