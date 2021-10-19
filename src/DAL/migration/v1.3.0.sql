@@ -2,6 +2,7 @@ ALTER TABLE public.records
     ADD COLUMN product_sub_type text COLLATE pg_catalog."default",
     ALTER COLUMN max_resolution_meter TYPE text COLLATE pg_catalog."default",
     ALTER COLUMN product_bbox TYPE text COLLATE pg_catalog."default";
+    ADD COLUMN raw_product_data jsonb
 
 -- Index: ix_product_type
 -- DROP INDEX public.ix_product_type;
