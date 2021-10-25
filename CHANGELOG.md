@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/MapColonies/raster-catalog-manager/compare/v1.3.0...v1.3.1) (2021-10-25)
+
+
+### Bug Fixes
+
+* fix migration script for srs name default value ([#17](https://github.com/MapColonies/raster-catalog-manager/issues/17)) ([c20e88c](https://github.com/MapColonies/raster-catalog-manager/commit/c20e88cae421b3dfa3d198367f9b8d238864ca3e))
+* fix package json auto tag ([6cdbdd8](https://github.com/MapColonies/raster-catalog-manager/commit/6cdbdd83d83579e62a2c0840acfa865d712fb1f8))
+
 ## [1.3.0](https://github.com/MapColonies/raster-catalog-manager/compare/v1.2.0...v1.3.0) (2021-10-17)
 
 
