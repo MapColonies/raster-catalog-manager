@@ -32,7 +32,7 @@ CREATE TABLE public.records
     horizontal_accuracy_ce_90 text COLLATE pg_catalog."default",
     sensor_type text COLLATE pg_catalog."default",
     srs text COLLATE pg_catalog."default" DEFAULT '4326',
-    srs_name text COLLATE pg_catalog."default" DEFAULT 'WGS84 Geo',
+    srs_name text COLLATE pg_catalog."default" DEFAULT 'WGS84GEO',
     region text COLLATE pg_catalog."default",
     classification text COLLATE pg_catalog."default",
     links text COLLATE pg_catalog."default" NOT NULL,
