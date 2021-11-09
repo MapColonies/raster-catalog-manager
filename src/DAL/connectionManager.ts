@@ -30,7 +30,7 @@ export class ConnectionManager {
   }
 
   public isConnected(): boolean {
-    return this.connection?.isConnected ?? false;
+    return this.connection !== undefined;
   }
 
   public getRecordRepository(): RecordRepository {
