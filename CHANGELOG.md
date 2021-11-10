@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.3](https://github.com/MapColonies/raster-catalog-manager/compare/v1.3.2...v1.3.3) (2021-11-10)
+
+
+### Bug Fixes
+
+* duplicate record constraint ([#20](https://github.com/MapColonies/raster-catalog-manager/issues/20)) ([7ce34fa](https://github.com/MapColonies/raster-catalog-manager/commit/7ce34fa2bd8ce84e5c191dd513b1c15bfe9f2afa))
+
 ### [1.3.2](https://github.com/MapColonies/raster-catalog-manager/compare/v1.3.1...v1.3.2) (2021-11-10)
 
 
