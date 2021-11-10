@@ -47,7 +47,8 @@ CREATE TABLE public.records
     max_resolution_meter text COLLATE pg_catalog."default",
     raw_product_data jsonb,
     product_bbox text COLLATE pg_catalog."default",
-    CONSTRAINT records_pkey PRIMARY KEY (identifier)
+    CONSTRAINT records_pkey PRIMARY KEY (identifier),
+    CONSTRAINT unique_record_values UNIQUE (product_id, product_version, product_type)
 );
 
 
