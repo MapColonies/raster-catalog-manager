@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.2](https://github.com/MapColonies/raster-catalog-manager/compare/v1.3.1...v1.3.2) (2021-11-10)
+
+
+### Bug Fixes
+
+* add table to migration script ([#18](https://github.com/MapColonies/raster-catalog-manager/issues/18)) ([8c3141b](https://github.com/MapColonies/raster-catalog-manager/commit/8c3141bf42b53b4b850bb2b6985126b38fc60134))
+* orm connection conflict ([#19](https://github.com/MapColonies/raster-catalog-manager/issues/19)) ([b05539f](https://github.com/MapColonies/raster-catalog-manager/commit/b05539f327d3a4b6a4f3c6356f4e335a28f10151))
+
 ### [1.3.1](https://github.com/MapColonies/raster-catalog-manager/compare/v1.3.0...v1.3.1) (2021-10-25)
 
 
