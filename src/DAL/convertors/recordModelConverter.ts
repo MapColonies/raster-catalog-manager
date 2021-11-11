@@ -1,4 +1,5 @@
 import { singleton } from 'tsyringe';
+import { GeoJSON } from 'geojson';
 import { LayerMetadata, Link, IRasterCatalogUpsertRequestBody, SensorType } from '@map-colonies/mc-model-types';
 import { GeoJSONGeometry, stringify as geoJsonToWkt } from 'wellknown';
 import { IFindRecordRequest, IFindRecordResponse, IUpdateRecordRequest } from '../../common/dataModels/records';
@@ -95,6 +96,12 @@ export class RecordModelConvertor {
       record.includedInBests !== '' && record.includedInBests !== undefined && record.includedInBests !== null
         ? record.includedInBests.split(',')
         : [];
+    if (typeof metadata.footprint === 'string') {
+      metadata.footprint = JSON.parse(metadata.footprint) as GeoJSON;
+    }
+    if (typeof metadata.layerPolygonParts === 'string') {
+      metadata.layerPolygonParts = JSON.parse(metadata.layerPolygonParts) as GeoJSON;
+    }
     return metadata;
   }
 }
