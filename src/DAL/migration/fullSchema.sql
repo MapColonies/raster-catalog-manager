@@ -20,7 +20,7 @@ CREATE TABLE public.records
     product_name text COLLATE pg_catalog."default",
     product_version text COLLATE pg_catalog."default",
     product_type text COLLATE pg_catalog."default",
-    product_sub_type text COLLATE pg_catalog."default"
+    product_sub_type text COLLATE pg_catalog."default",
     description text COLLATE pg_catalog."default",
     producer_name text COLLATE pg_catalog."default" DEFAULT 'IDFMU',
     creation_date timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
@@ -28,7 +28,6 @@ CREATE TABLE public.records
     update_date timestamp with time zone NOT NULL,
     source_start_date timestamp with time zone,
     source_end_date timestamp with time zone,
-    resolution text COLLATE pg_catalog."default",
     horizontal_accuracy_ce_90 text COLLATE pg_catalog."default",
     sensor_type text COLLATE pg_catalog."default",
     srs text COLLATE pg_catalog."default" DEFAULT '4326',
@@ -151,7 +150,7 @@ BEGIN
       NEW.product_sub_type, ' ',
       NEW.description, ' ',
       NEW.sensor_type, ' ',
-      NEW.srs_name, ' '
+      NEW.srs_name, ' ',
       NEW.region, ' ',
       NEW.classification, ' ',
       NEW.keywords);
