@@ -6,6 +6,8 @@ bundledApi.yaml
 src/DAL/entity/generated.ts
 Schema
 
+.idea/
+
 # Logs
 logs
 *.log
