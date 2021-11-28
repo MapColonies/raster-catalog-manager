@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/MapColonies/raster-catalog-manager/compare/v1.3.4...v1.4.0) (2021-11-28)
+
+
+### Features
+
+* added payload limit configuration ([#23](https://github.com/MapColonies/raster-catalog-manager/issues/23)) ([5ad66ed](https://github.com/MapColonies/raster-catalog-manager/commit/5ad66ed4024653a2af47638efdab96433fe4f76b))
+
 ### [1.3.4](https://github.com/MapColonies/raster-catalog-manager/compare/v1.3.1...v1.3.4) (2021-11-25)
 
 
