@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/MapColonies/raster-catalog-manager/compare/v1.4.0...v1.4.1) (2021-12-01)
+
+
+### Bug Fixes
+
+* added support for negative coords in bbox ([#24](https://github.com/MapColonies/raster-catalog-manager/issues/24)) ([3d963f5](https://github.com/MapColonies/raster-catalog-manager/commit/3d963f552ec3c57c734eef510f44685b1048bdc6))
+
 ## [1.4.0](https://github.com/MapColonies/raster-catalog-manager/compare/v1.3.4...v1.4.0) (2021-11-28)
 
 
