@@ -88,7 +88,7 @@ export class RecordModelConvertor {
   private recordToMetadata(record: RecordEntity): LayerMetadata {
     const metadata = new LayerMetadata();
     Object.keys(metadata).forEach((key) => {
-      if (record[key as keyof RecordEntity]) {
+      if (record[key as keyof RecordEntity] !== null) {
         (metadata[key as keyof LayerMetadata] as unknown) = record[key as keyof RecordEntity];
       }
     });
