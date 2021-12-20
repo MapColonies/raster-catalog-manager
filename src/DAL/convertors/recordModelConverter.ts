@@ -88,7 +88,9 @@ export class RecordModelConvertor {
   private recordToMetadata(record: RecordEntity): LayerMetadata {
     const metadata = new LayerMetadata();
     Object.keys(metadata).forEach((key) => {
-      (metadata[key as keyof LayerMetadata] as unknown) = record[key as keyof RecordEntity];
+      if (record[key as keyof RecordEntity]) {
+        (metadata[key as keyof LayerMetadata] as unknown) = record[key as keyof RecordEntity];
+      }
     });
     metadata.sensorType = record.sensorType !== '' ? (record.sensorType.split(',') as SensorType[]) : [];
     metadata.includedInBests =
@@ -101,6 +103,18 @@ export class RecordModelConvertor {
     }
     if (typeof metadata.layerPolygonParts === 'string') {
       metadata.layerPolygonParts = JSON.parse(metadata.layerPolygonParts) as GeoJSON;
+    }
+    if (typeof metadata.resolution === 'string') {
+      metadata.resolution = Number(metadata.resolution);
+    }
+    if (typeof metadata.maxResolutionMeter === 'string') {
+      metadata.maxResolutionMeter = Number(metadata.maxResolutionMeter);
+    }
+    if (typeof metadata.rms === 'string') {
+      metadata.rms = Number(metadata.rms);
+    }
+    if (typeof metadata.accuracyCE90 === 'string') {
+      metadata.accuracyCE90 = Number(metadata.accuracyCE90);
     }
     return metadata;
   }
