@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.2](https://github.com/MapColonies/raster-catalog-manager/compare/v1.4.1...v1.4.2) (2021-12-20)
+
+
+### Bug Fixes
+
+* fullschema script ([#25](https://github.com/MapColonies/raster-catalog-manager/issues/25)) ([43d6e76](https://github.com/MapColonies/raster-catalog-manager/commit/43d6e76d74e84b6abd6a4fa2901e8101f7fd1ecb))
+* hot fix values conversion ([#26](https://github.com/MapColonies/raster-catalog-manager/issues/26)) ([4f112f1](https://github.com/MapColonies/raster-catalog-manager/commit/4f112f1ca13eb6f86f51d90cef3b92c2c60f54f7))
+
 ### [1.4.1](https://github.com/MapColonies/raster-catalog-manager/compare/v1.4.0...v1.4.1) (2021-12-01)
 
 
