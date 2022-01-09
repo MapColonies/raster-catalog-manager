@@ -63,7 +63,11 @@ export class RecordModelConvertor {
       entity.sensorType = metadata.sensorType.join(',');
     }
     if (metadata.includedInBests != undefined) {
-      entity.includedInBests = metadata.includedInBests.join(',');
+      if (Array.isArray(metadata.includedInBests) && metadata.includedInBests.length != 0) {
+        entity.includedInBests = metadata.includedInBests.join(',');
+      } else {
+        (entity.includedInBests as string | null) = null;
+      }
     }
   }
 
@@ -88,6 +92,7 @@ export class RecordModelConvertor {
   private recordToMetadata(record: RecordEntity): LayerMetadata {
     const metadata = new LayerMetadata();
     Object.keys(metadata).forEach((key) => {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (record[key as keyof RecordEntity] !== null) {
         (metadata[key as keyof LayerMetadata] as unknown) = record[key as keyof RecordEntity];
       }
