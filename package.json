@@ -1,6 +1,6 @@
 {
   "name": "raster-catalog-manager",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Service for inserting records into raster-catalog-manager",
   "main": "./src/index.ts",
   "scripts": {
