@@ -92,14 +92,12 @@ export class RecordModelConvertor {
   private recordToMetadata(record: RecordEntity): LayerMetadata {
     const metadata = new LayerMetadata();
     Object.keys(metadata).forEach((key) => {
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (record[key as keyof RecordEntity] !== null) {
         (metadata[key as keyof LayerMetadata] as unknown) = record[key as keyof RecordEntity];
       }
     });
     metadata.sensorType = record.sensorType !== '' ? (record.sensorType.split(',') as SensorType[]) : [];
     metadata.includedInBests =
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       record.includedInBests !== '' && record.includedInBests !== undefined && record.includedInBests !== null
         ? record.includedInBests.split(',')
         : [];

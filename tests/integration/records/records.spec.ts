@@ -25,6 +25,7 @@ const testMetadata = {
   region: 'a',
   rms: 0.444,
   scale: '1000',
+  classification: '3',
   footprint: {
     type: 'Polygon',
     coordinates: [
