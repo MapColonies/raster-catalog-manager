@@ -63,7 +63,11 @@ export class RecordModelConvertor {
       entity.sensorType = metadata.sensorType.join(',');
     }
     if (metadata.includedInBests != undefined) {
-      entity.includedInBests = metadata.includedInBests.join(',');
+      if (Array.isArray(metadata.includedInBests) && metadata.includedInBests.length != 0) {
+        entity.includedInBests = metadata.includedInBests.join(',');
+      } else {
+        (entity.includedInBests as string | null) = null;
+      }
     }
   }
 
@@ -94,7 +98,6 @@ export class RecordModelConvertor {
     });
     metadata.sensorType = record.sensorType !== '' ? (record.sensorType.split(',') as SensorType[]) : [];
     metadata.includedInBests =
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       record.includedInBests !== '' && record.includedInBests !== undefined && record.includedInBests !== null
         ? record.includedInBests.split(',')
         : [];

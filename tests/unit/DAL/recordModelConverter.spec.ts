@@ -159,6 +159,66 @@ describe('RecordModelConverter', function () {
       expect(res).toBeInstanceOf(RecordEntity);
       expect(res).toEqual(expectedEntity);
     });
+
+    it('undefined includedInBests remains undefined', function () {
+      const testMetadata = {} as LayerMetadata;
+
+      const res = convertor.metadataToPartialEntity(testMetadata);
+
+      const expectedEntity = {
+        mdSource: '',
+        productId: 'UNKNOWN',
+        schema: 'mc_raster',
+        type: 'RECORD_RASTER',
+        typeName: 'mc_MCRasterRecord',
+        xml: '',
+      } as unknown as RecordEntity;
+
+      expect(res).toBeInstanceOf(RecordEntity);
+      expect(res).toEqual(expectedEntity);
+    });
+
+    it('empty array includedInBests is converted to null', function () {
+      const testMetadata = {
+        includedInBests: [],
+      } as unknown as LayerMetadata;
+
+      const res = convertor.metadataToPartialEntity(testMetadata);
+
+      const expectedEntity = {
+        includedInBests: null,
+        mdSource: '',
+        productId: 'UNKNOWN',
+        schema: 'mc_raster',
+        type: 'RECORD_RASTER',
+        typeName: 'mc_MCRasterRecord',
+        xml: '',
+      } as unknown as RecordEntity;
+
+      expect(res).toBeInstanceOf(RecordEntity);
+      expect(res).toEqual(expectedEntity);
+    });
+
+    it('array includedInBests is converted to string', function () {
+      const testMetadata = {
+        includedInBests: ['a', 'b'],
+      } as LayerMetadata;
+
+      const res = convertor.metadataToPartialEntity(testMetadata);
+
+      const expectedEntity = {
+        includedInBests: 'a,b',
+        mdSource: '',
+        productId: 'UNKNOWN',
+        schema: 'mc_raster',
+        type: 'RECORD_RASTER',
+        typeName: 'mc_MCRasterRecord',
+        xml: '',
+      } as unknown as RecordEntity;
+
+      expect(res).toBeInstanceOf(RecordEntity);
+      expect(res).toEqual(expectedEntity);
+    });
   });
 
   describe('entityToModel', () => {
