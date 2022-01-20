@@ -7,16 +7,17 @@ import {
   IFindRecordRequest,
   IFindRecordResponse,
   IRecordExistsResponse,
-  IRecordIdResponse,
+  OperationStatusEnum,
+  IRecordOperationResponse,
   IRecordRequestParams,
   IUpdateRecordRequest,
 } from '../../common/dataModels/records';
 import { ILogger } from '../../common/interfaces';
 import { RecordManager } from '../models/recordManager';
 
-type CreateRecordHandler = RequestHandler<undefined, IRecordIdResponse, IRasterCatalogUpsertRequestBody>;
-type UpdateRecordHandler = RequestHandler<IRecordRequestParams, string, IRasterCatalogUpsertRequestBody>;
-type DeleteRecordHandler = RequestHandler<IRecordRequestParams>;
+type CreateRecordHandler = RequestHandler<undefined, IRecordOperationResponse, IRasterCatalogUpsertRequestBody>;
+type UpdateRecordHandler = RequestHandler<IRecordRequestParams, IRecordOperationResponse, IRasterCatalogUpsertRequestBody>;
+type DeleteRecordHandler = RequestHandler<IRecordRequestParams, IRecordOperationResponse>;
 type RecordExistsHandler = RequestHandler<IRecordRequestParams, IRecordExistsResponse>;
 type FindRecordHandler = RequestHandler<undefined, IFindRecordResponse[], IFindRecordRequest>;
 
@@ -27,7 +28,10 @@ export class RecordController {
   public createRecord: CreateRecordHandler = async (req, res, next) => {
     try {
       const recordId = await this.manager.createRecord(req.body);
-      return res.status(httpStatus.CREATED).json(recordId);
+      return res.status(httpStatus.CREATED).json({
+        id: recordId,
+        status: OperationStatusEnum.SUCCESS,
+      });
     } catch (err) {
       return next(err);
     }
@@ -37,7 +41,10 @@ export class RecordController {
     try {
       const recordUpdateReq: IUpdateRecordRequest = { ...req.body, ...req.params };
       await this.manager.updateRecord(recordUpdateReq);
-      return res.status(httpStatus.OK).send('Record updated successfully');
+      return res.status(httpStatus.OK).json({
+        id: recordUpdateReq.id,
+        status: OperationStatusEnum.SUCCESS,
+      });
     } catch (err) {
       return next(err);
     }
@@ -45,8 +52,12 @@ export class RecordController {
 
   public deleteRecord: DeleteRecordHandler = async (req, res, next) => {
     try {
-      await this.manager.deleteRecord(req.params);
-      return res.status(httpStatus.OK).send('Record deleted successfully');
+      const requestParmeters = req.params;
+      await this.manager.deleteRecord(requestParmeters);
+      return res.status(httpStatus.OK).json({
+        id: requestParmeters.id,
+        status: OperationStatusEnum.SUCCESS,
+      });
     } catch (err) {
       return next(err);
     }

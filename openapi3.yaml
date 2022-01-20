@@ -23,7 +23,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/createRecordResponse'
+                $ref: '#/components/schemas/operationRecordResponse'
         '400':
           description: Invalid request, could not create record
   /records/{recordId}:
@@ -44,6 +44,10 @@ paths:
       responses:
         '200':
           description: Record updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/operationRecordResponse'
         '400':
           description: Invalid request, could not update record
         '404':
@@ -54,6 +58,10 @@ paths:
       responses:
         '200':
           description: Record deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/operationRecordResponse'
         '404':
           description: Record not found
       tags:
@@ -109,16 +117,22 @@ components:
     recordId:
       type: string
       format: uuid
+    status:
+      type: string
+      enum:
+        - success
     recordExistsResponse:
       type: object
       properties:
         exists:
           type: boolean
-    createRecordResponse:
+    operationRecordResponse:
       type: object
       properties:
         id:
           $ref: '#/components/schemas/recordId'
+        status:
+          $ref: '#/components/schemas/status'
       additionalProperties: false
     findRecordModel:
       type: object

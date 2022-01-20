@@ -4,6 +4,7 @@ import { RecordRepository } from '../../../src/DAL/repositories/recordRepository
 import { registerTestValues } from '../../testContainerConfig';
 import { RecordEntity } from '../../../src/DAL/entity/generated';
 import { registerRepository, initTypeOrmMocks, RepositoryMocks } from '../../mocks/DBMock';
+import { OperationStatusEnum } from '../../../src/common/dataModels/records';
 import * as requestSender from './helpers/recordsRequestSender';
 
 let recordRepositoryMocks: RepositoryMocks;
@@ -105,6 +106,7 @@ describe('records', function () {
       insertQueryBuilderMock.execute.mockResolvedValue(executeResponse);
 
       const response = await requestSender.createResource(testCreateRecordModel);
+      expect(response).toSatisfyApiSpec();
 
       expect(response.status).toBe(httpStatusCodes.CREATED);
       expect(insertQueryBuilderMock.values).toHaveBeenCalledTimes(1);
@@ -114,7 +116,7 @@ describe('records', function () {
       expect(insertQueryBuilderMock.execute).toHaveBeenCalledTimes(1);
 
       const body = response.body as unknown;
-      expect(body).toEqual({ id: 'recordId' });
+      expect(body).toEqual({ id: 'recordId', status: OperationStatusEnum.SUCCESS });
     });
 
     it('should update record status and return 200', async function () {
@@ -125,6 +127,7 @@ describe('records', function () {
       recordSaveMock.mockResolvedValue({});
 
       const response = await requestSender.updateResource('170dd8c0-8bad-498b-bb26-671dcf19aa3c', testUpdateRecordRequest);
+      expect(response).toSatisfyApiSpec();
 
       expect(response.status).toBe(httpStatusCodes.OK);
       expect(recordSaveMock).toHaveBeenCalledTimes(1);
@@ -132,6 +135,9 @@ describe('records', function () {
         ...testUpdateRecordRequest.metadata,
         id: '170dd8c0-8bad-498b-bb26-671dcf19aa3c',
       });
+
+      const body = response.body as unknown;
+      expect(body).toEqual({ id: '170dd8c0-8bad-498b-bb26-671dcf19aa3c', status: OperationStatusEnum.SUCCESS });
     });
 
     it('should delete record return 200', async function () {
@@ -141,10 +147,14 @@ describe('records', function () {
       recordCountMock.mockResolvedValue(1);
 
       const response = await requestSender.deleteResource('170dd8c0-8bad-498b-bb26-671dcf19aa3c');
+      expect(response).toSatisfyApiSpec();
 
       expect(response.status).toBe(httpStatusCodes.OK);
       expect(recordDeleteMock).toHaveBeenCalledTimes(1);
       expect(recordDeleteMock).toHaveBeenCalledWith('170dd8c0-8bad-498b-bb26-671dcf19aa3c');
+
+      const body = response.body as unknown;
+      expect(body).toEqual({ id: '170dd8c0-8bad-498b-bb26-671dcf19aa3c', status: OperationStatusEnum.SUCCESS });
     });
 
     it('should return 200 and true when record exists', async function () {
@@ -152,6 +162,7 @@ describe('records', function () {
       recordCountMock.mockResolvedValue(1);
 
       const response = await requestSender.recordExists('170dd8c0-8bad-498b-bb26-671dcf19aa3c');
+      expect(response).toSatisfyApiSpec();
 
       expect(response.status).toBe(httpStatusCodes.OK);
       expect(recordCountMock).toHaveBeenCalledTimes(1);
@@ -164,6 +175,7 @@ describe('records', function () {
       recordCountMock.mockResolvedValue(0);
 
       const response = await requestSender.recordExists('170dd8c0-8bad-498b-bb26-671dcf19aa3c');
+      expect(response).toSatisfyApiSpec();
 
       expect(response.status).toBe(httpStatusCodes.OK);
       expect(recordCountMock).toHaveBeenCalledTimes(1);
@@ -189,6 +201,7 @@ describe('records', function () {
       const req = { ...testUpdateRecordRequest };
 
       const response = await requestSender.findRecord(req);
+      expect(response).toSatisfyApiSpec();
 
       const expectedResponse = [
         {
@@ -213,6 +226,7 @@ describe('records', function () {
       const req = { ...testUpdateRecordRequest };
 
       const response = await requestSender.findRecord(req);
+      expect(response).toSatisfyApiSpec();
 
       const expectedResponse: unknown[] = [];
       expect(response.status).toBe(httpStatusCodes.OK);

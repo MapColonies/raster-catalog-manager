@@ -7,7 +7,6 @@ import {
   IFindRecordRequest,
   IFindRecordResponse,
   IRecordExistsResponse,
-  IRecordIdResponse,
   IRecordRequestParams,
   IUpdateRecordRequest,
 } from '../../common/dataModels/records';
@@ -19,11 +18,11 @@ export class RecordManager {
 
   public constructor(@inject(Services.LOGGER) private readonly logger: ILogger, private readonly connectionManager: ConnectionManager) {}
 
-  public async createRecord(req: IRasterCatalogUpsertRequestBody): Promise<IRecordIdResponse> {
+  public async createRecord(req: IRasterCatalogUpsertRequestBody): Promise<string> {
     const repo = await this.getRepository();
     this.logger.log('info', 'creating record');
-    const res = await repo.createRecord(req);
-    return { id: res };
+    const id = await repo.createRecord(req);
+    return id;
   }
 
   public async updateRecord(req: IUpdateRecordRequest): Promise<void> {
