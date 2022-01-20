@@ -106,6 +106,7 @@ describe('records', function () {
       insertQueryBuilderMock.execute.mockResolvedValue(executeResponse);
 
       const response = await requestSender.createResource(testCreateRecordModel);
+      expect(response).toSatisfyApiSpec();
 
       expect(response.status).toBe(httpStatusCodes.CREATED);
       expect(insertQueryBuilderMock.values).toHaveBeenCalledTimes(1);
@@ -126,6 +127,7 @@ describe('records', function () {
       recordSaveMock.mockResolvedValue({});
 
       const response = await requestSender.updateResource('170dd8c0-8bad-498b-bb26-671dcf19aa3c', testUpdateRecordRequest);
+      expect(response).toSatisfyApiSpec();
 
       expect(response.status).toBe(httpStatusCodes.OK);
       expect(recordSaveMock).toHaveBeenCalledTimes(1);
