@@ -57,6 +57,7 @@
     "express": "^4.17.1",
     "express-openapi-validator": "^4.12.11",
     "http-status-codes": "^2.1.4",
+    "jest-openapi": "^0.14.2",
     "js-yaml": "^3.14.1",
     "pg": "^8.6.0",
     "reflect-metadata": "^0.1.13",

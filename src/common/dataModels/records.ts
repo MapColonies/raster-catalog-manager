@@ -10,8 +10,13 @@ export interface IUpdateRecordRequest extends IRasterCatalogUpsertRequestBody, I
 export interface IFindRecordRequest extends Partial<IUpdateRecordRequest> {}
 
 //responses
-export interface IRecordIdResponse {
+export enum OperationStatusEnum {
+  SUCCESS = 'success',
+}
+
+export interface IRecordOperationResponse {
   id: string;
+  status: OperationStatusEnum;
 }
 
 export interface IRecordExistsResponse {
