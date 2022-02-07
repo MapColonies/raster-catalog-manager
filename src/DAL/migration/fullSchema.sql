@@ -1,9 +1,10 @@
+SET SCHEMA 'public'; -- CHANGE SCHEMA NAME TO MATCH ENVIRONMENT
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS postgis;
 
--- Table: public.records
--- DROP TABLE public.records;
-CREATE TABLE public.records
+-- Table: records
+-- DROP TABLE records;
+CREATE TABLE records
 (
     identifier text COLLATE pg_catalog."default" NOT NULL DEFAULT uuid_generate_v4(),
     typename text COLLATE pg_catalog."default" NOT NULL,
@@ -53,93 +54,93 @@ CREATE TABLE public.records
 
 
 -- Index: ix_product_id
--- DROP INDEX public.ix_product_id;
+-- DROP INDEX ix_product_id;
 CREATE INDEX ix_product_id
-    ON public.records USING btree
+    ON records USING btree
     (product_id COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: ix_product_name
--- DROP INDEX public.ix_product_name;
+-- DROP INDEX ix_product_name;
 CREATE INDEX ix_product_name
-    ON public.records USING btree
+    ON records USING btree
     (product_name COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: ix_product_version
--- DROP INDEX public.ix_product_version;
+-- DROP INDEX ix_product_version;
 CREATE INDEX ix_product_version
-    ON public.records USING btree
+    ON records USING btree
     (product_version COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: ix_product_type
--- DROP INDEX public.ix_product_type;
+-- DROP INDEX ix_product_type;
 CREATE INDEX ix_product_type
-    ON public.records USING btree
+    ON records USING btree
     (product_type COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: ix_product_sub_type
--- DROP INDEX public.ix_product_sub_type;
+-- DROP INDEX ix_product_sub_type;
 CREATE INDEX ix_product_sub_type
-    ON public.records USING btree
+    ON records USING btree
     (product_sub_type COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: ix_creation_date
--- DROP INDEX public.ix_creation_date;
+-- DROP INDEX ix_creation_date;
 CREATE INDEX ix_creation_date
-    ON public.records USING btree
+    ON records USING btree
     (creation_date ASC NULLS LAST);
 
 -- Index: ix_update_date
--- DROP INDEX public.ix_update_date;
+-- DROP INDEX ix_update_date;
 CREATE INDEX ix_update_date
-    ON public.records USING btree
+    ON records USING btree
     (update_date ASC NULLS LAST);
 
 -- Index: ix_source_start_date
--- DROP INDEX public.ix_source_start_date;
+-- DROP INDEX ix_source_start_date;
 CREATE INDEX ix_source_start_date
-    ON public.records USING btree
+    ON records USING btree
     (source_start_date ASC NULLS LAST);
 
 -- Index: ix_source_end_date
--- DROP INDEX public.ix_source_end_date;
+-- DROP INDEX ix_source_end_date;
 CREATE INDEX ix_source_end_date
-    ON public.records USING btree
+    ON records USING btree
     (source_end_date ASC NULLS LAST);
 
 -- Index: ix_max_resolution_meter
--- DROP INDEX public.ix_max_resolution_meter;
+-- DROP INDEX ix_max_resolution_meter;
 CREATE INDEX ix_max_resolution_meter
-    ON public.records USING btree
+    ON records USING btree
     (max_resolution_meter COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: ix_max_srs_id
--- DROP INDEX public.ix_srs_id;
+-- DROP INDEX ix_srs_id;
 CREATE INDEX ix_max_srs_id
-    ON public.records USING btree
+    ON records USING btree
     (srs COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: ix_classification
--- DROP INDEX public.ix_classification;
+-- DROP INDEX ix_classification;
 CREATE INDEX ix_classification
-    ON public.records USING btree
+    ON records USING btree
     (classification COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: records_wkb_geometry_idx
--- DROP INDEX public.records_wkb_geometry_idx;
+-- DROP INDEX records_wkb_geometry_idx;
 CREATE INDEX records_wkb_geometry_idx
-    ON public.records USING gist
+    ON records USING gist
     (wkb_geometry);
 
 -- Index: fts_gin_idx
--- DROP INDEX public.fts_gin_idx;
+-- DROP INDEX fts_gin_idx;
 -- DO NOT CHANGE THIS INDEX NAME --
 -- changing its name will disable pycsw full text index
 CREATE INDEX fts_gin_idx
-    ON public.records USING gin
+    ON records USING gin
     (anytext_tsvector);
 
 -- Trigger function : records_update_anytext
-CREATE FUNCTION public.records_update_anytext() RETURNS trigger
+CREATE FUNCTION records_update_anytext() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN   
@@ -174,10 +175,10 @@ END;
 $$;
 
 -- Trigger: ftsupdate
--- DROP TRIGGER ftsupdate ON public.records;
+-- DROP TRIGGER ftsupdate ON records;
 CREATE TRIGGER ftsupdate
     BEFORE INSERT OR UPDATE
-    ON public.records
+    ON records
     FOR EACH ROW
     WHEN (NEW.product_name IS NOT NULL 
       OR NEW.product_version IS NOT NULL
@@ -192,7 +193,7 @@ CREATE TRIGGER ftsupdate
 	 EXECUTE PROCEDURE records_update_anytext();
 
 -- Trigger function : records_update_geometry
-CREATE FUNCTION public.records_update_geometry() RETURNS trigger
+CREATE FUNCTION records_update_geometry() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
@@ -205,9 +206,9 @@ END;
 $$;
 
 -- Trigger: records_update_geometry
--- DROP TRIGGER records_update_geometry ON public.records;
+-- DROP TRIGGER records_update_geometry ON records;
 CREATE TRIGGER records_update_geometry
     BEFORE INSERT OR UPDATE
-    ON public.records
+    ON records
     FOR EACH ROW
-    EXECUTE PROCEDURE public.records_update_geometry();
+    EXECUTE PROCEDURE records_update_geometry();

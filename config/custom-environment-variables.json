@@ -28,6 +28,7 @@
       "cert": "DB_SSL_CERT"
     },
     "database": "DB_NAME",
+    "schema": "DB_SCHEMA",
     "logging": "DB_LOGGING"
   }
 }

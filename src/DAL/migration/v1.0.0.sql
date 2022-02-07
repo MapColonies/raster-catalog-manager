@@ -1,9 +1,10 @@
+SET SCHEMA 'public'; -- CHANGE SCHEMA NAME TO MATCH ENVIRONMENT
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS postgis;
 
--- Table: public.records
--- DROP TABLE public.records;
-CREATE TABLE public.records
+-- Table: records
+-- DROP TABLE records;
+CREATE TABLE records
 (
     identifier text COLLATE pg_catalog."default" NOT NULL DEFAULT uuid_generate_v4(),
     typename text COLLATE pg_catalog."default" NOT NULL,
@@ -48,39 +49,39 @@ CREATE TABLE public.records
 
 
 -- Index: ix_product_id
--- DROP INDEX public.ix_product_id;
+-- DROP INDEX ix_product_id;
 CREATE INDEX ix_product_id
-    ON public.records USING btree
+    ON records USING btree
     (product_id COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: ix_product_name
--- DROP INDEX public.ix_product_name;
+-- DROP INDEX ix_product_name;
 CREATE INDEX ix_product_name
-    ON public.records USING btree
+    ON records USING btree
     (product_name COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: ix_product_version
--- DROP INDEX public.ix_product_version;
+-- DROP INDEX ix_product_version;
 CREATE INDEX ix_product_version
-    ON public.records USING btree
+    ON records USING btree
     (product_version COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: records_wkb_geometry_idx
--- DROP INDEX public.records_wkb_geometry_idx;
+-- DROP INDEX records_wkb_geometry_idx;
 CREATE INDEX records_wkb_geometry_idx
-    ON public.records USING gist
+    ON records USING gist
     (wkb_geometry);
 
 -- Index: fts_gin_idx
--- DROP INDEX public.fts_gin_idx;
+-- DROP INDEX fts_gin_idx;
 -- DO NOT CHANGE THIS INDEX NAME --
 -- changing its name will disable pycsw full text index
 CREATE INDEX fts_gin_idx
-    ON public.records USING gin
+    ON records USING gin
     (anytext_tsvector);
 
 -- Trigger function : records_update_anytext
-CREATE FUNCTION public.records_update_anytext() RETURNS trigger
+CREATE FUNCTION records_update_anytext() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN   
@@ -107,10 +108,10 @@ END;
 $$;
 
 -- Trigger: ftsupdate
--- DROP TRIGGER ftsupdate ON public.records;
+-- DROP TRIGGER ftsupdate ON records;
 CREATE TRIGGER ftsupdate
     BEFORE INSERT OR UPDATE
-    ON public.records
+    ON records
     FOR EACH ROW
     WHEN (NEW.product_name IS NOT NULL 
       OR NEW.product_version IS NOT NULL
@@ -121,7 +122,7 @@ CREATE TRIGGER ftsupdate
 	 EXECUTE PROCEDURE records_update_anytext();
 
 -- Trigger function : records_update_geometry
-CREATE FUNCTION public.records_update_geometry() RETURNS trigger
+CREATE FUNCTION records_update_geometry() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 BEGIN
@@ -134,9 +135,9 @@ END;
 $$;
 
 -- Trigger: records_update_geometry
--- DROP TRIGGER records_update_geometry ON public.records;
+-- DROP TRIGGER records_update_geometry ON records;
 CREATE TRIGGER records_update_geometry
     BEFORE INSERT OR UPDATE
-    ON public.records
+    ON records
     FOR EACH ROW
-    EXECUTE PROCEDURE public.records_update_geometry();
+    EXECUTE PROCEDURE records_update_geometry();
