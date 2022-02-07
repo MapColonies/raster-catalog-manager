@@ -1,3 +1,4 @@
+SET SCHEMA 'public'; -- CHANGE SCHEMA NAME TO MATCH ENVIRONMENT
 ALTER TABLE public.records
     ADD COLUMN product_sub_type text COLLATE pg_catalog."default",
     ALTER COLUMN max_resolution_meter TYPE text COLLATE pg_catalog."default",
