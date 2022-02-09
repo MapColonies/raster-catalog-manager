@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/MapColonies/raster-catalog-manager/compare/v1.5.0...v1.6.0) (2022-02-09)
+
+
+### Features
+
+* add db schema ([#29](https://github.com/MapColonies/raster-catalog-manager/issues/29)) ([44f81c6](https://github.com/MapColonies/raster-catalog-manager/commit/44f81c6f6502a9aaf0d8a6bf4607e12ab3f92798))
+
 ## [1.5.0](https://github.com/MapColonies/raster-catalog-manager/compare/v1.4.3...v1.5.0) (2022-01-30)
 
 
