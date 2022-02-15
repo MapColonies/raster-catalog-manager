@@ -1,4 +1,4 @@
-SET SCHEMA 'public'; -- CHANGE SCHEMA NAME TO MATCH ENVIRONMENT
+SET search_path TO "RasterCatalogManager", public;-- CHANGE SCHEMA NAME TO MATCH ENVIRONMENT
 ALTER TABLE records
     ADD COLUMN product_sub_type text COLLATE pg_catalog."default",
     ALTER COLUMN max_resolution_meter TYPE text COLLATE pg_catalog."default",
