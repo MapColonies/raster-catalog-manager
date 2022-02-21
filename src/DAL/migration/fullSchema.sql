@@ -142,6 +142,7 @@ CREATE INDEX fts_gin_idx
 
 -- Trigger function : records_update_anytext
 CREATE FUNCTION records_update_anytext() RETURNS trigger
+    SET search_path FROM CURRENT
     LANGUAGE plpgsql
     AS $$
 BEGIN   
@@ -195,6 +196,7 @@ CREATE TRIGGER ftsupdate
 
 -- Trigger function : records_update_geometry
 CREATE FUNCTION records_update_geometry() RETURNS trigger
+    SET search_path FROM CURRENT
     LANGUAGE plpgsql
     AS $$
 BEGIN
