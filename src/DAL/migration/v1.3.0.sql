@@ -63,6 +63,7 @@ DROP TRIGGER ftsupdate ON records;
 DROP FUNCTION IF EXISTS records_update_anytext();
 -- Trigger function : records_update_anytext
 CREATE FUNCTION records_update_anytext() RETURNS trigger
+    SET search_path FROM CURRENT
     LANGUAGE plpgsql
     AS $$
 BEGIN   
