@@ -21,8 +21,8 @@ const testMetadata = {
   updateDate: '2021-06-07T05:41:43.032Z',
   sourceDateStart: '2021-06-07T05:41:43.032Z',
   sourceDateEnd: '2021-06-07T05:41:43.032Z',
-  accuracyCE90: 0.68,
-  sensorType: ['Pan_Sharpen'],
+  minHorizontalAccuracyCE90: 0.68,
+  sensors: ['Pan_Sharpen'],
   region: 'a',
   rms: 0.444,
   scale: '1000',
@@ -40,7 +40,7 @@ const testMetadata = {
   },
   creationDate: '2021-06-07T05:41:43.032Z',
   ingestionDate: '2021-06-07T05:41:43.032Z',
-  resolution: 0.05,
+  maxResolutionDeg: 0.05,
   includedInBests: [],
 };
 
@@ -62,7 +62,7 @@ const testCreateRecordModel = {
 
 const testUpdateRecordRequest = {
   metadata: {
-    accuracyCE90: 0.95678,
+    minHorizontalAccuracyCE90: 0.95678,
   },
 };
 
@@ -90,7 +90,7 @@ describe('records', function () {
         schema: 'mc_raster',
         typeName: 'mc_MCRasterRecord',
         xml: '',
-        sensorType: 'Pan_Sharpen',
+        sensors: 'Pan_Sharpen',
         includedInBests: null,
       };
 
@@ -194,7 +194,7 @@ describe('records', function () {
         typeName: 'mc:MCRasterRecord',
         xml: '',
         id: 'recordId',
-        sensorType: 'Pan_Sharpen',
+        sensors: 'Pan_Sharpen',
         includedInBests: null,
       } as unknown as RecordEntity;
       findMock.mockResolvedValue([testEntity]);
@@ -215,7 +215,7 @@ describe('records', function () {
       expect(findMock).toHaveBeenCalledTimes(1);
       expect(findMock).toHaveBeenCalledWith({
         where: {
-          accuracyCE90: 0.95678,
+          minHorizontalAccuracyCE90: 0.95678,
         },
       });
     });
@@ -234,7 +234,7 @@ describe('records', function () {
       expect(findMock).toHaveBeenCalledTimes(1);
       expect(findMock).toHaveBeenCalledWith({
         where: {
-          accuracyCE90: 0.95678,
+          minHorizontalAccuracyCE90: 0.95678,
         },
       });
     });
