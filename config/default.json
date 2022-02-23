@@ -18,10 +18,10 @@
   },
   "typeOrm": {
     "type": "postgres",
-    "host": "localhost",
+    "host": "",
     "port": 5432,
-    "username": "postgres",
-    "password": "postgres",
+    "username": "",
+    "password": "",
     "enableSslAuth": false,
     "sslPaths": {
       "ca": "",
