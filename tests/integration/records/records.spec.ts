@@ -195,6 +195,7 @@ describe('records', function () {
         xml: '',
         id: 'recordId',
         sensors: 'Pan_Sharpen',
+        region: 'a',
         includedInBests: null,
       } as unknown as RecordEntity;
       findMock.mockResolvedValue([testEntity]);

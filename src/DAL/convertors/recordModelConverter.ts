@@ -104,7 +104,7 @@ export class RecordModelConvertor {
       }
     });
     metadata.sensors = record.sensors !== '' ? (record.sensors.split(',') as string[]) : [];
-    metadata.region = record.region !== '' ? (record.region.split(',') as string[]) : [];
+    metadata.region = record.region ? (record.region.split(',') as string[]) : [];
     metadata.includedInBests =
       record.includedInBests !== '' && record.includedInBests !== undefined && record.includedInBests !== null
         ? record.includedInBests.split(',')
