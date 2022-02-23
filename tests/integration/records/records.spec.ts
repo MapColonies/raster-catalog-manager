@@ -23,9 +23,9 @@ const testMetadata = {
   sourceDateEnd: '2021-06-07T05:41:43.032Z',
   minHorizontalAccuracyCE90: 0.68,
   sensors: ['Pan_Sharpen'],
-  region: 'a',
+  region: ['a'],
   rms: 0.444,
-  scale: '1000',
+  scale: 1000,
   classification: '3',
   footprint: {
     type: 'Polygon',
@@ -91,6 +91,7 @@ describe('records', function () {
         typeName: 'mc_MCRasterRecord',
         xml: '',
         sensors: 'Pan_Sharpen',
+        region: 'a',
         includedInBests: null,
       };
 
@@ -106,8 +107,6 @@ describe('records', function () {
       insertQueryBuilderMock.execute.mockResolvedValue(executeResponse);
 
       const response = await requestSender.createResource(testCreateRecordModel);
-      expect(response).toSatisfyApiSpec();
-
       expect(response.status).toBe(httpStatusCodes.CREATED);
       expect(insertQueryBuilderMock.values).toHaveBeenCalledTimes(1);
       expect(insertQueryBuilderMock.values).toHaveBeenCalledWith(expectedEntity);
@@ -117,6 +116,7 @@ describe('records', function () {
 
       const body = response.body as unknown;
       expect(body).toEqual({ id: 'recordId', status: OperationStatusEnum.SUCCESS });
+      expect(response).toSatisfyApiSpec();
     });
 
     it('should update record status and return 200', async function () {
@@ -201,15 +201,12 @@ describe('records', function () {
       const req = { ...testUpdateRecordRequest };
 
       const response = await requestSender.findRecord(req);
-      expect(response).toSatisfyApiSpec();
-
       const expectedResponse = [
         {
           ...testCreateRecordModel,
           id: 'recordId',
         },
       ];
-
       expect(response.status).toBe(httpStatusCodes.OK);
       expect(response.body).toEqual(expectedResponse);
       expect(findMock).toHaveBeenCalledTimes(1);
@@ -218,6 +215,7 @@ describe('records', function () {
           minHorizontalAccuracyCE90: 0.95678,
         },
       });
+      expect(response).toSatisfyApiSpec();
     });
 
     it("find should return 200 and empty list of records when don't match", async () => {

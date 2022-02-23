@@ -112,7 +112,7 @@ CREATE INDEX ix_source_end_date
 -- DROP INDEX ix_max_resolution_meter;
 CREATE INDEX ix_max_resolution_meter
     ON records USING btree
-    (max_resolution_meter COLLATE pg_catalog."default" ASC NULLS LAST);
+    (max_resolution_meter ASC NULLS LAST);
 
 -- Index: ix_max_srs_id
 -- DROP INDEX ix_srs_id;
@@ -153,7 +153,7 @@ BEGIN
       NEW.product_type, ' ',
       NEW.product_sub_type, ' ',
       NEW.description, ' ',
-      NEW.sensor_type, ' ',
+      NEW.sensors, ' ',
       NEW.srs_name, ' ',
       NEW.region, ' ',
       NEW.classification, ' ',
@@ -165,7 +165,7 @@ BEGIN
       COALESCE(NEW.product_type, OLD.product_type), ' ',
       COALESCE(NEW.product_sub_type, OLD.product_sub_type), ' ',
       COALESCE(NEW.description, OLD.description), ' ',
-      COALESCE(NEW.sensor_type, OLD.sensor_type), ' ',
+      COALESCE(NEW.sensors, OLD.sensors), ' ',
       COALESCE(NEW.srs_name, OLD.srs_name), ' ',
       COALESCE(NEW.region, OLD.region), ' ',
       COALESCE(NEW.classification, OLD.classification), ' ',
@@ -187,7 +187,7 @@ CREATE TRIGGER ftsupdate
       OR NEW.product_type IS NOT NULL
       OR NEW.product_sub_type IS NOT NULL
       OR NEW.description IS NOT NULL
-      OR NEW.sensor_type IS NOT NULL
+      OR NEW.sensors IS NOT NULL
       OR NEW.srs_name IS NOT NULL
       OR NEW.region IS NOT NULL
       OR NEW.classification IS NOT NULL

@@ -279,6 +279,8 @@ describe('RecordModelConverter', function () {
         productName: 'test',
         productVersion: '1',
         productType: ProductType.ORTHOPHOTO,
+        productSubType: undefined,
+        productBoundingBox: undefined,
         description: 'test test',
         creationDate: date,
         ingestionDate: date,

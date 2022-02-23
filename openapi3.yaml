@@ -25,7 +25,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/operationRecordResponse'
         '400':
-          description: Invalid request, could not create record
+          description: Bad Request, could not create record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /records/{recordId}:
     parameters:
       - $ref: '#/components/parameters/recordId'
@@ -49,9 +53,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/operationRecordResponse'
         '400':
-          description: Invalid request, could not update record
+          description: Bad Request, could not update record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
         '404':
           description: Record not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
     delete:
       operationId: deleteRecord
       summary: Delete a record
@@ -64,6 +76,10 @@ paths:
                 $ref: '#/components/schemas/operationRecordResponse'
         '404':
           description: Record not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
       tags:
         - records
   /records/exists/{recordId}:
@@ -103,7 +119,11 @@ paths:
                 items:
                   $ref: '#/components/schemas/findRecordModel'
         '400':
-          description: Invalid request
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
 components:
   parameters:
     recordId:
@@ -114,6 +134,13 @@ components:
       schema:
         $ref: '#/components/schemas/recordId'
   schemas:
+    error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
     recordId:
       type: string
       format: uuid
