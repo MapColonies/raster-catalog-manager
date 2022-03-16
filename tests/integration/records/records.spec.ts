@@ -22,8 +22,8 @@ const testMetadata = {
   sourceDateStart: '2021-06-07T05:41:43.032Z',
   sourceDateEnd: '2021-06-07T05:41:43.032Z',
   minHorizontalAccuracyCE90: 0.68,
-  sensors: ['Pan_Sharpen'],
-  region: ['a'],
+  sensors: ['Pan_Sharpen', 'test'],
+  region: ['a', 'b'],
   rms: 0.444,
   scale: 1000,
   classification: '3',
@@ -90,8 +90,8 @@ describe('records', function () {
         schema: 'mc_raster',
         typeName: 'mc_MCRasterRecord',
         xml: '',
-        sensors: 'Pan_Sharpen',
-        region: 'a',
+        sensors: 'Pan_Sharpen,test',
+        region: 'a,b',
         includedInBests: null,
       };
 
@@ -194,8 +194,8 @@ describe('records', function () {
         typeName: 'mc:MCRasterRecord',
         xml: '',
         id: 'recordId',
-        sensors: 'Pan_Sharpen',
-        region: 'a',
+        sensors: 'Pan_Sharpen,test',
+        region: 'a,b',
         includedInBests: null,
       } as unknown as RecordEntity;
       findMock.mockResolvedValue([testEntity]);
