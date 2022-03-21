@@ -1,20 +1,20 @@
-SET search_path TO "RasterCatalogManager", public;-- CHANGE SCHEMA NAME TO MATCH ENVIRONMENT
-ALTER TABLE "records" ALTER COLUMN resolution TYPE numeric USING (resolution::numeric);
-ALTER TABLE "records" ALTER COLUMN resolution SET NOT NULL;
-ALTER TABLE "records" RENAME COLUMN resolution TO max_resolution_deg;
-
-ALTER TABLE "records" ALTER COLUMN horizontal_accuracy_ce_90 TYPE real USING (horizontal_accuracy_ce_90::real);
-ALTER TABLE "records" RENAME COLUMN horizontal_accuracy_ce_90 TO min_horizontal_accuracy_ce_90;
-
-ALTER TABLE "records" ALTER COLUMN sensor_type SET NOT NULL;
-ALTER TABLE "records" RENAME COLUMN sensor_type TO sensors;
-
-ALTER TABLE "records" ALTER COLUMN scale TYPE integer USING (scale::integer);
-
-ALTER TABLE "records" ALTER COLUMN max_resolution_meter TYPE numeric USING (max_resolution_meter::numeric);
-ALTER TABLE "records" ALTER COLUMN max_resolution_meter SET NOT NULL;
+SET search_path TO "RasterCatalogManager", public; -- CHANGE SCHEMA NAME TO MATCH ENVIRONMENT
 
 DROP INDEX ix_max_resolution_meter;
+
+ALTER TABLE "records" 
+  ALTER COLUMN resolution TYPE numeric USING (resolution::numeric),
+  ALTER COLUMN resolution SET NOT NULL,
+  ALTER COLUMN horizontal_accuracy_ce_90 TYPE real USING (horizontal_accuracy_ce_90::real),
+  ALTER COLUMN sensor_type SET NOT NULL,
+  ALTER COLUMN scale TYPE integer USING (scale::integer),
+  ALTER COLUMN max_resolution_meter TYPE numeric USING (max_resolution_meter::numeric),
+  ALTER COLUMN max_resolution_meter SET NOT NULL;
+  
+ALTER TABLE "records" RENAME COLUMN resolution TO max_resolution_deg;
+ALTER TABLE "records" RENAME COLUMN horizontal_accuracy_ce_90 TO min_horizontal_accuracy_ce_90;
+ALTER TABLE "records" RENAME COLUMN sensor_type TO sensors;
+
 CREATE INDEX ix_max_resolution_meter
     ON records USING btree
     (max_resolution_meter ASC);
