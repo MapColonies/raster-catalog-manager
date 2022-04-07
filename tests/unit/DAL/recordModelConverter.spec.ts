@@ -1,4 +1,4 @@
-import { IRasterCatalogUpsertRequestBody, LayerMetadata, Link, ProductType, RecordType, SensorType } from '@map-colonies/mc-model-types';
+import { IRasterCatalogUpsertRequestBody, LayerMetadata, Link, ProductType, RecordType } from '@map-colonies/mc-model-types';
 import { IUpdateRecordRequest } from '../../../src/common/dataModels/records';
 import { RecordModelConvertor } from '../../../src/DAL/convertors/recordModelConverter';
 import { RecordEntity } from '../../../src/DAL/entity/generated';
@@ -71,15 +71,16 @@ describe('RecordModelConverter', function () {
         productName: 'test',
         productVersion: '1',
         productType: ProductType.ORTHOPHOTO,
+        productSubType: undefined,
         description: 'test test',
         creationDate: date,
         ingestionDate: date,
         updateDate: date,
         sourceDateStart: date,
         sourceDateEnd: date,
-        resolution: 0.00759,
-        accuracyCE90: 0.98,
-        sensorType: [SensorType.RGB, SensorType.VIS],
+        maxResolutionDeg: 0.00759,
+        minHorizontalAccuracyCE90: 0.98,
+        sensors: ['RGB', 'VIS'],
         footprint: {
           type: 'Polygon',
           coordinates: [
@@ -94,11 +95,11 @@ describe('RecordModelConverter', function () {
         },
         srsId: '4326',
         srsName: 'WGS84GEO',
-        region: 'a,b',
+        region: ['a', 'b'],
         classification: '3',
         producerName: 'test producer',
         rms: 3,
-        scale: '100',
+        scale: 100,
         type: RecordType.RECORD_RASTER,
         layerPolygonParts: undefined,
         maxResolutionMeter: 0.5,
@@ -120,9 +121,9 @@ describe('RecordModelConverter', function () {
         updateDate: date,
         sourceDateStart: date,
         sourceDateEnd: date,
-        resolution: 0.00759,
-        accuracyCE90: 0.98,
-        sensorType: 'RGB,VIS',
+        maxResolutionDeg: 0.00759,
+        minHorizontalAccuracyCE90: 0.98,
+        sensors: 'RGB,VIS',
         footprint: {
           type: 'Polygon',
           coordinates: [
@@ -141,7 +142,7 @@ describe('RecordModelConverter', function () {
         classification: '3',
         producerName: 'test producer',
         rms: 3,
-        scale: '100',
+        scale: 100,
         type: RecordType.RECORD_RASTER,
         typeName: 'mc_MCRasterRecord',
         wktGeometry:
@@ -235,9 +236,9 @@ describe('RecordModelConverter', function () {
         updateDate: date,
         sourceDateStart: date,
         sourceDateEnd: date,
-        resolution: 0.00759,
-        accuracyCE90: 0.98,
-        sensorType: 'RGB',
+        maxResolutionDeg: 0.00759,
+        minHorizontalAccuracyCE90: 0.98,
+        sensors: 'RGB,AAA',
         footprint: {
           type: 'Polygon',
           coordinates: [
@@ -256,7 +257,7 @@ describe('RecordModelConverter', function () {
         classification: '3',
         producerName: 'test producer',
         rms: 3,
-        scale: '100',
+        scale: 100,
         type: RecordType.RECORD_RASTER,
         typeName: 'mc:MCRasterRecord',
         wktGeometry:
@@ -278,15 +279,17 @@ describe('RecordModelConverter', function () {
         productName: 'test',
         productVersion: '1',
         productType: ProductType.ORTHOPHOTO,
+        productSubType: undefined,
+        productBoundingBox: undefined,
         description: 'test test',
         creationDate: date,
         ingestionDate: date,
         updateDate: date,
         sourceDateStart: date,
         sourceDateEnd: date,
-        resolution: 0.00759,
-        accuracyCE90: 0.98,
-        sensorType: [SensorType.RGB],
+        maxResolutionDeg: 0.00759,
+        minHorizontalAccuracyCE90: 0.98,
+        sensors: ['RGB', 'AAA'],
         footprint: {
           type: 'Polygon',
           coordinates: [
@@ -301,11 +304,11 @@ describe('RecordModelConverter', function () {
         },
         srsId: '4326',
         srsName: 'WGS84GEO',
-        region: 'a,b',
+        region: ['a', 'b'],
         classification: '3',
         producerName: 'test producer',
         rms: 3,
-        scale: '100',
+        scale: 100,
         type: RecordType.RECORD_RASTER,
         layerPolygonParts: undefined,
         includedInBests: ['1', '2'],

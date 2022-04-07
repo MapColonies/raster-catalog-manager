@@ -21,11 +21,11 @@ const testMetadata = {
   updateDate: '2021-06-07T05:41:43.032Z',
   sourceDateStart: '2021-06-07T05:41:43.032Z',
   sourceDateEnd: '2021-06-07T05:41:43.032Z',
-  accuracyCE90: 0.68,
-  sensorType: ['Pan_Sharpen'],
-  region: 'a',
+  minHorizontalAccuracyCE90: 0.68,
+  sensors: ['Pan_Sharpen', 'test'],
+  region: ['a', 'b'],
   rms: 0.444,
-  scale: '1000',
+  scale: 1000,
   classification: '3',
   footprint: {
     type: 'Polygon',
@@ -40,7 +40,7 @@ const testMetadata = {
   },
   creationDate: '2021-06-07T05:41:43.032Z',
   ingestionDate: '2021-06-07T05:41:43.032Z',
-  resolution: 0.05,
+  maxResolutionDeg: 0.05,
   includedInBests: [],
 };
 
@@ -62,7 +62,7 @@ const testCreateRecordModel = {
 
 const testUpdateRecordRequest = {
   metadata: {
-    accuracyCE90: 0.95678,
+    minHorizontalAccuracyCE90: 0.95678,
   },
 };
 
@@ -90,7 +90,8 @@ describe('records', function () {
         schema: 'mc_raster',
         typeName: 'mc_MCRasterRecord',
         xml: '',
-        sensorType: 'Pan_Sharpen',
+        sensors: 'Pan_Sharpen,test',
+        region: 'a,b',
         includedInBests: null,
       };
 
@@ -106,8 +107,6 @@ describe('records', function () {
       insertQueryBuilderMock.execute.mockResolvedValue(executeResponse);
 
       const response = await requestSender.createResource(testCreateRecordModel);
-      expect(response).toSatisfyApiSpec();
-
       expect(response.status).toBe(httpStatusCodes.CREATED);
       expect(insertQueryBuilderMock.values).toHaveBeenCalledTimes(1);
       expect(insertQueryBuilderMock.values).toHaveBeenCalledWith(expectedEntity);
@@ -117,6 +116,7 @@ describe('records', function () {
 
       const body = response.body as unknown;
       expect(body).toEqual({ id: 'recordId', status: OperationStatusEnum.SUCCESS });
+      expect(response).toSatisfyApiSpec();
     });
 
     it('should update record status and return 200', async function () {
@@ -194,30 +194,29 @@ describe('records', function () {
         typeName: 'mc:MCRasterRecord',
         xml: '',
         id: 'recordId',
-        sensorType: 'Pan_Sharpen',
+        sensors: 'Pan_Sharpen,test',
+        region: 'a,b',
         includedInBests: null,
       } as unknown as RecordEntity;
       findMock.mockResolvedValue([testEntity]);
       const req = { ...testUpdateRecordRequest };
 
       const response = await requestSender.findRecord(req);
-      expect(response).toSatisfyApiSpec();
-
       const expectedResponse = [
         {
           ...testCreateRecordModel,
           id: 'recordId',
         },
       ];
-
       expect(response.status).toBe(httpStatusCodes.OK);
       expect(response.body).toEqual(expectedResponse);
       expect(findMock).toHaveBeenCalledTimes(1);
       expect(findMock).toHaveBeenCalledWith({
         where: {
-          accuracyCE90: 0.95678,
+          minHorizontalAccuracyCE90: 0.95678,
         },
       });
+      expect(response).toSatisfyApiSpec();
     });
 
     it("find should return 200 and empty list of records when don't match", async () => {
@@ -234,7 +233,7 @@ describe('records', function () {
       expect(findMock).toHaveBeenCalledTimes(1);
       expect(findMock).toHaveBeenCalledWith({
         where: {
-          accuracyCE90: 0.95678,
+          minHorizontalAccuracyCE90: 0.95678,
         },
       });
     });

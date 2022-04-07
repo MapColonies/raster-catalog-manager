@@ -1,6 +1,6 @@
 import { singleton } from 'tsyringe';
 import { GeoJSON } from 'geojson';
-import { LayerMetadata, Link, IRasterCatalogUpsertRequestBody, SensorType } from '@map-colonies/mc-model-types';
+import { LayerMetadata, Link, IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
 import { GeoJSONGeometry, stringify as geoJsonToWkt } from 'wellknown';
 import { IFindRecordRequest, IFindRecordResponse, IUpdateRecordRequest } from '../../common/dataModels/records';
 import { RecordEntity } from '../entity/generated';
@@ -59,14 +59,21 @@ export class RecordModelConvertor {
     if (metadata.footprint != undefined) {
       entity.wktGeometry = geoJsonToWkt(metadata.footprint as unknown as GeoJSONGeometry);
     }
-    if (metadata.sensorType != undefined) {
-      entity.sensorType = metadata.sensorType.join(',');
+    if (metadata.sensors != undefined) {
+      entity.sensors = metadata.sensors.join(',');
     }
     if (metadata.includedInBests != undefined) {
       if (Array.isArray(metadata.includedInBests) && metadata.includedInBests.length != 0) {
         entity.includedInBests = metadata.includedInBests.join(',');
       } else {
         (entity.includedInBests as string | null) = null;
+      }
+    }
+    if (metadata.region != undefined) {
+      if (Array.isArray(metadata.region) && metadata.region.length != 0) {
+        entity.region = metadata.region.join(',');
+      } else {
+        (entity.region as string | null) = null;
       }
     }
   }
@@ -96,7 +103,8 @@ export class RecordModelConvertor {
         (metadata[key as keyof LayerMetadata] as unknown) = record[key as keyof RecordEntity];
       }
     });
-    metadata.sensorType = record.sensorType !== '' ? (record.sensorType.split(',') as SensorType[]) : [];
+    metadata.sensors = record.sensors !== '' ? record.sensors.split(',') : [];
+    metadata.region = record.region ? record.region.split(',') : [];
     metadata.includedInBests =
       record.includedInBests !== '' && record.includedInBests !== undefined && record.includedInBests !== null
         ? record.includedInBests.split(',')
@@ -107,8 +115,8 @@ export class RecordModelConvertor {
     if (typeof metadata.layerPolygonParts === 'string') {
       metadata.layerPolygonParts = JSON.parse(metadata.layerPolygonParts) as GeoJSON;
     }
-    if (typeof metadata.resolution === 'string') {
-      metadata.resolution = Number(metadata.resolution);
+    if (typeof metadata.maxResolutionDeg === 'string') {
+      metadata.maxResolutionDeg = Number(metadata.maxResolutionDeg);
     }
     if (typeof metadata.maxResolutionMeter === 'string') {
       metadata.maxResolutionMeter = Number(metadata.maxResolutionMeter);
@@ -116,8 +124,8 @@ export class RecordModelConvertor {
     if (typeof metadata.rms === 'string') {
       metadata.rms = Number(metadata.rms);
     }
-    if (typeof metadata.accuracyCE90 === 'string') {
-      metadata.accuracyCE90 = Number(metadata.accuracyCE90);
+    if (typeof metadata.minHorizontalAccuracyCE90 === 'string') {
+      metadata.minHorizontalAccuracyCE90 = Number(metadata.minHorizontalAccuracyCE90);
     }
     return metadata;
   }
