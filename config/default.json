@@ -2,17 +2,26 @@
   "openapiConfig": {
     "filePath": "./bundledApi.yaml",
     "basePath": "/docs",
-    "jsonPath": "/api.json",
+    "rawPath": "/api",
     "uiPath": "/api"
   },
-  "logger": {
-    "level": "info"
+  "telemetry": {
+    "logger": {
+      "level": "info",
+      "prettyPrint": false
+    }
   },
   "server": {
     "port": "8080",
     "request": {
       "payload": {
         "limit": "10mb"
+      }
+    },
+    "response": {
+      "compression": {
+        "enabled": true,
+        "options": null
       }
     }
   },
@@ -32,9 +41,16 @@
     "schema": "public",
     "synchronize": false,
     "logging": false,
-    "entities": ["**/DAL/entity/**/*.js"],
-    "migrations": ["**/DAL/migration/**/*.js", "**/DAL/migration/**/*.ts"],
-    "subscribers": ["**/DAL/subscriber/**/*.js"],
+    "entities": [
+      "**/DAL/entity/**/*.js"
+    ],
+    "migrations": [
+      "**/DAL/migration/**/*.js",
+      "**/DAL/migration/**/*.ts"
+    ],
+    "subscribers": [
+      "**/DAL/subscriber/**/*.js"
+    ],
     "cli": {
       "entitiesDir": "src/DAL/entity",
       "migrationsDir": "src/DAL/migration",

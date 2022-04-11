@@ -1,7 +1,7 @@
 import { singleton } from 'tsyringe';
 import { GeoJSON } from 'geojson';
-import { LayerMetadata, Link, IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
 import { GeoJSONGeometry, stringify as geoJsonToWkt } from 'wellknown';
+import { LayerMetadata, Link, IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
 import { IFindRecordRequest, IFindRecordResponse, IUpdateRecordRequest } from '../../common/dataModels/records';
 import { RecordEntity } from '../entity/generated';
 

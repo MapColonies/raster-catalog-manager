@@ -1,18 +1,47 @@
-import { readFileSync } from 'fs';
-import { container } from 'tsyringe';
 import config from 'config';
-import { Probe } from '@map-colonies/mc-probe';
-import { MCLogger, ILoggerConfig, IServiceConfig } from '@map-colonies/mc-logger';
-import { Services } from './common/constants';
+import { logMethod } from '@map-colonies/telemetry';
+import { trace } from '@opentelemetry/api';
+import { DependencyContainer } from 'tsyringe/dist/typings/types';
+import jsLogger, { LoggerOptions } from '@map-colonies/js-logger';
+import { Metrics } from '@map-colonies/telemetry';
+import { SERVICES, SERVICE_NAME } from './common/constants';
+import { tracing } from './common/tracing';
+import { InjectionObject, registerDependencies } from './common/dependencyRegistration';
+import { recordRouterFactory, RECORD_ROUTER_SYMBOL } from './records/routes/recordRouter';
 
-function registerExternalValues(): void {
-  const loggerConfig = config.get<ILoggerConfig>('logger');
-  const packageContent = readFileSync('./package.json', 'utf8');
-  const service = JSON.parse(packageContent) as IServiceConfig;
-  const logger = new MCLogger(loggerConfig, service);
-  container.register(Services.CONFIG, { useValue: config });
-  container.register(Services.LOGGER, { useValue: logger });
-  container.register<Probe>(Probe, { useFactory: (container) => new Probe(container.resolve(Services.LOGGER), {}) });
+export interface RegisterOptions {
+  override?: InjectionObject<unknown>[];
+  useChild?: boolean;
 }
 
-export { registerExternalValues };
+export const registerExternalValues = (options?: RegisterOptions): DependencyContainer => {
+  const loggerConfig = config.get<LoggerOptions>('telemetry.logger');
+  // @ts-expect-error the signature is wrong
+  const logger = jsLogger({ ...loggerConfig, prettyPrint: loggerConfig.prettyPrint, hooks: { logMethod } });
+
+  const metrics = new Metrics(SERVICE_NAME);
+  const meter = metrics.start();
+
+  tracing.start();
+  const tracer = trace.getTracer(SERVICE_NAME);
+
+  const dependencies: InjectionObject<unknown>[] = [
+    { token: SERVICES.CONFIG, provider: { useValue: config } },
+    { token: SERVICES.LOGGER, provider: { useValue: logger } },
+    { token: SERVICES.TRACER, provider: { useValue: tracer } },
+    { token: SERVICES.METER, provider: { useValue: meter } },
+    { token: RECORD_ROUTER_SYMBOL, provider: { useFactory: recordRouterFactory } },
+    {
+      token: 'onSignal',
+      provider: {
+        useValue: {
+          useValue: async (): Promise<void> => {
+            await Promise.all([tracing.stop(), metrics.stop()]);
+          },
+        },
+      },
+    },
+  ];
+
+  return registerDependencies(dependencies, options?.override, options?.useChild);
+};
