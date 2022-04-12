@@ -1,6 +1,8 @@
 #local configs
 config/*local*.json
-
+helm/certs
+helm/local
+helm/local.yaml
 
 #generated files
 bundledApi.yaml

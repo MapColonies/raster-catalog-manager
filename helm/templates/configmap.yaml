@@ -1,0 +1,28 @@
+{{- $chartName := include "raster-catlog-manager.name" . -}}
+{{- $tracingUrl := include "raster-catlog-manager.tracingUrl" . -}}
+{{- $metricsUrl := include "raster-catlog-manager.metricsUrl" . -}}
+{{- if .Values.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-{{ $chartName }}-configmap
+data:
+  REQUEST_PAYLOAD_LIMIT: {{ .Values.env.requestPayloadLimit | quote }}
+  RESPONSE_COMPRESSION_ENABLED: {{ .Values.env.responseCompressionEnabled | quote }}
+  LOG_LEVEL: {{ .Values.env.logLevel | quote }}
+  LOG_PRETTY_PRINT_ENABLED: {{ .Values.env.logPrettyPrintEnabled | quote }}
+  {{ if .Values.env.tracing.enabled }}
+  TELEMETRY_TRACING_ENABLED: 'true'
+  TELEMETRY_TRACING_URL: {{ $tracingUrl }}
+  {{ end }}
+  {{ if .Values.env.metrics.enabled }}
+  TELEMETRY_METRICS_ENABLED: 'true'
+  TELEMETRY_METRICS_URL: {{ $metricsUrl }}
+  {{ end }}
+  DB_HOST: {{ quote .Values.rasterCommon.db.host  }}
+  DB_PORT:  {{ quote .Values.rasterCommon.db.port }}
+  DB_NAME: {{ .Values.rasterCommon.db.name | default .Values.catalog.db.nameOverride | quote }}
+  DB_USE_SSL: {{ quote .Values.rasterCommon.db.sslEnabled }}
+  DB_SCHEMA: {{ quote .Values.catalog.db.schema }}
+  DB_LOGGING: {{ quote .Values.env.db.logging }}
+{{- end }}
