@@ -1,6 +1,6 @@
 apiVersion: v2
-name: raster-catlog-manager
-description: A Helm chart for raster-catlog-manager service
+name: raster-catalog-manager
+description: A Helm chart for raster-catalog-manager service
 type: application
 version: 1.0.0
 appVersion: 1.0.0

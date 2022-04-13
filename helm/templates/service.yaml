@@ -1,6 +1,6 @@
 {{- $releaseName := .Release.Name -}}
-{{- $chartName := include "raster-catlog-manager.name" . -}}
-{{- $cloudProviderFlavor := include "raster-catlog-manager.cloudProviderFlavor" . -}}
+{{- $chartName := include "raster-catalog-manager.name" . -}}
+{{- $cloudProviderFlavor := include "raster-catalog-manager.cloudProviderFlavor" . -}}
 {{- if .Values.enabled -}}
 apiVersion: v1
 kind: Service
@@ -9,9 +9,9 @@ metadata:
   labels:
     app: {{ $chartName }}
     component: {{ $chartName }}
-    environment: {{ include "raster-catlog-manager.environment" . }}
+    environment: {{ include "raster-catalog-manager.environment" . }}
     release: {{ $releaseName }}
-    {{- include "raster-catlog-manager.labels" . | nindent 4 }}
+    {{- include "raster-catalog-manager.labels" . | nindent 4 }}
 spec:
   {{- if eq $cloudProviderFlavor "minikube" }}
   type: NodePort
@@ -28,5 +28,5 @@ spec:
     app: {{ $chartName }}
     release: {{ $releaseName }}
     run: {{ $releaseName }}-{{ $chartName }}
-    {{- include "raster-catlog-manager.selectorLabels" . | nindent 4 }}
+    {{- include "raster-catalog-manager.selectorLabels" . | nindent 4 }}
 {{- end }}

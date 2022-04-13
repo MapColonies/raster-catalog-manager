@@ -1,6 +1,6 @@
 {{- $releaseName := .Release.Name -}}
-{{- $chartName := include "raster-catlog-manager.name" . -}}
-{{- $cloudProviderFlavor := include "raster-catlog-manager.cloudProviderFlavor" . -}}
+{{- $chartName := include "raster-catalog-manager.name" . -}}
+{{- $cloudProviderFlavor := include "raster-catalog-manager.cloudProviderFlavor" . -}}
 {{- if and (and (.Values.enabled) (eq $cloudProviderFlavor "openshift")) (.Values.route.enabled) -}}
 apiVersion: route.openshift.io/v1
 kind: Route

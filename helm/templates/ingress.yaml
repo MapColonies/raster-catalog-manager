@@ -1,5 +1,5 @@
 {{- $releaseName := .Release.Name -}}
-{{- $chartName := include "raster-catlog-manager.name" . -}}
+{{- $chartName := include "raster-catalog-manager.name" . -}}
 {{- if and (.Values.enabled) (.Values.ingress.enabled) -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress

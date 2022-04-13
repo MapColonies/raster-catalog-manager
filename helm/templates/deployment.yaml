@@ -1,9 +1,9 @@
 {{- $releaseName := .Release.Name -}}
-{{- $chartName := include "raster-catlog-manager.name" . -}}
-{{- $cloudProviderFlavor := include "raster-catlog-manager.cloudProviderFlavor" . -}}
-{{- $cloudProviderDockerRegistryUrl := include "raster-catlog-manager.cloudProviderDockerRegistryUrl" . -}}
-{{- $cloudProviderImagePullSecretName := include "raster-catlog-manager.cloudProviderImagePullSecretName" . -}}
-{{- $imageTag := include "raster-catlog-manager.tag" . -}}
+{{- $chartName := include "raster-catalog-manager.name" . -}}
+{{- $cloudProviderFlavor := include "raster-catalog-manager.cloudProviderFlavor" . -}}
+{{- $cloudProviderDockerRegistryUrl := include "raster-catalog-manager.cloudProviderDockerRegistryUrl" . -}}
+{{- $cloudProviderImagePullSecretName := include "raster-catalog-manager.cloudProviderImagePullSecretName" . -}}
+{{- $imageTag := include "raster-catalog-manager.tag" . -}}
 {{- $postgresSecretName := ternary .Values.rasterCommon.db.secrets.externalSecretName (printf "%s%s" .Release.Name "-postgres-secret") .Values.rasterCommon.db.secrets.useExternal -}}
 
 {{- if .Values.enabled -}}
@@ -14,9 +14,9 @@ metadata:
   labels:
     app: {{ $chartName }}
     component: {{ $chartName }}
-    environment: {{ include "raster-catlog-manager.environment" . }}
+    environment: {{ include "raster-catalog-manager.environment" . }}
     release: {{ $releaseName }}
-    {{- include "raster-catlog-manager.labels" . | nindent 4 }}
+    {{- include "raster-catalog-manager.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -24,14 +24,14 @@ spec:
       app: {{ $chartName }}
       release: {{ $releaseName }}
       run: {{ $releaseName }}-{{ $chartName }}
-      {{- include "raster-catlog-manager.selectorLabels" . | nindent 6 }}
+      {{- include "raster-catalog-manager.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
         app: {{ $chartName }}
         release: {{ $releaseName }}
         run: {{ $releaseName }}-{{ $chartName }}
-        {{- include "raster-catlog-manager.selectorLabels" . | nindent 8 }}
+        {{- include "raster-catalog-manager.selectorLabels" . | nindent 8 }}
       {{- if .Values.resetOnConfigChange }}
       annotations:
         checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
