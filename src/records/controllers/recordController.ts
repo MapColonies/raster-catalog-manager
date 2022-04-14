@@ -1,8 +1,9 @@
-import { IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
+import { Logger } from '@map-colonies/js-logger';
 import { RequestHandler } from 'express';
 import httpStatus from 'http-status-codes';
 import { injectable, inject } from 'tsyringe';
-import { Services } from '../../common/constants';
+import { IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
+import { SERVICES } from '../../common/constants';
 import {
   IFindRecordRequest,
   IFindRecordResponse,
@@ -12,7 +13,6 @@ import {
   IRecordRequestParams,
   IUpdateRecordRequest,
 } from '../../common/dataModels/records';
-import { ILogger } from '../../common/interfaces';
 import { RecordManager } from '../models/recordManager';
 
 type CreateRecordHandler = RequestHandler<undefined, IRecordOperationResponse, IRasterCatalogUpsertRequestBody>;
@@ -23,7 +23,7 @@ type FindRecordHandler = RequestHandler<undefined, IFindRecordResponse[], IFindR
 
 @injectable()
 export class RecordController {
-  public constructor(@inject(Services.LOGGER) private readonly logger: ILogger, private readonly manager: RecordManager) {}
+  public constructor(@inject(SERVICES.LOGGER) private readonly logger: Logger, private readonly manager: RecordManager) {}
 
   public createRecord: CreateRecordHandler = async (req, res, next) => {
     try {

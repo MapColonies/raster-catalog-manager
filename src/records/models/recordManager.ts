@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import { IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
-import { Services } from '../../common/constants';
-import { ILogger } from '../../common/interfaces';
+import { Logger } from '@map-colonies/js-logger';
+import { SERVICES } from '../../common/constants';
 import { ConnectionManager } from '../../DAL/connectionManager';
 import {
   IFindRecordRequest,
@@ -16,24 +16,24 @@ import { RecordRepository } from '../../DAL/repositories/recordRepository';
 export class RecordManager {
   private repository?: RecordRepository;
 
-  public constructor(@inject(Services.LOGGER) private readonly logger: ILogger, private readonly connectionManager: ConnectionManager) {}
+  public constructor(@inject(SERVICES.LOGGER) private readonly logger: Logger, private readonly connectionManager: ConnectionManager) {}
 
   public async createRecord(req: IRasterCatalogUpsertRequestBody): Promise<string> {
     const repo = await this.getRepository();
-    this.logger.log('info', 'creating record');
+    this.logger.info('creating record');
     const id = await repo.createRecord(req);
     return id;
   }
 
   public async updateRecord(req: IUpdateRecordRequest): Promise<void> {
     const repo = await this.getRepository();
-    this.logger.log('info', `updating record ${req.id}`);
+    this.logger.info(`updating record ${req.id}`);
     await repo.updateRecord(req);
   }
 
   public async deleteRecord(req: IRecordRequestParams): Promise<void> {
     const repo = await this.getRepository();
-    this.logger.log('info', `deleting record ${req.id}`);
+    this.logger.info(`deleting record ${req.id}`);
     const res = await repo.deleteRecord(req.id);
     return res;
   }

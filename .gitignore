@@ -1,12 +1,13 @@
-
-config/local.json
+#local configs
+config/*local*.json
+helm/certs
+helm/local
+helm/local.yaml
 
 #generated files
 bundledApi.yaml
 src/DAL/entity/generated.ts
 Schema
-
-.idea/
 
 # Logs
 logs
@@ -15,6 +16,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
+
+# Development tools
+.idea
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
@@ -117,4 +121,3 @@ dist
 # Jest
 jest_html_reporters.html
 reports
-report

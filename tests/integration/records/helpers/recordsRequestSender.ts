@@ -1,32 +1,25 @@
 import * as supertest from 'supertest';
-import { Application } from 'express';
 
-import { container } from 'tsyringe';
-import { ServerBuilder } from '../../../../src/serverBuilder';
+export class RecordsRequestSender {
+  public constructor(private readonly app: Express.Application) {}
 
-let app: Application | null = null;
+  public async recordExists(id: string): Promise<supertest.Response> {
+    return supertest.agent(this.app).get(`/records/exists/${id}`);
+  }
 
-export function init(): void {
-  const builder = container.resolve<ServerBuilder>(ServerBuilder);
-  app = builder.build();
-}
+  public async createResource(body: Record<string, unknown>): Promise<supertest.Response> {
+    return supertest.agent(this.app).post(`/records`).set('Content-Type', 'application/json').send(body);
+  }
 
-export async function recordExists(id: string): Promise<supertest.Response> {
-  return supertest.agent(app).get(`/records/exists/${id}`);
-}
+  public async updateResource(id: string, body: Record<string, unknown>): Promise<supertest.Response> {
+    return supertest.agent(this.app).put(`/records/${id}`).set('Content-Type', 'application/json').send(body);
+  }
 
-export async function createResource(body: Record<string, unknown>): Promise<supertest.Response> {
-  return supertest.agent(app).post(`/records`).set('Content-Type', 'application/json').send(body);
-}
+  public async deleteResource(id: string): Promise<supertest.Response> {
+    return supertest.agent(this.app).delete(`/records/${id}`);
+  }
 
-export async function updateResource(id: string, body: Record<string, unknown>): Promise<supertest.Response> {
-  return supertest.agent(app).put(`/records/${id}`).set('Content-Type', 'application/json').send(body);
-}
-
-export async function deleteResource(id: string): Promise<supertest.Response> {
-  return supertest.agent(app).delete(`/records/${id}`);
-}
-
-export async function findRecord(body: Record<string, unknown>): Promise<supertest.Response> {
-  return supertest.agent(app).post('/records/find').set('Content-Type', 'application/json').send(body);
+  public async findRecord(body: Record<string, unknown>): Promise<supertest.Response> {
+    return supertest.agent(this.app).post('/records/find').set('Content-Type', 'application/json').send(body);
+  }
 }

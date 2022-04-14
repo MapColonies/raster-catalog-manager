@@ -1,9 +1,9 @@
 import { readFileSync } from 'fs';
-import { createConnection, Connection, ObjectType } from 'typeorm';
+import { createConnection, Connection, ObjectType, ConnectionOptions } from 'typeorm';
 import { inject, singleton } from 'tsyringe';
-import { ConnectionOptions } from 'typeorm';
-import { Services } from '../common/constants';
-import { IConfig, ILogger, IDbConfig } from '../common/interfaces';
+import { Logger } from '@map-colonies/js-logger';
+import { SERVICES } from '../common/constants';
+import { IConfig, IDbConfig } from '../common/interfaces';
 import { DBConnectionError } from '../common/errors';
 import { RecordRepository } from './repositories/recordRepository';
 
@@ -12,11 +12,11 @@ export class ConnectionManager {
   private connection?: Connection;
   private connectionStatusPromise?: Promise<Connection>;
 
-  public constructor(@inject(Services.LOGGER) private readonly logger: ILogger, @inject(Services.CONFIG) private readonly config: IConfig) {}
+  public constructor(@inject(SERVICES.LOGGER) private readonly logger: Logger, @inject(SERVICES.CONFIG) private readonly config: IConfig) {}
 
   public async init(): Promise<void> {
     const connectionConfig = this.config.get<IDbConfig>('typeOrm');
-    this.logger.log('info', `connection to database ${connectionConfig.database as string} on ${connectionConfig.host as string}`);
+    this.logger.info(`connection to database ${connectionConfig.database as string} on ${connectionConfig.host as string}`);
     try {
       if (this.connectionStatusPromise === undefined) {
         this.connectionStatusPromise = createConnection(this.createConnectionOptions(connectionConfig));
@@ -24,7 +24,7 @@ export class ConnectionManager {
       this.connection = await this.connectionStatusPromise;
     } catch (err) {
       const errString = JSON.stringify(err, Object.getOwnPropertyNames(err));
-      this.logger.log('error', `failed to connect to database: ${errString}`);
+      this.logger.error(`failed to connect to database: ${errString}`);
       throw new DBConnectionError();
     }
   }
@@ -40,7 +40,7 @@ export class ConnectionManager {
   private getRepository<T>(repository: ObjectType<T>): T {
     if (!this.isConnected()) {
       const msg = 'failed to send request to database: no open connection';
-      this.logger.log('error', msg);
+      this.logger.error(msg);
       throw new DBConnectionError();
     } else {
       const connection = this.connection as Connection;

@@ -1,13 +1,17 @@
 import httpStatusCodes from 'http-status-codes';
 import { container } from 'tsyringe';
+import { trace } from '@opentelemetry/api';
+import jsLogger from '@map-colonies/js-logger';
+import { SERVICES } from '../../../src/common/constants';
+import { getApp } from '../../../src/app';
 import { RecordRepository } from '../../../src/DAL/repositories/recordRepository';
-import { registerTestValues } from '../../testContainerConfig';
 import { RecordEntity } from '../../../src/DAL/entity/generated';
 import { registerRepository, initTypeOrmMocks, RepositoryMocks } from '../../mocks/DBMock';
 import { OperationStatusEnum } from '../../../src/common/dataModels/records';
-import * as requestSender from './helpers/recordsRequestSender';
+import { RecordsRequestSender } from './helpers/recordsRequestSender';
 
 let recordRepositoryMocks: RepositoryMocks;
+let requestSender: RecordsRequestSender;
 
 const testMetadata = {
   type: 'RECORD_RASTER',
@@ -66,22 +70,28 @@ const testUpdateRecordRequest = {
   },
 };
 
-describe('records', function () {
+describe('records', () => {
   beforeEach(() => {
-    registerTestValues();
-    requestSender.init();
-    initTypeOrmMocks();
-    recordRepositoryMocks = registerRepository(RecordRepository, new RecordRepository());
     //remove AJV warnings from filling test log
     console.warn = jest.fn();
+    initTypeOrmMocks();
+    const app = getApp({
+      override: [
+        { token: SERVICES.LOGGER, provider: { useValue: jsLogger({ enabled: false }) } },
+        { token: SERVICES.TRACER, provider: { useValue: trace.getTracer('testTracer') } },
+      ],
+      useChild: false, //child container is incompatible with the typeorm repositories implementation
+    });
+    recordRepositoryMocks = registerRepository(RecordRepository, new RecordRepository());
+    requestSender = new RecordsRequestSender(app);
   });
-  afterEach(function () {
+  afterEach(() => {
     container.clearInstances();
     jest.resetAllMocks();
   });
 
-  describe('Happy Path', function () {
-    it('should create record and return status code 201 and the created record id', async function () {
+  describe('Happy Path', () => {
+    it('should create record and return status code 201 and the created record id', async () => {
       const expectedEntity = {
         ...testCreateRecordModel.metadata,
         links: ',,test,http://test.test/wmts^testLink,test test test,fulltest,http://test.test/wms',
@@ -119,7 +129,7 @@ describe('records', function () {
       expect(response).toSatisfyApiSpec();
     });
 
-    it('should update record status and return 200', async function () {
+    it('should update record status and return 200', async () => {
       const recordCountMock = recordRepositoryMocks.countMock;
       const recordSaveMock = recordRepositoryMocks.saveMock;
 
@@ -140,7 +150,7 @@ describe('records', function () {
       expect(body).toEqual({ id: '170dd8c0-8bad-498b-bb26-671dcf19aa3c', status: OperationStatusEnum.SUCCESS });
     });
 
-    it('should delete record return 200', async function () {
+    it('should delete record return 200', async () => {
       const recordDeleteMock = recordRepositoryMocks.deleteMock;
       const recordCountMock = recordRepositoryMocks.countMock;
       recordDeleteMock.mockResolvedValue({});
@@ -157,7 +167,7 @@ describe('records', function () {
       expect(body).toEqual({ id: '170dd8c0-8bad-498b-bb26-671dcf19aa3c', status: OperationStatusEnum.SUCCESS });
     });
 
-    it('should return 200 and true when record exists', async function () {
+    it('should return 200 and true when record exists', async () => {
       const recordCountMock = recordRepositoryMocks.countMock;
       recordCountMock.mockResolvedValue(1);
 
@@ -170,7 +180,7 @@ describe('records', function () {
       expect(response.body).toEqual({ exists: true });
     });
 
-    it("should return 200 and false when record doesn't exists", async function () {
+    it("should return 200 and false when record doesn't exists", async () => {
       const recordCountMock = recordRepositoryMocks.countMock;
       recordCountMock.mockResolvedValue(0);
 
@@ -239,25 +249,28 @@ describe('records', function () {
     });
   });
 
-  describe('Bad Path', function () {
-    it('should return status code 400 on PUT request with invalid body', async function () {
+  describe('Bad Path', () => {
+    it('should return status code 400 on PUT request with invalid body', async () => {
       const recordCountMock = recordRepositoryMocks.countMock;
       const response = await requestSender.updateResource('170dd8c0-8bad-498b-bb26-671dcf19aa3c', {
         invalidField: 'test',
       });
       expect(response.status).toBe(httpStatusCodes.BAD_REQUEST);
       expect(recordCountMock).toHaveBeenCalledTimes(0);
+      expect(response).toSatisfyApiSpec();
     });
-    it('should return status code 400 on POST request with invalid body', async function () {
+
+    it('should return status code 400 on POST request with invalid body', async () => {
       const recordCountMock = recordRepositoryMocks.countMock;
       const response = await requestSender.createResource({
         id: 'invalidField',
       });
       expect(response.status).toBe(httpStatusCodes.BAD_REQUEST);
       expect(recordCountMock).toHaveBeenCalledTimes(0);
+      expect(response).toSatisfyApiSpec();
     });
 
-    it('should return status code 400 on POST request with invalid footprint', async function () {
+    it('should return status code 400 on POST request with invalid footprint', async () => {
       const req = { ...testCreateRecordModel };
       (req.metadata.footprint as unknown) = { type: 'Geometry' };
       const recordCountMock = recordRepositoryMocks.countMock;
@@ -265,6 +278,7 @@ describe('records', function () {
       const response = await requestSender.createResource(req);
       expect(response.status).toBe(httpStatusCodes.BAD_REQUEST);
       expect(recordCountMock).toHaveBeenCalledTimes(0);
+      expect(response).toSatisfyApiSpec();
     });
 
     it('find should return 400 when body is invalid', async () => {
@@ -275,11 +289,12 @@ describe('records', function () {
 
       expect(response.status).toBe(httpStatusCodes.BAD_REQUEST);
       expect(findMock).toHaveBeenCalledTimes(0);
+      expect(response).toSatisfyApiSpec();
     });
   });
 
-  describe('Sad Path', function () {
-    it('should return status code 404 on PUT request for non existing record', async function () {
+  describe('Sad Path', () => {
+    it('should return status code 404 on PUT request for non existing record', async () => {
       const recordCountMock = recordRepositoryMocks.countMock;
       const recordSaveMock = recordRepositoryMocks.saveMock;
       recordCountMock.mockResolvedValue(0);
@@ -290,9 +305,10 @@ describe('records', function () {
       });
       expect(recordSaveMock).toHaveBeenCalledTimes(0);
       expect(response.status).toBe(httpStatusCodes.NOT_FOUND);
+      expect(response).toSatisfyApiSpec();
     });
 
-    it('should return status code 404 on DELETE request for non existing record', async function () {
+    it('should return status code 404 on DELETE request for non existing record', async () => {
       const recordCountMock = recordRepositoryMocks.countMock;
       const recordDeleteMock = recordRepositoryMocks.deleteMock;
       recordCountMock.mockResolvedValue(0);
@@ -303,6 +319,7 @@ describe('records', function () {
       });
       expect(recordDeleteMock).toHaveBeenCalledTimes(0);
       expect(response.status).toBe(httpStatusCodes.NOT_FOUND);
+      expect(response).toSatisfyApiSpec();
     });
   });
 });

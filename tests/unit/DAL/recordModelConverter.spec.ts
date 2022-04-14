@@ -5,17 +5,17 @@ import { RecordEntity } from '../../../src/DAL/entity/generated';
 
 let convertor: RecordModelConvertor;
 
-describe('RecordModelConverter', function () {
+describe('RecordModelConverter', () => {
   beforeEach(() => {
     convertor = new RecordModelConvertor();
   });
 
-  afterEach(function () {
+  afterEach(() => {
     jest.resetAllMocks();
   });
 
-  describe('createModelToEntity', function () {
-    it('converted entity has only all relevant filed', function () {
+  describe('createModelToEntity', () => {
+    it('converted entity has only all relevant filed', () => {
       const testMetadata = { test: 'test' } as unknown as LayerMetadata;
       const createRecordModel = {
         metadata: testMetadata,
@@ -47,8 +47,8 @@ describe('RecordModelConverter', function () {
     });
   });
 
-  describe('UpdateModelToEntity', function () {
-    it('converted entity has only all relevant filed', function () {
+  describe('UpdateModelToEntity', () => {
+    it('converted entity has only all relevant filed', () => {
       const testMetadata = { productName: 'test' } as unknown as LayerMetadata;
       const testLinks = [] as Link[];
       const updateRecordModel = {
@@ -63,8 +63,8 @@ describe('RecordModelConverter', function () {
     });
   });
 
-  describe('metadataToPartialEntity', function () {
-    it('converted entity has only all relevant filed', function () {
+  describe('metadataToPartialEntity', () => {
+    it('converted entity has only all relevant filed', () => {
       const date = new Date(2021, 6, 6, 10, 21, 35);
       const testMetadata = {
         productId: 'testId',
@@ -161,7 +161,7 @@ describe('RecordModelConverter', function () {
       expect(res).toEqual(expectedEntity);
     });
 
-    it('undefined includedInBests remains undefined', function () {
+    it('undefined includedInBests remains undefined', () => {
       const testMetadata = {} as LayerMetadata;
 
       const res = convertor.metadataToPartialEntity(testMetadata);
@@ -179,7 +179,7 @@ describe('RecordModelConverter', function () {
       expect(res).toEqual(expectedEntity);
     });
 
-    it('empty array includedInBests is converted to null', function () {
+    it('empty array includedInBests is converted to null', () => {
       const testMetadata = {
         includedInBests: [],
       } as unknown as LayerMetadata;
@@ -200,7 +200,7 @@ describe('RecordModelConverter', function () {
       expect(res).toEqual(expectedEntity);
     });
 
-    it('array includedInBests is converted to string', function () {
+    it('array includedInBests is converted to string', () => {
       const testMetadata = {
         includedInBests: ['a', 'b'],
       } as LayerMetadata;

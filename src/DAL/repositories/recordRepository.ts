@@ -1,8 +1,8 @@
 import { Repository, EntityRepository } from 'typeorm';
 import { container } from 'tsyringe';
 import { IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
-import { ILogger } from '../../common/interfaces';
-import { Services } from '../../common/constants';
+import { Logger } from '@map-colonies/js-logger';
+import { SERVICES } from '../../common/constants';
 import { RecordEntity } from '../entity/generated';
 import { RecordModelConvertor } from '../convertors/recordModelConverter';
 import { EntityNotFound } from '../../common/errors';
@@ -10,13 +10,13 @@ import { IFindRecordRequest, IFindRecordResponse, IUpdateRecordRequest } from '.
 
 @EntityRepository(RecordEntity)
 export class RecordRepository extends Repository<RecordEntity> {
-  private readonly appLogger: ILogger; //don't override internal repository logger.
+  private readonly appLogger: Logger; //don't override internal repository logger.
   private readonly recordConvertor: RecordModelConvertor;
 
   public constructor() {
     super();
     //direct injection don't work here due to being initialized by typeOrm
-    this.appLogger = container.resolve(Services.LOGGER);
+    this.appLogger = container.resolve(SERVICES.LOGGER);
     this.recordConvertor = container.resolve(RecordModelConvertor);
   }
 

@@ -1,0 +1,104 @@
+{{- $releaseName := .Release.Name -}}
+{{- $chartName := include "raster-catalog-manager.name" . -}}
+{{- $cloudProviderFlavor := include "raster-catalog-manager.cloudProviderFlavor" . -}}
+{{- $cloudProviderDockerRegistryUrl := include "raster-catalog-manager.cloudProviderDockerRegistryUrl" . -}}
+{{- $cloudProviderImagePullSecretName := include "raster-catalog-manager.cloudProviderImagePullSecretName" . -}}
+{{- $imageTag := include "raster-catalog-manager.tag" . -}}
+{{- $postgresSecretName := ternary .Values.rasterCommon.db.secrets.externalSecretName (printf "%s%s" .Release.Name "-postgres-secret") .Values.rasterCommon.db.secrets.useExternal -}}
+
+{{- if .Values.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $releaseName }}-{{ $chartName }}
+  labels:
+    app: {{ $chartName }}
+    component: {{ $chartName }}
+    environment: {{ include "raster-catalog-manager.environment" . }}
+    release: {{ $releaseName }}
+    {{- include "raster-catalog-manager.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ $chartName }}
+      release: {{ $releaseName }}
+      run: {{ $releaseName }}-{{ $chartName }}
+      {{- include "raster-catalog-manager.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: {{ $chartName }}
+        release: {{ $releaseName }}
+        run: {{ $releaseName }}-{{ $chartName }}
+        {{- include "raster-catalog-manager.selectorLabels" . | nindent 8 }}
+      {{- if .Values.resetOnConfigChange }}
+      annotations:
+        checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      {{- end }}
+    spec:
+    {{- if $cloudProviderImagePullSecretName }}
+      imagePullSecrets:
+        - name: {{ $cloudProviderImagePullSecretName | quote }}
+    {{- end }}
+      containers:
+        - name: {{ $releaseName }}-{{ $chartName }}-deployment
+          {{- with .Values.image }}
+          image: {{ $cloudProviderDockerRegistryUrl }}{{ .repository }}:{{ $imageTag }}
+          {{- end }}
+          volumeMounts:
+            {{- if .Values.caSecretName }}
+            - mountPath: {{ printf "%s/%s" .Values.caPath .Values.caKey | quote }}
+              name: root-ca
+              subPath: {{ quote .Values.caKey }}
+            {{- end }}
+          env:
+            - name: SERVER_PORT
+              value: {{ .Values.env.targetPort | quote }}
+            {{- if .Values.caSecretName }}
+            - name: REQUESTS_CA_BUNDLE
+              value: {{ printf "%s/%s" .Values.caPath .Values.caKey | quote }}
+            - name: NODE_EXTRA_CA_CERTS
+              value: {{ printf "[%s/%s]" .Values.caPath .Values.caKey | quote }}
+            {{- end }}
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $postgresSecretName }}
+                  key: username               
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $postgresSecretName }}
+                  key: password
+            {{- if .Values.rasterCommon.db.sslEnabled }}
+            - name: DB_SSL_CA
+              value: "/opt/certs/ca/ca.pem"
+            - name: DB_SSL_KEY
+              value: "/opt/certs/key/key.pem"
+            - name: DB_SSL_CERT
+              value: "/opt/certs/cert/cert.pem"
+            {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ $releaseName }}-{{ $chartName }}-configmap
+          ports:
+            - name: http
+              containerPort: {{ .Values.env.targetPort }}
+              protocol: {{ .Values.env.protocol }}
+          livenessProbe:
+            initialDelaySeconds: {{ .Values.initialDelaySeconds }}
+            httpGet:
+              path: /liveness
+              port: {{ .Values.env.targetPort }}
+          {{- if .Values.resources.enabled }}
+          resources:
+            {{- toYaml .Values.resources.value | nindent 12 }}
+          {{- end }}
+      volumes:
+        {{- if .Values.caSecretName }}
+        - name: root-ca
+          secret:
+            secretName: {{ .Values.caSecretName }}
+        {{- end }}
+{{- end -}}

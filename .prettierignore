@@ -10,5 +10,6 @@ tsbuildconfig.json
 tsconfig.json
 node_modules
 *.html
-src/DAL/migration
+coverage
+helm
 src/DAL/entity/generated.ts
