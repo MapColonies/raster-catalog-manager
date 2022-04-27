@@ -3,9 +3,9 @@ global:
   tracing: {}
   metrics: {}
   environment: {}
-  caSecretName: ''
 
 rasterCommon:
+  caSecretName: ''
   db:
     host: "localhost"
     name: "catalog-manager"
@@ -42,7 +42,6 @@ cloudProvider:
   imagePullSecretName: 'my-registry-secret'
   flavor: openshift
 
-caSecretName: ''
 caPath: '/usr/local/share/ca-certificates'
 caKey: 'ca.crt'
 

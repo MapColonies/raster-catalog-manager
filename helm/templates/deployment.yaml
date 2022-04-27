@@ -1,6 +1,5 @@
 {{- $releaseName := .Release.Name -}}
 {{- $chartName := include "raster-catalog-manager.name" . -}}
-{{- $caSecretName := include "raster-catalog-manager.caSecretName" . -}}
 {{- $cloudProviderFlavor := include "raster-catalog-manager.cloudProviderFlavor" . -}}
 {{- $cloudProviderDockerRegistryUrl := include "raster-catalog-manager.cloudProviderDockerRegistryUrl" . -}}
 {{- $cloudProviderImagePullSecretName := include "raster-catalog-manager.cloudProviderImagePullSecretName" . -}}
@@ -48,7 +47,7 @@ spec:
           image: {{ $cloudProviderDockerRegistryUrl }}{{ .repository }}:{{ $imageTag }}
           {{- end }}
           volumeMounts:
-            {{- if $caSecretName }}
+            {{- if .Values.rasterCommon.caSecretName }}
             - mountPath: {{ printf "%s/%s" .Values.caPath .Values.caKey | quote }}
               name: root-ca
               subPath: {{ quote .Values.caKey }}
@@ -56,7 +55,7 @@ spec:
           env:
             - name: SERVER_PORT
               value: {{ .Values.env.targetPort | quote }}
-            {{- if $caSecretName }}
+            {{- if .Values.rasterCommon.caSecretName }}
             - name: REQUESTS_CA_BUNDLE
               value: {{ printf "%s/%s" .Values.caPath .Values.caKey | quote }}
             - name: NODE_EXTRA_CA_CERTS
@@ -97,9 +96,9 @@ spec:
             {{- toYaml .Values.resources.value | nindent 12 }}
           {{- end }}
       volumes:
-        {{- if $caSecretName }}
+        {{- if .Values.rasterCommon.caSecretName }}
         - name: root-ca
           secret:
-            secretName: {{ $caSecretName }}
+            secretName: {{ .Values.rasterCommon.caSecretName }}
         {{- end }}
 {{- end -}}
