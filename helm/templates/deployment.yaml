@@ -48,7 +48,7 @@ spec:
           image: {{ $cloudProviderDockerRegistryUrl }}{{ .repository }}:{{ $imageTag }}
           {{- end }}
           volumeMounts:
-            {{- if $caSecretName  }}
+            {{- if $caSecretName }}
             - mountPath: {{ printf "%s/%s" .Values.caPath .Values.caKey | quote }}
               name: root-ca
               subPath: {{ quote .Values.caKey }}
@@ -56,7 +56,7 @@ spec:
           env:
             - name: SERVER_PORT
               value: {{ .Values.env.targetPort | quote }}
-            {{- if $caSecretName  }}
+            {{- if $caSecretName }}
             - name: REQUESTS_CA_BUNDLE
               value: {{ printf "%s/%s" .Values.caPath .Values.caKey | quote }}
             - name: NODE_EXTRA_CA_CERTS
@@ -97,9 +97,9 @@ spec:
             {{- toYaml .Values.resources.value | nindent 12 }}
           {{- end }}
       volumes:
-        {{- if $caSecretName   }}
+        {{- if $caSecretName }}
         - name: root-ca
           secret:
-            secretName: {{ $caSecretName  }}
+            secretName: {{ $caSecretName }}
         {{- end }}
 {{- end -}}
