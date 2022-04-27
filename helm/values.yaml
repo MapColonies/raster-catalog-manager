@@ -5,7 +5,10 @@ global:
   environment: {}
 
 rasterCommon:
-  caSecretName: ''
+  ca:
+    secretName: ''
+    path: '/usr/local/share/ca-certificates'
+    key: 'ca.crt'
   db:
     host: "localhost"
     name: "catalog-manager"
@@ -41,9 +44,6 @@ cloudProvider:
   dockerRegistryUrl: my-registry-url.io
   imagePullSecretName: 'my-registry-secret'
   flavor: openshift
-
-caPath: '/usr/local/share/ca-certificates'
-caKey: 'ca.crt'
 
 image:
   repository: raster-catalog-manager
