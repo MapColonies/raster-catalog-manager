@@ -121,3 +121,14 @@ Returns the tracing url from global if exists or from the chart's values
     {{- .Values.env.metrics.url -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Returns the caSecretName from global if exists or from the chart's values
+*/}}
+{{- define "raster-catalog-manager.caSecretName" -}}
+{{- if .Values.global.caSecretName }}
+    {{- .Values.global.caSecretName -}}
+{{- else -}}
+    {{- .Values.caSecretName -}}
+{{- end -}}
+{{- end -}}

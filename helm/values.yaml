@@ -3,6 +3,7 @@ global:
   tracing: {}
   metrics: {}
   environment: {}
+  caSecretName: ''
 
 rasterCommon:
   db:
