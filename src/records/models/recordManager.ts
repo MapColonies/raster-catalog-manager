@@ -50,6 +50,12 @@ export class RecordManager {
     return res;
   }
 
+  public async getRecordVersions(req: IFindRecordRequest): Promise<string[]> {
+    const repo = await this.getRepository();
+    const res = await repo.getRecordVersions(req);
+    return res;
+  }
+
   private async getRepository(): Promise<RecordRepository> {
     if (!this.repository) {
       if (!this.connectionManager.isConnected()) {
