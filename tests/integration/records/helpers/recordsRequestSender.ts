@@ -22,4 +22,8 @@ export class RecordsRequestSender {
   public async findRecord(body: Record<string, unknown>): Promise<supertest.Response> {
     return supertest.agent(this.app).post('/records/find').set('Content-Type', 'application/json').send(body);
   }
+
+  public async getRecordVersions(body: Record<string, unknown>): Promise<supertest.Response> {
+    return supertest.agent(this.app).post('/records/find/versions').set('Content-Type', 'application/json').send(body);
+  }
 }

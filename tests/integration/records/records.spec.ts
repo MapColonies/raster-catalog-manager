@@ -229,21 +229,38 @@ describe('records', () => {
       expect(response).toSatisfyApiSpec();
     });
 
-    it("find should return 200 and empty list of records when don't match", async () => {
+    it('should return 200 and array of exists record versions', async () => {
       const findMock = recordRepositoryMocks.findMock;
-      findMock.mockResolvedValue([]);
-      const req = { ...testUpdateRecordRequest };
-
-      const response = await requestSender.findRecord(req);
-      expect(response).toSatisfyApiSpec();
-
-      const expectedResponse: unknown[] = [];
+      const testEntity = {
+        ...testCreateRecordModel.metadata,
+        links: ',,test,http://test.test/wmts^testLink,test test test,fulltest,http://test.test/wms',
+        wktGeometry: 'POLYGON ((0 1, 1 1, 1 0, 0 1))',
+        mdSource: '',
+        schema: 'mc_raster',
+        typeName: 'mc:MCRasterRecord',
+        xml: '',
+        id: 'recordId',
+        sensors: 'Pan_Sharpen,test',
+        region: 'a,b',
+        includedInBests: null,
+      } as unknown as RecordEntity;
+      findMock.mockResolvedValue([testEntity]);
+      const req = {
+        metadata: {
+          productId: 'test-id',
+          productType: 'Orthophoto',
+        },
+      };
+      const response = await requestSender.getRecordVersions(req);
+      const expectedResponse = ['12.36'];
       expect(response.status).toBe(httpStatusCodes.OK);
       expect(response.body).toEqual(expectedResponse);
       expect(findMock).toHaveBeenCalledTimes(1);
       expect(findMock).toHaveBeenCalledWith({
+        select: ['productVersion'],
         where: {
-          minHorizontalAccuracyCE90: 0.95678,
+          productId: 'test-id',
+          productType: 'Orthophoto',
         },
       });
     });
