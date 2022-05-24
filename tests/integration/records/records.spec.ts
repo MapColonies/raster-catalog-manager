@@ -263,6 +263,7 @@ describe('records', () => {
           productType: 'Orthophoto',
         },
       });
+      expect(response).toSatisfyApiSpec();
     });
   });
 
