@@ -144,7 +144,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: integer
+                  type: string
         '400':
           description: Bad Request
           content:
