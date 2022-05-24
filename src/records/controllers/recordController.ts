@@ -20,6 +20,7 @@ type UpdateRecordHandler = RequestHandler<IRecordRequestParams, IRecordOperation
 type DeleteRecordHandler = RequestHandler<IRecordRequestParams, IRecordOperationResponse>;
 type RecordExistsHandler = RequestHandler<IRecordRequestParams, IRecordExistsResponse>;
 type FindRecordHandler = RequestHandler<undefined, IFindRecordResponse[], IFindRecordRequest>;
+type GetRecordVersionsHandler = RequestHandler<undefined, string[], IFindRecordRequest>;
 
 @injectable()
 export class RecordController {
@@ -75,6 +76,15 @@ export class RecordController {
   public findRecord: FindRecordHandler = async (req, res, next) => {
     try {
       const record = await this.manager.findRecord(req.body);
+      return res.status(httpStatus.OK).json(record);
+    } catch (err) {
+      return next(err);
+    }
+  };
+
+  public getRecordVersions: GetRecordVersionsHandler = async (req, res, next) => {
+    try {
+      const record = await this.manager.getRecordVersions(req.body);
       return res.status(httpStatus.OK).json(record);
     } catch (err) {
       return next(err);

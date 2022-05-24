@@ -53,4 +53,13 @@ export class RecordRepository extends Repository<RecordEntity> {
     });
     return res.map((entity) => this.recordConvertor.entityToModel(entity));
   }
+
+  public async getRecordVersions(req: IFindRecordRequest): Promise<string[]> {
+    const entity = this.recordConvertor.findModelToEntity(req);
+    const res = await this.find({
+      select: ['productVersion'],
+      where: entity,
+    });
+    return res.map((entity) => entity.productVersion as string);
+  }
 }

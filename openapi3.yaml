@@ -124,6 +124,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+  /records/find/versions:
+    post:
+      operationId: getVersions
+      summary: return list of record versions
+      tags:
+        - records
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/findRecordModel'
+      responses:
+        '200':
+          description: retrieved matching records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
 components:
   parameters:
     recordId:
