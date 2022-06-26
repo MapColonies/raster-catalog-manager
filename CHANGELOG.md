@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.4](https://github.com/MapColonies/raster-catalog-manager/compare/v1.8.3...v1.8.4) (2022-06-26)
+
+
+### Bug Fixes
+
+* new azure token ([78e8707](https://github.com/MapColonies/raster-catalog-manager/commit/78e87071b425fbc6c5263a27167986e9303fdf3d))
+
 ### [1.8.3](https://github.com/MapColonies/raster-catalog-manager/compare/v1.8.1...v1.8.3) (2022-06-26)
 
 
