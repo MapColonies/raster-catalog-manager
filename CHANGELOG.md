@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.2](https://github.com/MapColonies/raster-catalog-manager/compare/v1.8.1...v1.8.2) (2022-06-26)
+
+
+### Bug Fixes
+
+* git action token ([2fa1022](https://github.com/MapColonies/raster-catalog-manager/commit/2fa1022740c51bfb0a13116cc5f70741ad466d60))
+
 ### [1.8.1](https://github.com/MapColonies/raster-catalog-manager/compare/v1.8.0...v1.8.1) (2022-06-26)
 
 
