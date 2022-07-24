@@ -27,7 +27,7 @@ CREATE TABLE records
     producer_name text COLLATE pg_catalog."default" DEFAULT 'IDFMU',
     creation_date timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     ingestion_date timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_date timestamp with time zone NOT NULL,
+    update_date timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     source_start_date timestamp with time zone,
     source_end_date timestamp with time zone,
     max_resolution_deg numeric NOT NULL,
