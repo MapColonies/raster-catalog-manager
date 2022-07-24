@@ -51,7 +51,7 @@
     "@map-colonies/error-types": "^1.1.0",
     "@map-colonies/express-access-log-middleware": "^0.0.3",
     "@map-colonies/js-logger": "^0.0.3",
-    "@map-colonies/mc-model-types": "^11.2.0",
+    "@map-colonies/mc-model-types": "^12.1.0",
     "@map-colonies/openapi-express-viewer": "^2.0.1",
     "@map-colonies/read-pkg": "0.0.1",
     "@map-colonies/telemetry": "3.0.0",
@@ -107,6 +107,6 @@
     "standard-version": "^9.3.2",
     "supertest": "^6.1.6",
     "ts-jest": "^27.0.7",
-    "typescript": "^4.2.4"
+    "typescript": "^4.7.4"
   }
 }

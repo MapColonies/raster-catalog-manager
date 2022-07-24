@@ -1,0 +1,3 @@
+SET search_path TO "RasterCatalogManager", public; -- CHANGE SCHEMA NAME TO MATCH ENVIRONMENT
+
+ALTER TABLE "records" ALTER COLUMN "update_date" SET DEFAULT CURRENT_TIMESTAMP;
