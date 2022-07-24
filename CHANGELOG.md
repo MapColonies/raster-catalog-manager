@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/MapColonies/raster-catalog-manager/compare/v1.8.4...v2.1.0) (2022-07-24)
+
+
+### Bug Fixes
+
+* node extra certs value ([#39](https://github.com/MapColonies/raster-catalog-manager/issues/39)) ([c4ccdf9](https://github.com/MapColonies/raster-catalog-manager/commit/c4ccdf9f0fafacb654f86d07a72d26da20a963bd))
+* update mc-models no updateDate param ([#40](https://github.com/MapColonies/raster-catalog-manager/issues/40)) ([aaa15cb](https://github.com/MapColonies/raster-catalog-manager/commit/aaa15cb6b147926412370d4dd33c542c492661e2))
+
 ### [1.8.4](https://github.com/MapColonies/raster-catalog-manager/compare/v1.8.3...v1.8.4) (2022-06-26)
 
 
