@@ -22,14 +22,16 @@ export class RecordRepository extends Repository<RecordEntity> {
 
   public async createRecord(req: IRasterCatalogUpsertRequestBody): Promise<string> {
     const entity = this.recordConvertor.createModelToEntity(req);
+    entity.id = req.id;
     const res = await this.createQueryBuilder().insert().values(entity).returning('identifier').execute();
     return res.identifiers[0]['id'] as string;
   }
 
   public async updateRecord(req: IUpdateRecordRequest): Promise<void> {
     if (!(await this.exists(req.id))) {
-      throw new EntityNotFound(` record ${req.id} was not found for update request`);
+      throw new EntityNotFound(`record ${req.id} was not found for update request`);
     }
+
     const entity = this.recordConvertor.updateModelToEntity(req);
     await this.save(entity);
   }

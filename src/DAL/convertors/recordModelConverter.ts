@@ -22,6 +22,7 @@ export class RecordModelConvertor {
     if (model.links != undefined) {
       entity.links = this.linksToString(model.links);
     }
+
     return entity;
   }
 

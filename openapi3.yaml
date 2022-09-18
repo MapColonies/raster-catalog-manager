@@ -201,4 +201,7 @@ components:
           type: array
           items:
             $ref: ./Schema/link.yaml#/components/schemas/Link
+        displayPath:
+          type: string
+          format: uuid
       additionalProperties: false
