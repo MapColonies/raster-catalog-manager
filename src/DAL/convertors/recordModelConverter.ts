@@ -9,7 +9,6 @@ import { RecordEntity } from '../entity/generated';
 export class RecordModelConvertor {
   public createModelToEntity(model: IRasterCatalogUpsertRequestBody): RecordEntity {
     const entity = this.metadataToPartialEntity(model.metadata);
-    entity.id = model.id;
     if (model.links !== undefined) {
       entity.links = this.linksToString(model.links);
     }
@@ -49,7 +48,6 @@ export class RecordModelConvertor {
 
   public entityToModel(entity: RecordEntity): IFindRecordResponse {
     const model: IFindRecordResponse = {
-      id: entity.id,
       links: entity.links !== undefined ? this.stringToLinks(entity.links) : undefined,
       metadata: this.recordToMetadata(entity),
     };
@@ -58,6 +56,9 @@ export class RecordModelConvertor {
 
   private parseMetadata(entity: RecordEntity, metadata: Partial<LayerMetadata>): void {
     Object.assign(entity, metadata);
+    if (metadata.id != undefined) {
+      entity.id = metadata.id;
+    }
     if (metadata.footprint != undefined) {
       entity.wktGeometry = geoJsonToWkt(metadata.footprint as unknown as GeoJSONGeometry);
     }
