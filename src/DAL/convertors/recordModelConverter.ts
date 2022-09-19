@@ -9,6 +9,7 @@ import { RecordEntity } from '../entity/generated';
 export class RecordModelConvertor {
   public createModelToEntity(model: IRasterCatalogUpsertRequestBody): RecordEntity {
     const entity = this.metadataToPartialEntity(model.metadata);
+    entity.id = model.id;
     if (model.links !== undefined) {
       entity.links = this.linksToString(model.links);
     }

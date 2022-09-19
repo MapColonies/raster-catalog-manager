@@ -7,7 +7,7 @@ SET search_path TO "RasterCatalogManager", public; -- CHANGE SCHEMA NAME TO MATC
 -- DROP TABLE records;
 CREATE TABLE records
 (
-    identifier text COLLATE pg_catalog."default" NOT NULL DEFAULT uuid_generate_v4(),
+    identifier text COLLATE pg_catalog."default" NOT NULL,
     typename text COLLATE pg_catalog."default" NOT NULL,
     schema text COLLATE pg_catalog."default" NOT NULL,
     mdsource text COLLATE pg_catalog."default" NOT NULL,
