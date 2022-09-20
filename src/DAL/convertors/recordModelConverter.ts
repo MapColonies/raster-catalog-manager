@@ -56,9 +56,6 @@ export class RecordModelConvertor {
 
   private parseMetadata(entity: RecordEntity, metadata: Partial<LayerMetadata>): void {
     Object.assign(entity, metadata);
-    if (metadata.id != undefined) {
-      entity.id = metadata.id;
-    }
     if (metadata.footprint != undefined) {
       entity.wktGeometry = geoJsonToWkt(metadata.footprint as unknown as GeoJSONGeometry);
     }

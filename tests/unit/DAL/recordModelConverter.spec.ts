@@ -54,12 +54,11 @@ describe('RecordModelConverter', () => {
       const updateRecordModel = {
         metadata: testMetadata,
         links: testLinks,
-        id: 'testId',
       } as IUpdateRecordRequest;
 
       const res = convertor.updateModelToEntity(updateRecordModel);
 
-      expect(res).toEqual({ ...testMetadata, id: 'testId', links: '' });
+      expect(res).toEqual({ ...testMetadata, links: '' });
     });
   });
 
@@ -275,6 +274,7 @@ describe('RecordModelConverter', () => {
       const model = convertor.entityToModel(entity);
 
       const expectedMetadata = {
+        id: "testRecordId",
         productId: 'testId',
         productName: 'test',
         productVersion: '1',
@@ -316,7 +316,6 @@ describe('RecordModelConverter', () => {
         rawProductData: undefined,
       } as LayerMetadata;
       const expectedModel = {
-        id: 'testRecordId',
         metadata: expectedMetadata,
         links: [
           {
