@@ -216,7 +216,7 @@ describe('records', () => {
       const response = await requestSender.findRecord(req);
       const expectedResponse = [
         {
-          ...testCreateRecordModel
+          ...testCreateRecordModel,
         },
       ];
       expect(response.status).toBe(httpStatusCodes.OK);
@@ -267,7 +267,6 @@ describe('records', () => {
       expect(response).toSatisfyApiSpec();
     });
   });
-
   describe('Bad Path', () => {
     // due to bug in validator additional properties is not compilable with allof
     // https://github.com/cdimascio/express-openapi-validator/issues/239

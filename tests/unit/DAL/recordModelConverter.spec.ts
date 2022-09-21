@@ -274,7 +274,7 @@ describe('RecordModelConverter', () => {
       const model = convertor.entityToModel(entity);
 
       const expectedMetadata = {
-        id: "testRecordId",
+        id: 'testRecordId',
         productId: 'testId',
         productName: 'test',
         productVersion: '1',
