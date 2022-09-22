@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/MapColonies/raster-catalog-manager/compare/v2.1.1...v3.0.0) (2022-09-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* added catalogId and displayPath support (#42)
+
+### Features
+
+* added catalogId and displayPath support ([#42](https://github.com/MapColonies/raster-catalog-manager/issues/42)) ([5f8b138](https://github.com/MapColonies/raster-catalog-manager/commit/5f8b138b6dbea95c58baab9c0f1eb7b63dbb26a3))
+
 ### [2.1.1](https://github.com/MapColonies/raster-catalog-manager/compare/v2.1.0...v2.1.1) (2022-09-08)
 
 ## [2.1.0](https://github.com/MapColonies/raster-catalog-manager/compare/v1.8.4...v2.1.0) (2022-07-24)
