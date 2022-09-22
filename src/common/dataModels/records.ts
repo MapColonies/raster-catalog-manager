@@ -23,4 +23,4 @@ export interface IRecordExistsResponse {
   exists: boolean;
 }
 
-export interface IFindRecordResponse extends IRecordRequestParams, Partial<IRasterCatalogUpsertRequestBody> {}
+export interface IFindRecordResponse extends Partial<IRasterCatalogUpsertRequestBody> {}

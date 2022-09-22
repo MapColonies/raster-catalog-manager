@@ -22,6 +22,7 @@ export class RecordModelConvertor {
     if (model.links != undefined) {
       entity.links = this.linksToString(model.links);
     }
+
     return entity;
   }
 
@@ -47,7 +48,6 @@ export class RecordModelConvertor {
 
   public entityToModel(entity: RecordEntity): IFindRecordResponse {
     const model: IFindRecordResponse = {
-      id: entity.id,
       links: entity.links !== undefined ? this.stringToLinks(entity.links) : undefined,
       metadata: this.recordToMetadata(entity),
     };

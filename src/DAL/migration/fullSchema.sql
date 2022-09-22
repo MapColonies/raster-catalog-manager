@@ -7,7 +7,7 @@ SET search_path TO "RasterCatalogManager", public; -- CHANGE SCHEMA NAME TO MATC
 -- DROP TABLE records;
 CREATE TABLE records
 (
-    identifier text COLLATE pg_catalog."default" NOT NULL DEFAULT uuid_generate_v4(),
+    identifier text COLLATE pg_catalog."default" NOT NULL,
     typename text COLLATE pg_catalog."default" NOT NULL,
     schema text COLLATE pg_catalog."default" NOT NULL,
     mdsource text COLLATE pg_catalog."default" NOT NULL,
@@ -50,7 +50,8 @@ CREATE TABLE records
     raw_product_data jsonb,
     product_bbox text COLLATE pg_catalog."default",
     CONSTRAINT records_pkey PRIMARY KEY (identifier),
-    CONSTRAINT unique_record_values UNIQUE (product_id, product_version, product_type)
+    CONSTRAINT unique_record_values UNIQUE (product_id, product_version, product_type),
+    display_path text COLLATE pg_catalog."default" NOT NULL
 );
 
 

@@ -28,8 +28,9 @@ export class RecordRepository extends Repository<RecordEntity> {
 
   public async updateRecord(req: IUpdateRecordRequest): Promise<void> {
     if (!(await this.exists(req.id))) {
-      throw new EntityNotFound(` record ${req.id} was not found for update request`);
+      throw new EntityNotFound(`record ${req.id} was not found for update request`);
     }
+
     const entity = this.recordConvertor.updateModelToEntity(req);
     await this.save(entity);
   }

@@ -196,7 +196,7 @@ components:
           $ref: '#/components/schemas/recordId'
         metadata:
           $ref: >-
-            ./Schema/updateLayerMetadata.yaml#/components/schemas/updateLayerMetadata
+            ./Schema/fullLayerMetadata.yaml#/components/schemas/fullLayerMetadata
         links:
           type: array
           items:
