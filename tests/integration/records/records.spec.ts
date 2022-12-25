@@ -2,6 +2,7 @@ import httpStatusCodes from 'http-status-codes';
 import { container } from 'tsyringe';
 import { trace } from '@opentelemetry/api';
 import jsLogger from '@map-colonies/js-logger';
+import { TileOutputFormat, Transparency } from '@map-colonies/mc-model-types';
 import { SERVICES } from '../../../src/common/constants';
 import { getApp } from '../../../src/app';
 import { RecordRepository } from '../../../src/DAL/repositories/recordRepository';
@@ -47,6 +48,8 @@ const testMetadata = {
   creationDate: '2021-06-07T05:41:43.032Z',
   ingestionDate: '2021-06-07T05:41:43.032Z',
   maxResolutionDeg: 0.05,
+  transparency: Transparency.TRANSPARENT,
+  tileOutputFormat: TileOutputFormat.PNG,
   includedInBests: [],
 };
 
@@ -272,6 +275,7 @@ describe('records', () => {
     // https://github.com/cdimascio/express-openapi-validator/issues/239
     // additionalProperties: false
 
+    // eslint-disable-next-line jest/no-commented-out-tests
     // it('should return status code 400 on PUT request with invalid body', async () => {
     //   const recordCountMock = recordRepositoryMocks.countMock;
     //   const response = await requestSender.updateResource('9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d', {
