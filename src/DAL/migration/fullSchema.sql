@@ -51,8 +51,8 @@ CREATE TABLE records
     product_bbox text COLLATE pg_catalog."default",
     CONSTRAINT records_pkey PRIMARY KEY (identifier),
     CONSTRAINT unique_record_values UNIQUE (product_id, product_version, product_type),
-    display_path text COLLATE pg_catalog."default" NOT NULL
-    transparency text COLLATE pg_catalog."default" NOT NULL
+    display_path text COLLATE pg_catalog."default" NOT NULL,
+    transparency text COLLATE pg_catalog."default" NOT NULL,
     tile_output_format text COLLATE pg_catalog."default" NOT NULL
 );
 
