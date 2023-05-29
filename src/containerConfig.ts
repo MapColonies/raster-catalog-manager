@@ -1,6 +1,6 @@
 import config from 'config';
 import { getOtelMixin } from '@map-colonies/telemetry';
-import { trace} from '@opentelemetry/api';
+import { trace } from '@opentelemetry/api';
 import { DependencyContainer } from 'tsyringe/dist/typings/types';
 import jsLogger, { LoggerOptions } from '@map-colonies/js-logger';
 import { SERVICES, SERVICE_NAME } from './common/constants';
