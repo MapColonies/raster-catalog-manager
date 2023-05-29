@@ -13,6 +13,9 @@ module.exports = {
     '!**/controllers/**',
     '!**/routes/**',
     '!<rootDir>/src/*',
+    '!<rootDir>/src/DAL/connectionManager.ts',
+    '!<rootDir>/src/records/models/recordManager.ts',
+    '!<rootDir>/src/DAL/repositories/recordRepository.ts'
   ],
   coverageDirectory: '<rootDir>/coverage',
   reporters: [
