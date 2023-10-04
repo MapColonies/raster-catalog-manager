@@ -17,7 +17,6 @@ CREATE TABLE records
     wkt_geometry text COLLATE pg_catalog."default",
     wkb_geometry geometry(Geometry,4326),
     anytext_tsvector tsvector,
-
     product_id text COLLATE pg_catalog."default" NOT NULL,
     product_name text COLLATE pg_catalog."default",
     product_version text COLLATE pg_catalog."default",
@@ -54,7 +53,7 @@ CREATE TABLE records
     display_path text COLLATE pg_catalog."default" NOT NULL,
     transparency text COLLATE pg_catalog."default" NOT NULL,
     tile_output_format text COLLATE pg_catalog."default" NOT NULL,
-    format text COLLATE pg_catalog."default" NOT NULL
+    tile_mime_format text COLLATE pg_catalog."default" NOT NULL
 );
 
 
