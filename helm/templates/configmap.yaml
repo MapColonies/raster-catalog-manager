@@ -25,4 +25,5 @@ data:
   DB_USE_SSL: {{ quote .Values.rasterCommon.db.sslEnabled }}
   DB_SCHEMA: {{ quote .Values.catalog.db.schema }}
   DB_LOGGING: {{ quote .Values.env.db.logging }}
+  PGAPPNAME: {{ $chartName }}
 {{- end }}
