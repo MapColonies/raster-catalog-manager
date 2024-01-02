@@ -1,5 +1,7 @@
 {{- $releaseName := .Release.Name -}}
 {{- $chartName := include "raster-catalog-manager.name" . -}}
+{{- $configmapName := include "configmap.fullname" . }}
+{{- $deploymentName := include "deployment.fullname" . }}
 {{- $cloudProviderFlavor := include "raster-catalog-manager.cloudProviderFlavor" . -}}
 {{- $cloudProviderDockerRegistryUrl := include "raster-catalog-manager.cloudProviderDockerRegistryUrl" . -}}
 {{- $cloudProviderImagePullSecretName := include "raster-catalog-manager.cloudProviderImagePullSecretName" . -}}
@@ -11,7 +13,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{- include "deployment.fullname" . }}
+  name: {{ $deploymentName }}
   labels:
     app: {{ $chartName }}
     component: {{ $chartName }}
@@ -82,7 +84,7 @@ spec:
             {{- end }}
           envFrom:
             - configMapRef:
-                name: {{- include "configmap.fullname" . }}
+                name: {{ $configmapName }}
           ports:
             - name: http
               containerPort: {{ .Values.env.targetPort }}
