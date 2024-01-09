@@ -2,7 +2,7 @@ global:
   cloudProvider: {}
   tracing: {}
   metrics: {}
-  environment: {}
+  environment: ""
   db:
     host: ""
     name: ""
