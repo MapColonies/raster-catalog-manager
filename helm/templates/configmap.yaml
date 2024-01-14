@@ -27,4 +27,5 @@ data:
   DB_USE_SSL: {{ $db.sslEnabled | quote }}
   DB_SCHEMA: {{ $db.schema }}
   DB_LOGGING: {{ $db.logging | quote }}
+  PGAPPNAME: {{ $chartName }}
 {{- end }}

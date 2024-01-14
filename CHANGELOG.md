@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.5](https://github.com/MapColonies/raster-catalog-manager/compare/v4.0.4...v4.0.5) (2023-12-26)
+
+### [4.0.4](https://github.com/MapColonies/raster-catalog-manager/compare/v4.0.3...v4.0.4) (2023-10-26)
+
+
+### Bug Fixes
+
+* added version field constraint to db schema and a new matching migration (MAPCO-3369) ([#50](https://github.com/MapColonies/raster-catalog-manager/issues/50)) ([147109e](https://github.com/MapColonies/raster-catalog-manager/commit/147109e09a3d6bc6d0329b24c0e56bee1f04ba83))
+
 ### [4.0.3](https://github.com/MapColonies/raster-catalog-manager/compare/v4.0.2...v4.0.3) (2023-05-29)
 
 ### [4.0.2](https://github.com/MapColonies/raster-catalog-manager/compare/v4.0.1...v4.0.2) (2023-04-20)
