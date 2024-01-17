@@ -1,11 +1,13 @@
 {{- $chartName := include "raster-catalog-manager.name" . -}}
+{{- $configmapName := include "configmap.fullname" . }}
 {{- $tracingUrl := include "raster-catalog-manager.tracingUrl" . -}}
 {{- $metricsUrl := include "raster-catalog-manager.metricsUrl" . -}}
+{{- $db := (include "common.db.merged" .) | fromYaml }}
 {{- if .Values.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-configmap
+  name: {{ $configmapName }}
 data:
   REQUEST_PAYLOAD_LIMIT: {{ .Values.env.requestPayloadLimit | quote }}
   RESPONSE_COMPRESSION_ENABLED: {{ .Values.env.responseCompressionEnabled | quote }}
@@ -19,11 +21,11 @@ data:
   TELEMETRY_METRICS_ENABLED: 'true'
   TELEMETRY_METRICS_URL: {{ $metricsUrl }}
   {{ end }}
-  DB_HOST: {{ quote .Values.rasterCommon.db.host  }}
-  DB_PORT:  {{ quote .Values.rasterCommon.db.port }}
-  DB_NAME: {{ .Values.rasterCommon.db.name | default .Values.catalog.db.nameOverride | quote }}
-  DB_USE_SSL: {{ quote .Values.rasterCommon.db.sslEnabled }}
-  DB_SCHEMA: {{ quote .Values.catalog.db.schema }}
-  DB_LOGGING: {{ quote .Values.env.db.logging }}
+  DB_HOST: {{ $db.host }}
+  DB_PORT:  {{ $db.port | quote }}
+  DB_NAME: {{ $db.name }}
+  DB_USE_SSL: {{ $db.sslEnabled | quote }}
+  DB_SCHEMA: {{ $db.schema }}
+  DB_LOGGING: {{ $db.logging | quote }}
   PGAPPNAME: {{ $chartName }}
 {{- end }}

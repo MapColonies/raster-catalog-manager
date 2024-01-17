@@ -2,36 +2,31 @@ global:
   cloudProvider: {}
   tracing: {}
   metrics: {}
-  environment: {}
-
-rasterCommon:
+  environment: ""
+  db:
+    host: ""
+    name: ""
+    port: 5432
+    sslEnabled: false
+    schema: ""
+    secrets:
+      useExternal: false
+      externalSecretName: ''
   ca:
     secretName: ''
     path: '/usr/local/share/ca-certificates'
     key: 'ca.crt'
-  db:
-    host: "localhost"
-    name: "catalog-manager"
-    port: 5432
-    sslEnabled: false
-    secrets:
-      useExternal: false
-      externalSecretName: ''
 
-catalog:
-  db:
-    nameOverride:
-    schema: RasterCatalogManager
-
-local: # for local stand alone deployment, external secrets should be used for full deployment  
-  db:
-    createSecret: false
-    userName: postgres
-    password: postgres
-    certs:
-      ca: certs/ca.pem
-      key: certs/key.pem
-      cert: certs/cert.pem
+db:
+  host: ""
+  name: ""
+  port: 5432
+  sslEnabled: false
+  schema: "RasterCatalogManager"
+  logging: false
+  secrets:
+    useExternal: false
+    externalSecretName: ''
 
 enabled: true
 environment: development
@@ -49,6 +44,13 @@ image:
   repository: raster-catalog-manager
   tag: 'latest'
 
+# add pod annotations
+# example:
+# podAnnotations:
+  # annotation1: annotation-value-1
+  # annotation2: annotation-value-2
+podAnnotations: {}
+
 env:
   port: 80
   targetPort: 8080
@@ -63,11 +65,9 @@ env:
   metrics:
     enabled: false
     url: http://localhost:55681/v1/metrics
-  db:
-    logging: false
 
 resources:
-  enabled: true
+  enabled: false
   value:
     limits:
       cpu: 100m
@@ -92,3 +92,13 @@ ingress:
   cors:
     enabled: true
     origin: '*'
+
+local: # for local stand alone deployment, external secrets should be used for full deployment  
+  db:
+    createSecret: false
+    userName: postgres
+    password: postgres
+    certs:
+      ca: certs/ca.pem
+      key: certs/key.pem
+      cert: certs/cert.pem
