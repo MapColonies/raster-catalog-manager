@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.6](https://github.com/MapColonies/raster-catalog-manager/compare/v4.0.5...v4.0.6) (2024-02-06)
+
+
+### Bug Fixes
+
+* merge operator values ([#54](https://github.com/MapColonies/raster-catalog-manager/issues/54)) ([880f67c](https://github.com/MapColonies/raster-catalog-manager/commit/880f67ce00214854cc8c0d510e3f6f156444cb6a))
+
 ### [4.0.5](https://github.com/MapColonies/raster-catalog-manager/compare/v4.0.4...v4.0.5) (2023-12-26)
 
 ### [4.0.4](https://github.com/MapColonies/raster-catalog-manager/compare/v4.0.3...v4.0.4) (2023-10-26)
