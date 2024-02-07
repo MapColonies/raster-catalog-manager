@@ -48,7 +48,7 @@ CREATE TABLE records
     discretes text COLLATE pg_catalog."default",
     max_resolution_meter numeric NOT NULL CHECK (max_resolution_meter BETWEEN 0.01 AND 8000),
     raw_product_data jsonb,
-    product_bbox text COLLATE pg_catalog."default" CHECK (product_bbox ~* '^-?(0|[1-9]\\d*)(\\.\\d*)?,-?(0|[1-9]\\d*)(\\.\\d*)?,-?(0|[1-9]\\d*)(\\.\\d*)?,-?(0|[1-9]\\d*)(\\.\\d*)?$'),
+    product_bbox text COLLATE pg_catalog."default" CHECK (product_bbox ~* '^-?((0|[1-9]\d?|1[0-7]\d)(\.\d*)?|180(\.0*)?),-?((0|[1-9]\d?|1[0-7]\d)(\.\d*)?|180(\.0*)?),-?((0|[1-9]\d?|1[0-7]\d)(\.\d*)?|180(\.0*)?),-?((0|[1-9]\d?|1[0-7]\d)(\.\d*)?|180(\.0*)?)$'),
     display_path text COLLATE pg_catalog."default" NOT NULL,
     transparency text COLLATE pg_catalog."default" NOT NULL,
     tile_output_format text COLLATE pg_catalog."default" NOT NULL,
