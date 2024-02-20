@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.1](https://github.com/MapColonies/raster-catalog-manager/compare/v5.0.0...v5.0.1) (2024-02-20)
+
+
+### Bug Fixes
+
+* upgrade git action to support auto helm registry push ([#57](https://github.com/MapColonies/raster-catalog-manager/issues/57)) ([af6bf05](https://github.com/MapColonies/raster-catalog-manager/commit/af6bf0512c89d67a370cbfafdda8ca832a3a201d))
+
 ## [5.0.0](https://github.com/MapColonies/raster-catalog-manager/compare/v4.0.7...v5.0.0) (2024-02-20)
 
 
