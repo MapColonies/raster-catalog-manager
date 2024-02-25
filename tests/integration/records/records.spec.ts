@@ -50,6 +50,7 @@ const testMetadata = {
   maxResolutionDeg: 0.05,
   transparency: Transparency.TRANSPARENT,
   tileOutputFormat: TileOutputFormat.PNG,
+  tileMimeFormat: 'image/png',
   includedInBests: [],
 };
 

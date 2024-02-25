@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.0.2](https://github.com/MapColonies/raster-catalog-manager/compare/v5.0.1...v5.0.2) (2024-02-20)
+
+### [5.0.1](https://github.com/MapColonies/raster-catalog-manager/compare/v5.0.0...v5.0.1) (2024-02-20)
+
+
+### Bug Fixes
+
+* upgrade git action to support auto helm registry push ([#57](https://github.com/MapColonies/raster-catalog-manager/issues/57)) ([af6bf05](https://github.com/MapColonies/raster-catalog-manager/commit/af6bf0512c89d67a370cbfafdda8ca832a3a201d))
+
+## [5.0.0](https://github.com/MapColonies/raster-catalog-manager/compare/v4.0.7...v5.0.0) (2024-02-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* adding mimeType extension + changing migration (MAPCO-3257) (#56)
+
+### Features
+
+* adding mimeType extension + changing migration (MAPCO-3257) ([#56](https://github.com/MapColonies/raster-catalog-manager/issues/56)) ([d549276](https://github.com/MapColonies/raster-catalog-manager/commit/d5492767dde490c3b0f2e656d33781a44b121530))
+
 ### [4.0.7](https://github.com/MapColonies/raster-catalog-manager/compare/v4.0.6...v4.0.7) (2024-02-08)
 
 ### [4.0.6](https://github.com/MapColonies/raster-catalog-manager/compare/v4.0.5...v4.0.6) (2024-02-06)
