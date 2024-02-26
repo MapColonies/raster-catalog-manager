@@ -101,6 +101,28 @@ Returns the cloud provider image pull secret name from global if exists or from 
 {{- end -}}
 
 {{/*
+Returns if tracing is enabled from global if exists or from the chart's values
+*/}}
+{{- define "raster-catalog-manager.tracingEnabled" -}}
+{{- if .Values.global.tracing.enabled }}
+    {{- .Values.global.tracing.enabled -}}
+{{- else -}}
+    {{- .Values.env.tracing.enabled -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Returns if metrics is enabled from global if exists or from the chart's values
+*/}}
+{{- define "raster-catalog-manager.metricsEnabled" -}}
+{{- if .Values.global.metrics.enabled }}
+    {{- .Values.global.metrics.enabled -}}
+{{- else -}}
+    {{- .Values.env.metrics.enabled -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Returns the tracing url from global if exists or from the chart's values
 */}}
 {{- define "raster-catalog-manager.tracingUrl" -}}
@@ -112,12 +134,23 @@ Returns the tracing url from global if exists or from the chart's values
 {{- end -}}
 
 {{/*
-Returns the tracing url from global if exists or from the chart's values
+Returns the metrics url from global if exists or from the chart's values
 */}}
 {{- define "raster-catalog-manager.metricsUrl" -}}
 {{- if .Values.global.metrics.url }}
     {{- .Values.global.metrics.url -}}
 {{- else -}}
     {{- .Values.env.metrics.url -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Returns the metrics buckets from global if exists or from the chart's values
+*/}}
+{{- define "raster-catalog-manager.metricsBuckets" -}}
+{{- if .Values.global.metrics.buckets }}
+    {{- .Values.global.metrics.buckets -}}
+{{- else -}}
+    {{- .Values.env.metrics.buckets -}}
 {{- end -}}
 {{- end -}}
