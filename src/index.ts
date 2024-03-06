@@ -33,7 +33,7 @@ dbConnectionManager
     logger.error(connErr);
     throw Error(connErr);
   });
-  
+
 server.listen(port, () => {
   logger.info(`app started on port ${port}`);
 });
