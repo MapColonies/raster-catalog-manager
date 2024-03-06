@@ -9,6 +9,7 @@ import config from 'config';
 import { DEFAULT_SERVER_PORT, SERVICES } from './common/constants';
 
 import { getApp } from './app';
+import { ConnectionManager } from './DAL/connectionManager';
 
 interface IServerConfig {
   port: string;
@@ -23,6 +24,15 @@ const logger = container.resolve<Logger>(SERVICES.LOGGER);
 const stubHealthcheck = async (): Promise<void> => Promise.resolve();
 // eslint-disable-next-line @typescript-eslint/naming-convention
 const server = createTerminus(createServer(app), { healthChecks: { '/liveness': stubHealthcheck, onSignal: container.resolve('onSignal') } });
+const dbConnectionManager = container.resolve(ConnectionManager);
+dbConnectionManager
+  .init()
+  .then(() => logger.info('Establish success connection to db'))
+  .catch((error) => {
+    const connErr = `Failed on db connection with error: ${(error as Error).message}`;
+    logger.error(connErr);
+    throw Error(connErr);
+  });
 
 server.listen(port, () => {
   logger.info(`app started on port ${port}`);
