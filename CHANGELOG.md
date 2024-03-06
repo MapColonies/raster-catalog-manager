@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.1.1](https://github.com/MapColonies/raster-catalog-manager/compare/v5.1.0...v5.1.1) (2024-03-06)
+
+
+### Bug Fixes
+
+* make db establish on server pre load (MAPCO-4084) ([#60](https://github.com/MapColonies/raster-catalog-manager/issues/60)) ([273ba15](https://github.com/MapColonies/raster-catalog-manager/commit/273ba158ee2669ee06f41fea29e83c670c59875a))
+
 ## [5.1.0](https://github.com/MapColonies/raster-catalog-manager/compare/v5.0.2...v5.1.0) (2024-02-26)
 
 

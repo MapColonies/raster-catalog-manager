@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Raster Catalog Manager
   description: CRUD Raster Records On Catalog DB
-  version: 5.1.0
+  version: 5.1.1
 paths:
   /records:
     post:
