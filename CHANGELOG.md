@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [5.1.2](https://github.com/MapColonies/raster-catalog-manager/compare/v5.1.1...v5.1.2) (2024-03-12)
+
+
+### Bug Fixes
+
+* remove unnecessary tracing (MAPCO-4066) ([#61](https://github.com/MapColonies/raster-catalog-manager/issues/61)) ([e8f8829](https://github.com/MapColonies/raster-catalog-manager/commit/e8f88298c8cd20fa339b77d5cc89267d3101f2ab))
+
 ### [5.1.1](https://github.com/MapColonies/raster-catalog-manager/compare/v5.1.0...v5.1.1) (2024-03-06)
 
 
