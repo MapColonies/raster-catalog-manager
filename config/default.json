@@ -11,7 +11,7 @@
       "prettyPrint": false
     },
     "tracing": {
-      "enabled": "true",
+      "enabled": "false",
       "url": "http://localhost:4318/v1/traces"
     }
   },
@@ -31,18 +31,18 @@
   },
   "typeOrm": {
     "type": "postgres",
-    "host": "10.0.4.4",
+    "host": "",
     "port": 5432,
-    "username": "postgres",
-    "password": "Libot4allnonprod",
+    "username": "",
+    "password": "",
     "enableSslAuth": false,
     "sslPaths": {
       "ca": "",
       "key": "",
       "cert": ""
     },
-    "database": "raster-dev",
-    "schema": "RasterCatalogManager",
+    "database": "raster",
+    "schema": "public",
     "synchronize": false,
     "logging": false,
     "entities": ["**/DAL/entity/**/*.js"],
