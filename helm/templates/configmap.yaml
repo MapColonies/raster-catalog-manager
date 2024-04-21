@@ -28,7 +28,10 @@ data:
   DB_HOST: {{ $db.host }}
   DB_PORT:  {{ $db.port | quote }}
   DB_NAME: {{ $db.name }}
-  DB_USE_SSL: {{ $db.sslEnabled | quote }}
+  DB_SSL_ENABLE: {{ $db.sslEnabled | quote }}
+  DB_SSL_CA: {{ .Values.db.caFile | quote}}
+  DB_SSL_KEY: {{ .Values.db.caKey | quote}}
+  DB_SSL_CERT: {{ .Values.db.certFile | quote}}
   DB_SCHEMA: {{ $db.schema }}
   DB_LOGGING: {{ $db.logging | quote }}
   PGAPPNAME: {{ $chartName }}

@@ -24,6 +24,9 @@ db:
   name: ""
   port: 5432
   sslEnabled: false
+  caFile: "/mnt/db/certs/caFile"
+  caKey: "/mnt/db/certs/keyFile"
+  certFile: "/mnt/db/certs/certFile"
   schema: "RasterCatalogManager"
   logging: false
   secrets:

@@ -58,6 +58,10 @@ spec:
               name: root-ca
               subPath: {{ quote .Values.global.ca.key }}
             {{- end }}
+            {{- if $db.sslEnabled  }}
+            - name: db-certs
+              mountPath: /mnt/db/certs
+            {{- end }}
           env:
             - name: SERVER_PORT
               value: {{ .Values.env.targetPort | quote }}
@@ -77,14 +81,6 @@ spec:
                 secretKeyRef:
                   name: {{ $postgresSecretName }}
                   key: password
-            {{- if $db.sslEnabled  }}
-            - name: DB_SSL_CA
-              value: "/opt/certs/ca/ca.pem"
-            - name: DB_SSL_KEY
-              value: "/opt/certs/key/key.pem"
-            - name: DB_SSL_CERT
-              value: "/opt/certs/cert/cert.pem"
-            {{- end }}
           envFrom:
             - configMapRef:
                 name: {{ $configmapName }}
@@ -106,5 +102,10 @@ spec:
         - name: root-ca
           secret:
             secretName: {{ .Values.global.ca.secretName }}
+        {{- end }}
+        {{- if $db.sslEnabled  }}
+        - name: db-certs
+          secret:
+            secretName: {{ $postgresSecretName }}
         {{- end }}
 {{- end -}}
