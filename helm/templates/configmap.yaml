@@ -29,9 +29,9 @@ data:
   DB_PORT:  {{ $db.port | quote }}
   DB_NAME: {{ $db.name }}
   DB_SSL_ENABLE: {{ $db.sslEnabled | quote }}
-  DB_SSL_CA: {{ .Values.db.caFile | quote}}
-  DB_SSL_KEY: {{ .Values.db.caKey | quote}}
-  DB_SSL_CERT: {{ .Values.db.certFile | quote}}
+  DB_SSL_CA: {{ .Values.db.sslMountPath }}/{{ .Values.db.caFile }}
+  DB_SSL_KEY: {{ .Values.db.sslMountPath }}/{{ .Values.db.caKey }}
+  DB_SSL_CERT: {{ .Values.db.sslMountPath }}/{{ .Values.db.certFile }}
   DB_SCHEMA: {{ $db.schema }}
   DB_LOGGING: {{ $db.logging | quote }}
   PGAPPNAME: {{ $chartName }}

@@ -60,7 +60,7 @@ spec:
             {{- end }}
             {{- if $db.sslEnabled  }}
             - name: db-certs
-              mountPath: /mnt/db/certs
+              mountPath: {{ .Values.db.sslMountPath }}
             {{- end }}
           env:
             - name: SERVER_PORT
