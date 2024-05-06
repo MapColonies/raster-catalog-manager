@@ -23,7 +23,7 @@ db:
   host: ""
   name: ""
   port: 5432
-  sslEnabled: true
+  sslEnabled: false
   sslMountPath: /mnt/db/certs
   caFile: "caFile"
   caKey: "keyFile"
