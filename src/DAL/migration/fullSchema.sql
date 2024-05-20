@@ -25,13 +25,15 @@ CREATE TABLE records
     product_sub_type text COLLATE pg_catalog."default",
     description text COLLATE pg_catalog."default",
     producer_name text COLLATE pg_catalog."default" DEFAULT 'IDFMU',
-    creation_date timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    creation_date_utc timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     ingestion_date timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    update_date timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    source_start_date timestamp with time zone,
-    source_end_date timestamp with time zone,
-    max_resolution_deg numeric NOT NULL CHECK (max_resolution_deg BETWEEN 0.00000009 AND 0.072),
+    update_date_utc timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    imaging_time_begin_utc timestamp with time zone,
+    imaging_time_end_utc timestamp with time zone,
+    max_resolution_deg numeric NOT NULL CHECK (max_resolution_deg BETWEEN 0.000000167638063430786 AND 0.703125),
+    min_resolution_deg numeric NOT NULL CHECK (min_resolution_deg BETWEEN 0.000000167638063430786 AND 0.703125),
     min_horizontal_accuracy_ce_90 real CHECK (min_horizontal_accuracy_ce_90 BETWEEN 0.01 AND 4000),
+    max_horizontal_accuracy_ce_90 real CHECK (max_horizontal_accuracy_ce_90 BETWEEN 0.01 AND 4000),
     sensors text COLLATE pg_catalog."default" NOT NULL,
     srs text COLLATE pg_catalog."default" DEFAULT '4326',
     srs_name text COLLATE pg_catalog."default" DEFAULT 'WGS84GEO',
@@ -43,11 +45,8 @@ CREATE TABLE records
     keywords text COLLATE pg_catalog."default",
     rms text COLLATE pg_catalog."default",
     scale integer, CHECK (scale BETWEEN 0 AND 100000000),
-    layer_polygon_parts text COLLATE pg_catalog."default",
-    included_in_bests text COLLATE pg_catalog."default",
-    discretes text COLLATE pg_catalog."default",
-    max_resolution_meter numeric NOT NULL CHECK (max_resolution_meter BETWEEN 0.01 AND 8000),
-    raw_product_data jsonb,
+    max_resolution_meter numeric NOT NULL CHECK (max_resolution_meter BETWEEN 0.0185 AND 78271.52),
+    min_resolution_meter numeric NOT NULL CHECK (min_resolution_meter BETWEEN 0.0185 AND 78271.52),
     product_bbox text COLLATE pg_catalog."default" CHECK (product_bbox ~* '^-?((0|[1-9]\d?|1[0-7]\d)(\.\d*)?|180(\.0*)?),-?((0|[1-9]\d?|1[0-7]\d)(\.\d*)?|180(\.0*)?),-?((0|[1-9]\d?|1[0-7]\d)(\.\d*)?|180(\.0*)?),-?((0|[1-9]\d?|1[0-7]\d)(\.\d*)?|180(\.0*)?)$'),
     display_path text COLLATE pg_catalog."default" NOT NULL,
     transparency text COLLATE pg_catalog."default" NOT NULL,
@@ -90,27 +89,27 @@ CREATE INDEX ix_product_sub_type
 
 -- Index: ix_creation_date
 -- DROP INDEX ix_creation_date;
-CREATE INDEX ix_creation_date
+CREATE INDEX ix_creation_date_utc
     ON records USING btree
-    (creation_date ASC NULLS LAST);
+    (creation_date_utc ASC NULLS LAST);
 
 -- Index: ix_update_date
 -- DROP INDEX ix_update_date;
-CREATE INDEX ix_update_date
+CREATE INDEX ix_update_date_utc
     ON records USING btree
-    (update_date ASC NULLS LAST);
+    (update_date_utc ASC NULLS LAST);
 
 -- Index: ix_source_start_date
 -- DROP INDEX ix_source_start_date;
-CREATE INDEX ix_source_start_date
+CREATE INDEX ix_imaging_time_begin_utc
     ON records USING btree
-    (source_start_date ASC NULLS LAST);
+    (imaging_time_begin_utc ASC NULLS LAST);
 
 -- Index: ix_source_end_date
 -- DROP INDEX ix_source_end_date;
-CREATE INDEX ix_source_end_date
+CREATE INDEX ix_imaging_time_end_utc
     ON records USING btree
-    (source_end_date ASC NULLS LAST);
+    (imaging_time_end_utc ASC NULLS LAST);
 
 -- Index: ix_max_resolution_meter
 -- DROP INDEX ix_max_resolution_meter;
