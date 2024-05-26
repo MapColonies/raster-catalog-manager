@@ -117,6 +117,13 @@ CREATE INDEX ix_max_resolution_meter
     ON records USING btree
     (max_resolution_meter ASC);
 
+
+-- Index: ix_min_resolution_meter
+-- DROP INDEX ix_min_resolution_meter;
+CREATE INDEX ix_min_resolution_meter
+    ON records USING btree
+    (min_resolution_meter ASC);    
+
 -- Index: ix_max_srs_id
 -- DROP INDEX ix_srs_id;
 CREATE INDEX ix_max_srs_id

@@ -78,3 +78,9 @@ CREATE INDEX ix_imaging_time_end_utc
     ON records USING btree
     (imaging_time_end_utc ASC NULLS LAST);
 
+-- Index: ix_min_resolution_meter
+-- DROP INDEX ix_min_resolution_meter;
+CREATE INDEX ix_min_resolution_meter
+    ON records USING btree
+    (min_resolution_meter ASC);      
+
