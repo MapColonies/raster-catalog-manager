@@ -47,6 +47,23 @@ ALTER TABLE "records" DROP CONSTRAINT records_max_resolution_meter_check;
 --ALTER TABLE "records" DROP CONSTRAINT min_horizontal_accuracy_ce_90;
 ALTER TABLE "records" DROP CONSTRAINT records_min_horizontal_accuracy_ce_90_check;
 
+--classification constraint check
+ALTER TABLE "records" DROP CONSTRAINT IF EXISTS records_classification_check;
+ALTER TABLE "records"
+ADD CONSTRAINT records_classification_check
+CHECK (classification ~* '^[0-9]$|^[1-9][0-9]$|^(100)$');
+ALTER TABLE records
+ALTER COLUMN classification SET NOT NULL;
+
+--region constraint
+ALTER TABLE records
+ALTER COLUMN region SET NOT NULL;
+-- Add a check constraint to ensure the region is not an empty string
+ALTER TABLE records
+ADD CONSTRAINT check_region_not_empty
+CHECK (region <> '');
+
+
 ALTER TABLE "records" 
 		ADD CONSTRAINT records_max_resolution_deg_check CHECK (max_resolution_deg BETWEEN 000000167638063430786 AND 0.703125),
     	ADD CONSTRAINT records_min_horizontal_accuracy_ce_90_check CHECK (min_horizontal_accuracy_ce_90 BETWEEN 0.01 AND 4000),
