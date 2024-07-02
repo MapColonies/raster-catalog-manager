@@ -72,13 +72,15 @@ describe('RecordModelConverter', () => {
         productType: ProductType.ORTHOPHOTO,
         productSubType: undefined,
         description: 'test test',
-        creationDate: date,
+        creationDateUTC: date,
         ingestionDate: date,
-        updateDate: date,
-        sourceDateStart: date,
-        sourceDateEnd: date,
+        updateDateUTC: date,
+        imagingTimeBeginUTC: date,
+        imagingTimeEndUTC: date,
         maxResolutionDeg: 0.00759,
+        minResolutionDeg: 0.00759,
         minHorizontalAccuracyCE90: 0.98,
+        maxHorizontalAccuracyCE90: 0.98,
         sensors: ['RGB', 'VIS'],
         footprint: {
           type: 'Polygon',
@@ -92,7 +94,7 @@ describe('RecordModelConverter', () => {
             ],
           ],
         },
-        srsId: '4326',
+        srs: '4326',
         srsName: 'WGS84GEO',
         region: ['a', 'b'],
         classification: '3',
@@ -100,12 +102,10 @@ describe('RecordModelConverter', () => {
         rms: 3,
         scale: 100,
         type: RecordType.RECORD_RASTER,
-        layerPolygonParts: undefined,
         maxResolutionMeter: 0.5,
-        includedInBests: ['1', '2'],
-        rawProductData: undefined,
+        minResolutionMeter: 0.5,
         productBoundingBox: '0,0 : 1,1',
-      } as LayerMetadata;
+      } as unknown as LayerMetadata;
 
       const res = convertor.metadataToPartialEntity(testMetadata);
 
@@ -115,13 +115,15 @@ describe('RecordModelConverter', () => {
         productVersion: '1',
         productType: 'Orthophoto',
         description: 'test test',
-        creationDate: date,
+        creationDateUTC: date,
         ingestionDate: date,
-        updateDate: date,
-        sourceDateStart: date,
-        sourceDateEnd: date,
+        updateDateUTC: date,
+        imagingTimeBeginUTC: date,
+        imagingTimeEndUTC: date,
         maxResolutionDeg: 0.00759,
+        minResolutionDeg: 0.00759,
         minHorizontalAccuracyCE90: 0.98,
+        maxHorizontalAccuracyCE90: 0.98,
         sensors: 'RGB,VIS',
         footprint: {
           type: 'Polygon',
@@ -135,7 +137,7 @@ describe('RecordModelConverter', () => {
             ],
           ],
         },
-        srsId: '4326',
+        srs: '4326',
         srsName: 'WGS84GEO',
         region: 'a,b',
         classification: '3',
@@ -146,74 +148,12 @@ describe('RecordModelConverter', () => {
         typeName: 'mc_MCRasterRecord',
         wktGeometry:
           'POLYGON ((34.811938017107494 31.95475033759175, 34.82237261707599 31.95475033759175, 34.82237261707599 31.96426962177354, 34.811938017107494 31.96426962177354, 34.811938017107494 31.95475033759175))',
-        layerPolygonParts: undefined,
         schema: 'mc_raster',
         mdSource: '',
         xml: '',
         maxResolutionMeter: 0.5,
-        includedInBests: '1,2',
-        rawProductData: undefined,
+        minResolutionMeter: 0.5,
         productBoundingBox: '0,0 : 1,1',
-      } as unknown as RecordEntity;
-
-      expect(res).toBeInstanceOf(RecordEntity);
-      expect(res).toEqual(expectedEntity);
-    });
-
-    it('undefined includedInBests remains undefined', () => {
-      const testMetadata = {} as LayerMetadata;
-
-      const res = convertor.metadataToPartialEntity(testMetadata);
-
-      const expectedEntity = {
-        mdSource: '',
-        productId: 'UNKNOWN',
-        schema: 'mc_raster',
-        type: 'RECORD_RASTER',
-        typeName: 'mc_MCRasterRecord',
-        xml: '',
-      } as unknown as RecordEntity;
-
-      expect(res).toBeInstanceOf(RecordEntity);
-      expect(res).toEqual(expectedEntity);
-    });
-
-    it('empty array includedInBests is converted to null', () => {
-      const testMetadata = {
-        includedInBests: [],
-      } as unknown as LayerMetadata;
-
-      const res = convertor.metadataToPartialEntity(testMetadata);
-
-      const expectedEntity = {
-        includedInBests: null,
-        mdSource: '',
-        productId: 'UNKNOWN',
-        schema: 'mc_raster',
-        type: 'RECORD_RASTER',
-        typeName: 'mc_MCRasterRecord',
-        xml: '',
-      } as unknown as RecordEntity;
-
-      expect(res).toBeInstanceOf(RecordEntity);
-      expect(res).toEqual(expectedEntity);
-    });
-
-    it('array includedInBests is converted to string', () => {
-      const testMetadata = {
-        includedInBests: ['a', 'b'],
-      } as LayerMetadata;
-
-      const res = convertor.metadataToPartialEntity(testMetadata);
-
-      const expectedEntity = {
-        includedInBests: 'a,b',
-        mdSource: '',
-        productId: 'UNKNOWN',
-        schema: 'mc_raster',
-        type: 'RECORD_RASTER',
-        typeName: 'mc_MCRasterRecord',
-        xml: '',
       } as unknown as RecordEntity;
 
       expect(res).toBeInstanceOf(RecordEntity);
@@ -230,15 +170,17 @@ describe('RecordModelConverter', () => {
         productVersion: '1',
         productType: 'Orthophoto',
         description: 'test test',
-        creationDate: date,
+        creationDateUTC: date,
         ingestionDate: date,
-        updateDate: date,
-        sourceDateStart: date,
-        sourceDateEnd: date,
-        maxResolutionDeg: 0.00759,
-        minHorizontalAccuracyCE90: 0.98,
+        updateDateUTC: date,
+        imagingTimeBeginUTC: date,
+        imagingTimeEndUTC: date,
+        maxResolutionDeg: '0.00759',
+        minResolutionDeg: '0.00759',
+        minHorizontalAccuracyCE90: '0.98',
+        maxHorizontalAccuracyCE90: '0.98',
         sensors: 'RGB,AAA',
-        footprint: {
+        footprint: JSON.stringify({
           type: 'Polygon',
           coordinates: [
             [
@@ -249,26 +191,25 @@ describe('RecordModelConverter', () => {
               [34.811938017107494, 31.95475033759175],
             ],
           ],
-        },
-        srsId: '4326',
+        }),
+        srs: '4326',
         srsName: 'WGS84GEO',
         region: 'a,b',
         classification: '3',
         producerName: 'test producer',
-        rms: 3,
+        rms: '3',
         scale: 100,
         type: RecordType.RECORD_RASTER,
         typeName: 'mc:MCRasterRecord',
         wktGeometry:
           'POLYGON ((34.811938017107494 31.95475033759175, 34.82237261707599 31.95475033759175, 34.82237261707599 31.96426962177354, 34.811938017107494 31.96426962177354, 34.811938017107494 31.95475033759175))',
-        layerPolygonParts: undefined,
         schema: 'mc_raster',
         mdSource: '',
         xml: '',
         id: 'testRecordId',
         links: 'a,b,c,d^,,e,f',
-        maxResolutionMeter: 0.5,
-        includedInBests: '1,2',
+        maxResolutionMeter: '0.5',
+        minResolutionMeter: '0.5',
       } as unknown as RecordEntity;
 
       const model = convertor.entityToModel(entity);
@@ -282,13 +223,15 @@ describe('RecordModelConverter', () => {
         productSubType: undefined,
         productBoundingBox: undefined,
         description: 'test test',
-        creationDate: date,
+        creationDateUTC: date,
         ingestionDate: date,
-        updateDate: date,
-        sourceDateStart: date,
-        sourceDateEnd: date,
+        updateDateUTC: date,
+        imagingTimeBeginUTC: date,
+        imagingTimeEndUTC: date,
         maxResolutionDeg: 0.00759,
+        minResolutionDeg: 0.00759,
         minHorizontalAccuracyCE90: 0.98,
+        maxHorizontalAccuracyCE90: 0.98,
         sensors: ['RGB', 'AAA'],
         footprint: {
           type: 'Polygon',
@@ -302,7 +245,7 @@ describe('RecordModelConverter', () => {
             ],
           ],
         },
-        srsId: '4326',
+        srs: '4326',
         srsName: 'WGS84GEO',
         region: ['a', 'b'],
         classification: '3',
@@ -310,11 +253,9 @@ describe('RecordModelConverter', () => {
         rms: 3,
         scale: 100,
         type: RecordType.RECORD_RASTER,
-        layerPolygonParts: undefined,
-        includedInBests: ['1', '2'],
         maxResolutionMeter: 0.5,
-        rawProductData: undefined,
-      } as LayerMetadata;
+        minResolutionMeter: 0.5,
+      } as unknown as LayerMetadata;
       const expectedModel = {
         metadata: expectedMetadata,
         links: [
@@ -334,6 +275,32 @@ describe('RecordModelConverter', () => {
       };
 
       expect(model).toEqual(expectedModel);
+    });
+  });
+
+  describe('findModelToEntity', () => {
+    it('find should return the given attribute', () => {
+      const testUpdateRecordRequest = {
+        id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+        links: [
+          {
+            protocol: 'test',
+            url: 'http://test.test/wmts',
+          },
+        ],
+        metadata: {
+          minHorizontalAccuracyCE90: 0.95678,
+        },
+      } as unknown as LayerMetadata;
+
+      const entity = convertor.findModelToEntity(testUpdateRecordRequest);
+      const expectedResponse = {
+        minHorizontalAccuracyCE90: 0.95678,
+        id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
+        links: ',,test,http://test.test/wmts',
+      };
+
+      expect(entity).toEqual(expectedResponse);
     });
   });
 });

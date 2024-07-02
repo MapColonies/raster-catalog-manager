@@ -23,12 +23,13 @@ const testMetadata = {
   productVersion: '12.36',
   producerName: 'test',
   productType: 'Orthophoto',
-  srsId: '4326',
+  srs: '4326',
   srsName: 'marcator',
-  updateDate: '2021-06-07T05:41:43.032Z',
-  sourceDateStart: '2021-06-07T05:41:43.032Z',
-  sourceDateEnd: '2021-06-07T05:41:43.032Z',
+  updateDateUTC: '2021-06-07T05:41:43.032Z',
+  imagingTimeBeginUTC: '2021-06-07T05:41:43.032Z',
+  imagingTimeEndUTC: '2021-06-07T05:41:43.032Z',
   minHorizontalAccuracyCE90: 0.68,
+  maxHorizontalAccuracyCE90: 0.68,
   sensors: ['Pan_Sharpen', 'test'],
   region: ['a', 'b'],
   rms: 0.444,
@@ -45,13 +46,15 @@ const testMetadata = {
       ],
     ],
   },
-  creationDate: '2021-06-07T05:41:43.032Z',
+  creationDateUTC: '2021-06-07T05:41:43.032Z',
   ingestionDate: '2021-06-07T05:41:43.032Z',
   maxResolutionDeg: 0.05,
+  minResolutionDeg: 0.05,
+  maxResolutionMeter: 0.5,
+  minResolutionMeter: 0.5,
   transparency: Transparency.TRANSPARENT,
   tileOutputFormat: TileOutputFormat.PNG,
   tileMimeFormat: 'image/png',
-  includedInBests: [],
 };
 
 const testCreateRecordModel = {
@@ -108,7 +111,6 @@ describe('records', () => {
         xml: '',
         sensors: 'Pan_Sharpen,test',
         region: 'a,b',
-        includedInBests: null,
       };
 
       const executeResponse = {
@@ -212,7 +214,6 @@ describe('records', () => {
         id: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',
         sensors: 'Pan_Sharpen,test',
         region: 'a,b',
-        includedInBests: null,
       } as unknown as RecordEntity;
       findMock.mockResolvedValue([testEntity]);
       const req = { ...testUpdateRecordRequest };
@@ -247,7 +248,6 @@ describe('records', () => {
         id: 'recordId',
         sensors: 'Pan_Sharpen,test',
         region: 'a,b',
-        includedInBests: null,
       } as unknown as RecordEntity;
       findMock.mockResolvedValue([testEntity]);
       const req = {
