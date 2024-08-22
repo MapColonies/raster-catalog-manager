@@ -55,6 +55,9 @@ CHECK (classification ~* '^[0-9]$|^[1-9][0-9]$|^(100)$');
 ALTER TABLE records
 ALTER COLUMN classification SET NOT NULL;
 
+--product_type
+ALTER TABLE "records" ALTER product_type SET NOT NULL;
+
 --region constraint
 ALTER TABLE records
 ALTER COLUMN region SET NOT NULL;

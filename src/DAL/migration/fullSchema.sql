@@ -21,7 +21,7 @@ CREATE TABLE records
     product_id text COLLATE pg_catalog."default" NOT NULL CHECK (product_id ~* '^[a-zA-Z0-9_-]+$'),
     product_name text COLLATE pg_catalog."default",
     product_version text COLLATE pg_catalog."default" CHECK (product_version ~* '^\d+\.\d{1,2}$'),
-    product_type text COLLATE pg_catalog."default",
+    product_type text COLLATE pg_catalog."default" NOT NULL,
     product_sub_type text COLLATE pg_catalog."default",
     description text COLLATE pg_catalog."default",
     producer_name text COLLATE pg_catalog."default" DEFAULT 'IDFMU',
