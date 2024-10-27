@@ -3,6 +3,9 @@ info:
   title: Raster Catalog Manager
   description: CRUD Raster Records On Catalog DB
   version: 5.1.2
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
 paths:
   /records:
     post:
