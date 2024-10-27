@@ -252,7 +252,7 @@ describe('records', () => {
       findMock.mockResolvedValue([testEntity]);
       const req = {
         metadata: {
-          productId: 'test-id',
+          productId: 'test_id',
           productType: 'Orthophoto',
         },
       };
@@ -264,7 +264,7 @@ describe('records', () => {
       expect(findMock).toHaveBeenCalledWith({
         select: ['productVersion'],
         where: {
-          productId: 'test-id',
+          productId: 'test_id',
           productType: 'Orthophoto',
         },
       });
