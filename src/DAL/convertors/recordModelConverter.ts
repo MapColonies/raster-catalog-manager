@@ -62,13 +62,6 @@ export class RecordModelConvertor {
     if (metadata.sensors != undefined) {
       entity.sensors = metadata.sensors.join(',');
     }
-    if (metadata.includedInBests != undefined) {
-      if (Array.isArray(metadata.includedInBests) && metadata.includedInBests.length != 0) {
-        entity.includedInBests = metadata.includedInBests.join(',');
-      } else {
-        (entity.includedInBests as string | null) = null;
-      }
-    }
     if (metadata.region != undefined) {
       if (Array.isArray(metadata.region) && metadata.region.length != 0) {
         entity.region = metadata.region.join(',');
@@ -99,33 +92,36 @@ export class RecordModelConvertor {
   private recordToMetadata(record: RecordEntity): LayerMetadata {
     const metadata = new LayerMetadata();
     Object.keys(metadata).forEach((key) => {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (record[key as keyof RecordEntity] !== null) {
         (metadata[key as keyof LayerMetadata] as unknown) = record[key as keyof RecordEntity];
       }
     });
     metadata.sensors = record.sensors !== '' ? record.sensors.split(',') : [];
     metadata.region = record.region ? record.region.split(',') : [];
-    metadata.includedInBests =
-      record.includedInBests !== '' && record.includedInBests !== undefined && record.includedInBests !== null
-        ? record.includedInBests.split(',')
-        : [];
     if (typeof metadata.footprint === 'string') {
       metadata.footprint = JSON.parse(metadata.footprint) as GeoJSON;
-    }
-    if (typeof metadata.layerPolygonParts === 'string') {
-      metadata.layerPolygonParts = JSON.parse(metadata.layerPolygonParts) as GeoJSON;
     }
     if (typeof metadata.maxResolutionDeg === 'string') {
       metadata.maxResolutionDeg = Number(metadata.maxResolutionDeg);
     }
+    if (typeof metadata.minResolutionDeg === 'string') {
+      metadata.minResolutionDeg = Number(metadata.minResolutionDeg);
+    }
     if (typeof metadata.maxResolutionMeter === 'string') {
       metadata.maxResolutionMeter = Number(metadata.maxResolutionMeter);
+    }
+    if (typeof metadata.minResolutionMeter === 'string') {
+      metadata.minResolutionMeter = Number(metadata.minResolutionMeter);
     }
     if (typeof metadata.rms === 'string') {
       metadata.rms = Number(metadata.rms);
     }
     if (typeof metadata.minHorizontalAccuracyCE90 === 'string') {
       metadata.minHorizontalAccuracyCE90 = Number(metadata.minHorizontalAccuracyCE90);
+    }
+    if (typeof metadata.maxHorizontalAccuracyCE90 === 'string') {
+      metadata.maxHorizontalAccuracyCE90 = Number(metadata.maxHorizontalAccuracyCE90);
     }
     return metadata;
   }
