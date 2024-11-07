@@ -225,3 +225,5 @@ CREATE TRIGGER records_update_geometry
     ON records
     FOR EACH ROW
     EXECUTE PROCEDURE records_update_geometry();
+
+CREATE UNIQUE INDEX product_id_case_insensitive on "records" (LOWER(product_id));      
