@@ -68,7 +68,7 @@ CHECK (region <> '');
 
 
 ALTER TABLE "records" 
-		ADD CONSTRAINT records_max_resolution_deg_check CHECK (max_resolution_deg BETWEEN 000000167638063430786 AND 0.703125),
+		ADD CONSTRAINT records_max_resolution_deg_check CHECK (max_resolution_deg BETWEEN 0.000000167638063430786 AND 0.703125),
     	ADD CONSTRAINT records_min_horizontal_accuracy_ce_90_check CHECK (min_horizontal_accuracy_ce_90 BETWEEN 0.01 AND 4000),
     	ADD CONSTRAINT records_max_resolution_meter_check CHECK (max_resolution_meter BETWEEN 0.0185 AND 78271.52);
 
