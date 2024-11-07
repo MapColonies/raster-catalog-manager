@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.0.0](https://github.com/MapColonies/raster-catalog-manager/compare/v5.1.2...v6.0.0) (2024-11-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* update to new db schema (MAPCO-4232, MAPCO-4290, MAPCO-5080 ) (#63)
+
+### Features
+
+* update to new db schema (MAPCO-4232, MAPCO-4290, MAPCO-5080 ) ([#63](https://github.com/MapColonies/raster-catalog-manager/issues/63)) ([fb12d53](https://github.com/MapColonies/raster-catalog-manager/commit/fb12d53e6f284f7f40591ea6f8d16637e3512d31))
+
+
+### Bug Fixes
+
+* db with ssl certs from secret (MAPCO-4201) ([#62](https://github.com/MapColonies/raster-catalog-manager/issues/62)) ([9d81cba](https://github.com/MapColonies/raster-catalog-manager/commit/9d81cba55fa1abc38271c688876e179a3eb3d754))
+* point ([#65](https://github.com/MapColonies/raster-catalog-manager/issues/65)) ([c7c1d50](https://github.com/MapColonies/raster-catalog-manager/commit/c7c1d5016ea82da25907e2f15b80ed5f32a80fc2))
+
 ### [5.1.2](https://github.com/MapColonies/raster-catalog-manager/compare/v5.1.1...v5.1.2) (2024-03-12)
 
 
