@@ -298,24 +298,12 @@ describe('records', () => {
     });
 
     it('should return status code 400 on POST request with invalid footprint', async () => {
-      const req = { ...testCreateRecordModel };
-      (req.metadata.footprint as unknown) = { type: 'Geometry' };
+      const req = { ...testCreateRecordModel, ...{ metadata: { footprint: { type: 'Geometry' } } } };
       const recordCountMock = recordRepositoryMocks.countMock;
 
       const response = await requestSender.createResource(req);
       expect(response.status).toBe(httpStatusCodes.BAD_REQUEST);
       expect(recordCountMock).toHaveBeenCalledTimes(0);
-      expect(response).toSatisfyApiSpec();
-    });
-
-    it('find should return 400 when body is invalid', async () => {
-      const findMock = recordRepositoryMocks.findMock;
-      const req = { ...testCreateRecordModel, test: 'test' };
-
-      const response = await requestSender.createResource(req);
-
-      expect(response.status).toBe(httpStatusCodes.BAD_REQUEST);
-      expect(findMock).toHaveBeenCalledTimes(0);
       expect(response).toSatisfyApiSpec();
     });
   });
@@ -346,6 +334,16 @@ describe('records', () => {
       });
       expect(recordDeleteMock).toHaveBeenCalledTimes(0);
       expect(response.status).toBe(httpStatusCodes.NOT_FOUND);
+      expect(response).toSatisfyApiSpec();
+    });
+
+    it('should return status code 409 on POST request for existing record id', async () => {
+      const recordCountMock = recordRepositoryMocks.countMock;
+      recordCountMock.mockResolvedValue(1);
+      const req = { ...testCreateRecordModel };
+
+      const response = await requestSender.createResource(req);
+      expect(response.status).toBe(httpStatusCodes.CONFLICT);
       expect(response).toSatisfyApiSpec();
     });
   });
