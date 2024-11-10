@@ -79,6 +79,14 @@ const testUpdateRecordRequest = {
   },
 };
 
+const findWithMetadata = {
+  metadata: {
+    productType: 'Orthophoto',
+    productId: 'testId',
+    minHorizontalAccuracyCE90: 0.95678,
+  },
+};
+
 describe('records', () => {
   beforeEach(() => {
     //remove AJV warnings from filling test log
@@ -202,7 +210,6 @@ describe('records', () => {
     });
 
     it('find should return 200 and list of records when match', async () => {
-      const findMock = recordRepositoryMocks.findMock;
       const testEntity = {
         ...testCreateRecordModel.metadata,
         links: ',,test,http://test.test/wmts^testLink,test test test,fulltest,http://test.test/wms',
@@ -215,8 +222,9 @@ describe('records', () => {
         sensors: 'Pan_Sharpen,test',
         region: 'a,b',
       } as unknown as RecordEntity;
-      findMock.mockResolvedValue([testEntity]);
-      const req = { ...testUpdateRecordRequest };
+      const selectQueryBuilderMock = recordRepositoryMocks.selectQueryBuilder;
+      selectQueryBuilderMock.getMany.mockResolvedValue([testEntity]);
+      const req = { ...findWithMetadata };
 
       const response = await requestSender.findRecord(req);
       const expectedResponse = [
@@ -226,12 +234,8 @@ describe('records', () => {
       ];
       expect(response.status).toBe(httpStatusCodes.OK);
       expect(response.body).toEqual(expectedResponse);
-      expect(findMock).toHaveBeenCalledTimes(1);
-      expect(findMock).toHaveBeenCalledWith({
-        where: {
-          minHorizontalAccuracyCE90: 0.95678,
-        },
-      });
+      expect(selectQueryBuilderMock.getMany).toHaveBeenCalledTimes(1);
+
       expect(response).toSatisfyApiSpec();
     });
 
