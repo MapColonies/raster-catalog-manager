@@ -33,6 +33,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+        '409':
+          description: Bad Request, could not create record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '500':
+          description: Bad Request, could not create record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /records/{recordId}:
     parameters:
       - $ref: '#/components/parameters/recordId'
