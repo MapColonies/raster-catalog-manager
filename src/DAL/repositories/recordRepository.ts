@@ -53,7 +53,18 @@ export class RecordRepository extends Repository<RecordEntity> {
 
   public async findRecords(req: IFindRecordRequest): Promise<IFindRecordResponse[]> {
     const entity = this.recordConvertor.findModelToEntity(req);
-    const query = this.createQueryBuilder('record').where(entity);
+    const query = this.createQueryBuilder('record');
+
+    const baseConditions = { ...entity };
+    if (entity.productId != null) {
+      delete baseConditions.productId;
+    }
+    if (entity.productType != null) {
+      delete baseConditions.productType;
+    }
+
+    // Apply base conditions to the query
+    query.where(baseConditions);
     if (entity.productId != null) {
       query.andWhere('LOWER(record.productId) = LOWER(:productId)', { productId: entity.productId });
     }
