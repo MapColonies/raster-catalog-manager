@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.1.1](https://github.com/MapColonies/raster-catalog-manager/compare/v6.1.0...v6.1.1) (2024-11-11)
+
+
+### Bug Fixes
+
+* remove duplicate where clauses on productId and productType ([#68](https://github.com/MapColonies/raster-catalog-manager/issues/68)) ([f68c23d](https://github.com/MapColonies/raster-catalog-manager/commit/f68c23d6b3415087f9cc522b43e9849938ce5771))
+
 ## [6.1.0](https://github.com/MapColonies/raster-catalog-manager/compare/v6.0.0...v6.1.0) (2024-11-11)
 
 
