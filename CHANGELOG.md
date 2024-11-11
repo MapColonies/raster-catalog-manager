@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.1.0](https://github.com/MapColonies/raster-catalog-manager/compare/v6.0.0...v6.1.0) (2024-11-11)
+
+
+### Features
+
+* Change findRecord function to be case insensitive with productId and Type(MAPCO-5239) ([#67](https://github.com/MapColonies/raster-catalog-manager/issues/67)) ([fd80882](https://github.com/MapColonies/raster-catalog-manager/commit/fd8088292811b827c6be440e0464a4eaf36c2d1a))
+
+
+### Bug Fixes
+
+* constraint on product_id and type (MAPCO-5242) ([#66](https://github.com/MapColonies/raster-catalog-manager/issues/66)) ([72c5c61](https://github.com/MapColonies/raster-catalog-manager/commit/72c5c613e58d4341ec27cfeaafc347a054966430))
+
 ## [6.0.0](https://github.com/MapColonies/raster-catalog-manager/compare/v5.1.2...v6.0.0) (2024-11-07)
 
 
