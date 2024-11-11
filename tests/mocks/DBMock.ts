@@ -26,6 +26,7 @@ interface InsertQueryBuilder {
 
 interface SelectQueryBuilder {
   where: jest.Mock;
+  andWhere: jest.Mock;
   orderBy: jest.Mock;
   getMany: jest.Mock;
   insert: jest.Mock;
@@ -56,6 +57,7 @@ const registerRepository = <T>(key: ObjectType<T>, instance: T): RepositoryMocks
       orderBy: jest.fn(),
       getMany: jest.fn(),
       insert: jest.fn(),
+      andWhere: jest.fn(),
     },
     insertQueryBuilder: {
       values: jest.fn(),
@@ -74,6 +76,7 @@ const registerRepository = <T>(key: ObjectType<T>, instance: T): RepositoryMocks
   // Set select query builder mocks
   mocks.queryBuilderMock.mockImplementation(() => mocks.selectQueryBuilder);
   mocks.selectQueryBuilder.where.mockImplementation(() => mocks.selectQueryBuilder);
+  mocks.selectQueryBuilder.andWhere.mockImplementation(() => mocks.selectQueryBuilder);
   mocks.selectQueryBuilder.orderBy.mockImplementation(() => mocks.selectQueryBuilder);
   mocks.selectQueryBuilder.insert.mockImplementation(() => mocks.insertQueryBuilder);
 

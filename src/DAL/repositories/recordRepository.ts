@@ -53,9 +53,16 @@ export class RecordRepository extends Repository<RecordEntity> {
 
   public async findRecords(req: IFindRecordRequest): Promise<IFindRecordResponse[]> {
     const entity = this.recordConvertor.findModelToEntity(req);
-    const res = await this.find({
-      where: entity,
-    });
+    const query = this.createQueryBuilder('record').where(entity);
+    if (entity.productId != null) {
+      query.andWhere('LOWER(record.productId) = LOWER(:productId)', { productId: entity.productId });
+    }
+
+    if (entity.productType != null) {
+      query.andWhere('LOWER(record.productType) = LOWER(:productType)', { productType: entity.productType });
+    }
+
+    const res = await query.getMany();
     return res.map((entity) => this.recordConvertor.entityToModel(entity));
   }
 
