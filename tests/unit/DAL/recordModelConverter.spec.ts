@@ -1,5 +1,5 @@
-import { IRasterCatalogUpsertRequestBody, LayerMetadata, Link, ProductType, RecordType } from '@map-colonies/mc-model-types';
-import { IUpdateRecordRequest } from '../../../src/common/dataModels/records';
+import { IRasterCatalogUpsertRequestBody, LayerMetadata, Link, ProductType, RecordType, UpdateLayerMetadata } from '@map-colonies/mc-model-types';
+import { IUpdateRecordExtendedRequest } from '../../../src/common/dataModels/records';
 import { RecordModelConvertor } from '../../../src/DAL/convertors/recordModelConverter';
 import { RecordEntity } from '../../../src/DAL/entity/generated';
 
@@ -49,16 +49,14 @@ describe('RecordModelConverter', () => {
 
   describe('UpdateModelToEntity', () => {
     it('converted entity has only all relevant filed', () => {
-      const testMetadata = { productName: 'test' } as unknown as LayerMetadata;
-      const testLinks = [] as Link[];
+      const testMetadata = { productName: 'test' } as unknown as UpdateLayerMetadata;
       const updateRecordModel = {
         metadata: testMetadata,
-        links: testLinks,
-      } as IUpdateRecordRequest;
+      } as IUpdateRecordExtendedRequest;
 
       const res = convertor.updateModelToEntity(updateRecordModel);
 
-      expect(res).toEqual({ ...testMetadata, links: '' });
+      expect(res).toEqual({ ...testMetadata });
     });
   });
 

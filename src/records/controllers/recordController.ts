@@ -2,7 +2,7 @@ import { Logger } from '@map-colonies/js-logger';
 import { RequestHandler } from 'express';
 import httpStatus from 'http-status-codes';
 import { injectable, inject } from 'tsyringe';
-import { IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
+import { IRasterCatalogUpdateRequestBody, IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
 import { SERVICES } from '../../common/constants';
 import {
   IFindRecordRequest,
@@ -11,12 +11,12 @@ import {
   OperationStatusEnum,
   IRecordOperationResponse,
   IRecordRequestParams,
-  IUpdateRecordRequest,
+  IUpdateRecordExtendedRequest,
 } from '../../common/dataModels/records';
 import { RecordManager } from '../models/recordManager';
 
 type CreateRecordHandler = RequestHandler<undefined, IRecordOperationResponse, IRasterCatalogUpsertRequestBody>;
-type UpdateRecordHandler = RequestHandler<IRecordRequestParams, IRecordOperationResponse, IRasterCatalogUpsertRequestBody>;
+type UpdateRecordHandler = RequestHandler<IRecordRequestParams, IRecordOperationResponse, IRasterCatalogUpdateRequestBody>;
 type DeleteRecordHandler = RequestHandler<IRecordRequestParams, IRecordOperationResponse>;
 type RecordExistsHandler = RequestHandler<IRecordRequestParams, IRecordExistsResponse>;
 type FindRecordHandler = RequestHandler<undefined, IFindRecordResponse[], IFindRecordRequest>;
@@ -40,7 +40,7 @@ export class RecordController {
 
   public updateRecord: UpdateRecordHandler = async (req, res, next) => {
     try {
-      const recordUpdateReq: IUpdateRecordRequest = { ...req.body, ...req.params };
+      const recordUpdateReq: IUpdateRecordExtendedRequest = { ...req.body, ...req.params };
       await this.manager.updateRecord(recordUpdateReq);
       return res.status(httpStatus.OK).json({
         id: recordUpdateReq.id,
