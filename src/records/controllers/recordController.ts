@@ -14,6 +14,7 @@ import {
   IUpdateRecordExtendedRequest,
 } from '../../common/dataModels/records';
 import { RecordManager } from '../models/recordManager';
+import { validateUpdatableFields } from '../../utils/zod/updateRequestSchema';
 
 type CreateRecordHandler = RequestHandler<undefined, IRecordOperationResponse, IRasterCatalogUpsertRequestBody>;
 type UpdateRecordHandler = RequestHandler<IRecordRequestParams, IRecordOperationResponse, IRasterCatalogUpdateRequestBody>;
@@ -40,7 +41,8 @@ export class RecordController {
 
   public updateRecord: UpdateRecordHandler = async (req, res, next) => {
     try {
-      const recordUpdateReq: IUpdateRecordExtendedRequest = { ...req.body, ...req.params };
+      const updateRequest = validateUpdatableFields(req.body);
+      const recordUpdateReq: IUpdateRecordExtendedRequest = { ...updateRequest, ...req.params };
       await this.manager.updateRecord(recordUpdateReq);
       return res.status(httpStatus.OK).json({
         id: recordUpdateReq.id,
