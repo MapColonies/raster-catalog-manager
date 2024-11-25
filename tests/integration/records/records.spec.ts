@@ -170,7 +170,7 @@ describe('records', () => {
 
       const body = response.body as unknown;
       expect(body).toEqual({ id: '170dd8c0-8bad-498b-bb26-671dcf19aa3c', status: OperationStatusEnum.SUCCESS });
-    }, 5000000);
+    });
 
     it('should delete record return 200', async () => {
       const recordDeleteMock = recordRepositoryMocks.deleteMock;
