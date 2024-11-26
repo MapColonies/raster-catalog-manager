@@ -2,21 +2,37 @@ import { BadRequestError } from '@map-colonies/error-types';
 import { IRasterCatalogUpdateRequestBody, VALIDATIONS } from '@map-colonies/mc-model-types';
 import { z, ZodError } from 'zod';
 
-const updatableFieldsSchema = z
+const updatableMetadataSchema = z
   .object({
-    metadata: z
-      .object({
-        classification: z.string().regex(new RegExp(VALIDATIONS.classification.pattern)).optional(),
-        productName: z.string().min(1).optional(),
-        productSubType: z.string().optional(),
-        description: z.string().optional(),
-        producerName: z.string().optional(),
-        region: z.array(z.string().min(1)).min(1).optional(),
-        scale: z.number().min(VALIDATIONS.scale.min).max(VALIDATIONS.scale.max).optional(),
-      })
-      .strict(),
+    classification: z.string().regex(new RegExp(VALIDATIONS.classification.pattern)).optional(),
+    productName: z.string().min(1).optional(),
+    productSubType: z.string().optional(),
+    description: z.string().optional(),
+    producerName: z.string().optional(),
+    region: z.array(z.string().min(1)).min(1).optional(),
+    scale: z.number().min(VALIDATIONS.scale.min).max(VALIDATIONS.scale.max).optional(),
   })
-  .strict();
+  .passthrough();
+
+const validMetadataKeys = Object.keys(updatableMetadataSchema.shape);
+
+const updateRequestSchema = z
+  .object({
+    metadata: updatableMetadataSchema,
+  })
+  .superRefine((value, ctx) => {
+    const metadataKeys = Object.keys(value.metadata);
+    const unrecognizedKeys = metadataKeys.filter((key) => !validMetadataKeys.includes(key));
+
+    // Add issues for each unrecognized key
+    if (unrecognizedKeys.length > 0) {
+      ctx.addIssue({
+        path: ['metadata'],
+        code: 'custom',
+        message: `${unrecognizedKeys.map((key) => `'${key}'`).join(', ')} ${unrecognizedKeys.length > 1 ? 'are' : 'is'} not allowed`,
+      });
+    }
+  });
 
 const formatStrError = (error: ZodError): string => {
   const errorMessages: string[] = [];
@@ -34,7 +50,7 @@ const formatStrError = (error: ZodError): string => {
 };
 
 export const validateUpdatableFields = (data: unknown): IRasterCatalogUpdateRequestBody => {
-  const result = updatableFieldsSchema.safeParse(data);
+  const result = updateRequestSchema.safeParse(data);
   if (!result.success) {
     throw new BadRequestError(formatStrError(result.error));
   }

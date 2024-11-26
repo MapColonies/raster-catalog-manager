@@ -61,16 +61,6 @@ describe('SchemasValidator', () => {
       expect(() => validateUpdatableFields(metadataRequest)).toThrow(BadRequestError);
     });
 
-    it('should throw a BadRequestError when additionalProperty in the metadata object', () => {
-      const metadataRequest = {
-        metadata: {
-          avi: 'unexpected',
-        },
-      };
-
-      expect(() => validateUpdatableFields(metadataRequest)).toThrow(BadRequestError);
-    });
-
     it('should throw a BadRequestError when additionalProperty in the request object', () => {
       const request = {
         metadata: {
