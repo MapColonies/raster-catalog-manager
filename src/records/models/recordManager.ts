@@ -6,6 +6,7 @@ import { Tracer } from '@opentelemetry/api';
 import { SERVICES } from '../../common/constants';
 import { ConnectionManager } from '../../DAL/connectionManager';
 import {
+  IEditRecordRequest,
   IFindRecordRequest,
   IFindRecordResponse,
   IRecordExistsResponse,
@@ -37,6 +38,13 @@ export class RecordManager {
     const repo = await this.getRepository();
     this.logger.info(`updating record ${req.id}`);
     await repo.updateRecord(req);
+  }
+
+  @withSpanAsyncV4
+  public async editRecord(req: IEditRecordRequest): Promise<void> {
+    const repo = await this.getRepository();
+    this.logger.info(`editing record ${req.id}`);
+    await repo.editRecord(req);
   }
 
   @withSpanAsyncV4

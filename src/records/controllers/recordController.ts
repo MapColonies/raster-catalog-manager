@@ -12,11 +12,14 @@ import {
   IRecordOperationResponse,
   IRecordRequestParams,
   IUpdateRecordRequest,
+  IEditRecordRequest,
 } from '../../common/dataModels/records';
 import { RecordManager } from '../models/recordManager';
+import { validateUpdatableFields } from '../../utils/zod/updateRequestSchema';
 
 type CreateRecordHandler = RequestHandler<undefined, IRecordOperationResponse, IRasterCatalogUpsertRequestBody>;
 type UpdateRecordHandler = RequestHandler<IRecordRequestParams, IRecordOperationResponse, IRasterCatalogUpsertRequestBody>;
+type EditRecordHandler = RequestHandler<IRecordRequestParams, IRecordOperationResponse, IEditRecordRequest>;
 type DeleteRecordHandler = RequestHandler<IRecordRequestParams, IRecordOperationResponse>;
 type RecordExistsHandler = RequestHandler<IRecordRequestParams, IRecordExistsResponse>;
 type FindRecordHandler = RequestHandler<undefined, IFindRecordResponse[], IFindRecordRequest>;
@@ -44,6 +47,20 @@ export class RecordController {
       await this.manager.updateRecord(recordUpdateReq);
       return res.status(httpStatus.OK).json({
         id: recordUpdateReq.id,
+        status: OperationStatusEnum.SUCCESS,
+      });
+    } catch (err) {
+      return next(err);
+    }
+  };
+
+  public editRecord: EditRecordHandler = async (req, res, next) => {
+    try {
+      const updateRequest = validateUpdatableFields(req.body);
+      const recordEditReq: IEditRecordRequest = { ...updateRequest, ...req.params };
+      await this.manager.editRecord(recordEditReq);
+      return res.status(httpStatus.OK).json({
+        id: recordEditReq.id,
         status: OperationStatusEnum.SUCCESS,
       });
     } catch (err) {
