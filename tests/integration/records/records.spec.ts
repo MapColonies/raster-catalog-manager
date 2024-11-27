@@ -75,7 +75,13 @@ const testCreateRecordModel = {
 
 const testUpdateRecordRequest = {
   metadata: {
-    minHorizontalAccuracyCE90: 0.95678,
+    classification: '7',
+  },
+};
+
+const testUpdateRecordBadRequest = {
+  metadata: {
+    avi: '7',
   },
 };
 
@@ -306,6 +312,14 @@ describe('records', () => {
       const recordCountMock = recordRepositoryMocks.countMock;
 
       const response = await requestSender.createResource(req);
+      expect(response.status).toBe(httpStatusCodes.BAD_REQUEST);
+      expect(recordCountMock).toHaveBeenCalledTimes(0);
+      expect(response).toSatisfyApiSpec();
+    });
+
+    it('should return status code 400 on PUT request with invalid body', async () => {
+      const recordCountMock = recordRepositoryMocks.countMock;
+      const response = await requestSender.updateResource('3fa85f64-5717-4562-b3fc-2c963f66a888', testUpdateRecordBadRequest);
       expect(response.status).toBe(httpStatusCodes.BAD_REQUEST);
       expect(recordCountMock).toHaveBeenCalledTimes(0);
       expect(response).toSatisfyApiSpec();

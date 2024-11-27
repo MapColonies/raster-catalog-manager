@@ -1,9 +1,11 @@
-import { IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
+import { IRasterCatalogUpsertRequestBody, IRasterCatalogUpdateRequestBody } from '@map-colonies/mc-model-types';
 
 //requests
 export interface IRecordRequestParams {
   id: string;
 }
+
+export interface IUpdateRecordExtendedRequest extends IRasterCatalogUpdateRequestBody, IRecordRequestParams {}
 
 export interface IUpdateRecordRequest extends IRasterCatalogUpsertRequestBody, IRecordRequestParams {}
 

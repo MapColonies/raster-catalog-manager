@@ -102,7 +102,7 @@ paths:
       - $ref: '#/components/parameters/recordId'
     get:
       operationId: recordExists
-      summary: Updates a record
+      summary: Checks if a record exists
       tags:
         - records
       responses:
@@ -123,7 +123,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/findRecordModel'
+              $ref: '#/components/schemas/findRecordModelRequest'
       responses:
         '200':
           description: retrieved matching records
@@ -132,7 +132,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/findRecordModel'
+                  $ref: '#/components/schemas/findRecordModelResponse'
         '400':
           description: Bad Request
           content:
@@ -150,7 +150,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/findRecordModel'
+              $ref: '#/components/schemas/findRecordModelRequest'
       responses:
         '200':
           description: retrieved matching records
@@ -203,7 +203,18 @@ components:
         status:
           $ref: '#/components/schemas/status'
       additionalProperties: false
-    findRecordModel:
+    findRecordModelResponse:
+      type: object
+      description: raster catalog find model
+      properties:
+        metadata:
+          $ref: >-
+            ./Schema/fullLayerMetadata.yaml#/components/schemas/fullLayerMetadata
+        links:
+          type: array
+          items:
+            $ref: ./Schema/link.yaml#/components/schemas/Link
+    findRecordModelRequest:
       type: object
       description: raster catalog find model
       properties:

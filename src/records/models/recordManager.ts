@@ -10,7 +10,7 @@ import {
   IFindRecordResponse,
   IRecordExistsResponse,
   IRecordRequestParams,
-  IUpdateRecordRequest,
+  IUpdateRecordExtendedRequest,
 } from '../../common/dataModels/records';
 import { RecordRepository } from '../../DAL/repositories/recordRepository';
 
@@ -33,7 +33,7 @@ export class RecordManager {
   }
 
   @withSpanAsyncV4
-  public async updateRecord(req: IUpdateRecordRequest): Promise<void> {
+  public async updateRecord(req: IUpdateRecordExtendedRequest): Promise<void> {
     const repo = await this.getRepository();
     this.logger.info(`updating record ${req.id}`);
     await repo.updateRecord(req);
