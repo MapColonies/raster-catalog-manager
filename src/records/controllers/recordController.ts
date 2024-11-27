@@ -2,7 +2,7 @@ import { Logger } from '@map-colonies/js-logger';
 import { RequestHandler } from 'express';
 import httpStatus from 'http-status-codes';
 import { injectable, inject } from 'tsyringe';
-import { IRasterCatalogUpdateRequestBody, IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
+import { IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
 import { SERVICES } from '../../common/constants';
 import {
   IFindRecordRequest,
@@ -11,13 +11,12 @@ import {
   OperationStatusEnum,
   IRecordOperationResponse,
   IRecordRequestParams,
-  IUpdateRecordExtendedRequest,
+  IUpdateRecordRequest,
 } from '../../common/dataModels/records';
 import { RecordManager } from '../models/recordManager';
-import { validateUpdatableFields } from '../../utils/zod/updateRequestSchema';
 
 type CreateRecordHandler = RequestHandler<undefined, IRecordOperationResponse, IRasterCatalogUpsertRequestBody>;
-type UpdateRecordHandler = RequestHandler<IRecordRequestParams, IRecordOperationResponse, IRasterCatalogUpdateRequestBody>;
+type UpdateRecordHandler = RequestHandler<IRecordRequestParams, IRecordOperationResponse, IRasterCatalogUpsertRequestBody>;
 type DeleteRecordHandler = RequestHandler<IRecordRequestParams, IRecordOperationResponse>;
 type RecordExistsHandler = RequestHandler<IRecordRequestParams, IRecordExistsResponse>;
 type FindRecordHandler = RequestHandler<undefined, IFindRecordResponse[], IFindRecordRequest>;
@@ -41,8 +40,7 @@ export class RecordController {
 
   public updateRecord: UpdateRecordHandler = async (req, res, next) => {
     try {
-      const updateRequest = validateUpdatableFields(req.body);
-      const recordUpdateReq: IUpdateRecordExtendedRequest = { ...updateRequest, ...req.params };
+      const recordUpdateReq: IUpdateRecordRequest = { ...req.body, ...req.params };
       await this.manager.updateRecord(recordUpdateReq);
       return res.status(httpStatus.OK).json({
         id: recordUpdateReq.id,
