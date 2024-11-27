@@ -2,7 +2,7 @@ import { BadRequestError } from '@map-colonies/error-types';
 import { IRasterCatalogUpdateRequestBody, VALIDATIONS } from '@map-colonies/mc-model-types';
 import { z, ZodError } from 'zod';
 
-const updatableMetadataSchema = z
+const editableMetadataSchema = z
   .object({
     classification: z.string().regex(new RegExp(VALIDATIONS.classification.pattern)).optional(),
     productName: z.string().min(1).optional(),
@@ -14,11 +14,11 @@ const updatableMetadataSchema = z
   })
   .passthrough();
 
-const validMetadataKeys = Object.keys(updatableMetadataSchema.shape);
+const validMetadataKeys = Object.keys(editableMetadataSchema.shape);
 
 const updateRequestSchema = z
   .object({
-    metadata: updatableMetadataSchema,
+    metadata: editableMetadataSchema,
   })
   .superRefine((value, ctx) => {
     const metadataKeys = Object.keys(value.metadata);
@@ -27,9 +27,9 @@ const updateRequestSchema = z
     // Add issues for each unrecognized key
     if (unrecognizedKeys.length > 0) {
       ctx.addIssue({
-        path: ['metadata'],
+        path: ['request.metadata'],
         code: 'custom',
-        message: `${unrecognizedKeys.map((key) => `'${key}'`).join(', ')} ${unrecognizedKeys.length > 1 ? 'are' : 'is'} not allowed`,
+        message: `BadRequest: received unexpected keys for metadata update : ${unrecognizedKeys.map((key) => `'${key}'`).join(', ')} `,
       });
     }
   });
