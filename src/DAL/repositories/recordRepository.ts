@@ -7,7 +7,7 @@ import { SERVICES } from '../../common/constants';
 import { RecordEntity } from '../entity/generated';
 import { RecordModelConvertor } from '../convertors/recordModelConverter';
 import { EntityNotFound } from '../../common/errors';
-import { IFindRecordRequest, IFindRecordResponse, IUpdateRecordExtendedRequest } from '../../common/dataModels/records';
+import { IFindRecordRequest, IFindRecordResponse, IUpdateRecordRequest } from '../../common/dataModels/records';
 
 @EntityRepository(RecordEntity)
 export class RecordRepository extends Repository<RecordEntity> {
@@ -30,7 +30,7 @@ export class RecordRepository extends Repository<RecordEntity> {
     return res.identifiers[0]['id'] as string;
   }
 
-  public async updateRecord(req: IUpdateRecordExtendedRequest): Promise<void> {
+  public async updateRecord(req: IUpdateRecordRequest): Promise<void> {
     if (!(await this.exists(req.id))) {
       throw new EntityNotFound(`record ${req.id} was not found for update request`);
     }
