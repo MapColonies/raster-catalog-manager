@@ -51,7 +51,7 @@
     "@map-colonies/error-types": "^1.1.5",
     "@map-colonies/express-access-log-middleware": "^2.0.1",
     "@map-colonies/js-logger": "^1.0.1",
-    "@map-colonies/mc-model-types": "^17.7.2",
+    "@map-colonies/mc-model-types": "^17.12.2",
     "@map-colonies/openapi-express-viewer": "^3.0.0",
     "@map-colonies/read-pkg": "0.0.1",
     "@map-colonies/telemetry": "^5.3.1",
@@ -70,12 +70,13 @@
     "swagger-ui-express": "^4.1.6",
     "tsyringe": "^4.8.0",
     "typeorm": "^0.2.30",
-    "wellknown": "^0.5.0"
+    "wellknown": "^0.5.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.6",
     "@commitlint/config-conventional": "^17.6.6",
-    "@map-colonies/code-generator": "^1.5.0",
+    "@map-colonies/code-generator": "^1.7.1",
     "@map-colonies/eslint-config": "^4.0.0",
     "@map-colonies/prettier-config": "0.0.1",
     "@map-colonies/standard-version-update-helm-version": "^2.0.1",

@@ -75,7 +75,19 @@ const testCreateRecordModel = {
 
 const testUpdateRecordRequest = {
   metadata: {
-    minHorizontalAccuracyCE90: 0.95678,
+    classification: '7',
+  },
+};
+
+const testEditRecordRequest = {
+  metadata: {
+    classification: '7',
+  },
+};
+
+const testEditRecordBadRequest = {
+  metadata: {
+    avi: '7',
   },
 };
 
@@ -159,6 +171,27 @@ describe('records', () => {
       expect(recordSaveMock).toHaveBeenCalledTimes(1);
       expect(recordSaveMock).toHaveBeenCalledWith({
         ...testUpdateRecordRequest.metadata,
+        id: '170dd8c0-8bad-498b-bb26-671dcf19aa3c',
+      });
+
+      const body = response.body as unknown;
+      expect(body).toEqual({ id: '170dd8c0-8bad-498b-bb26-671dcf19aa3c', status: OperationStatusEnum.SUCCESS });
+    });
+
+    it('should edit record metadata and return 200', async () => {
+      const recordCountMock = recordRepositoryMocks.countMock;
+      const recordSaveMock = recordRepositoryMocks.saveMock;
+
+      recordCountMock.mockResolvedValue(1);
+      recordSaveMock.mockResolvedValue({});
+
+      const response = await requestSender.editResource('170dd8c0-8bad-498b-bb26-671dcf19aa3c', testEditRecordRequest);
+      expect(response).toSatisfyApiSpec();
+
+      expect(response.status).toBe(httpStatusCodes.OK);
+      expect(recordSaveMock).toHaveBeenCalledTimes(1);
+      expect(recordSaveMock).toHaveBeenCalledWith({
+        ...testEditRecordRequest.metadata,
         id: '170dd8c0-8bad-498b-bb26-671dcf19aa3c',
       });
 
@@ -310,6 +343,14 @@ describe('records', () => {
       expect(recordCountMock).toHaveBeenCalledTimes(0);
       expect(response).toSatisfyApiSpec();
     });
+
+    it('should return status code 400 on PUT metedata request with invalid body', async () => {
+      const recordCountMock = recordRepositoryMocks.countMock;
+      const response = await requestSender.editResource('3fa85f64-5717-4562-b3fc-2c963f66a888', testEditRecordBadRequest);
+      expect(response.status).toBe(httpStatusCodes.BAD_REQUEST);
+      expect(recordCountMock).toHaveBeenCalledTimes(0);
+      expect(response).toSatisfyApiSpec();
+    });
   });
 
   describe('Sad Path', () => {
@@ -318,6 +359,20 @@ describe('records', () => {
       const recordSaveMock = recordRepositoryMocks.saveMock;
       recordCountMock.mockResolvedValue(0);
       const response = await requestSender.updateResource('170dd8c0-8bad-498b-bb26-671dcf19aa3c', testUpdateRecordRequest);
+      expect(recordCountMock).toHaveBeenCalledTimes(1);
+      expect(recordCountMock).toHaveBeenCalledWith({
+        id: '170dd8c0-8bad-498b-bb26-671dcf19aa3c',
+      });
+      expect(recordSaveMock).toHaveBeenCalledTimes(0);
+      expect(response.status).toBe(httpStatusCodes.NOT_FOUND);
+      expect(response).toSatisfyApiSpec();
+    });
+
+    it('should return status code 404 on PUT metadata request for non existing record', async () => {
+      const recordCountMock = recordRepositoryMocks.countMock;
+      const recordSaveMock = recordRepositoryMocks.saveMock;
+      recordCountMock.mockResolvedValue(0);
+      const response = await requestSender.editResource('170dd8c0-8bad-498b-bb26-671dcf19aa3c', testEditRecordRequest);
       expect(recordCountMock).toHaveBeenCalledTimes(1);
       expect(recordCountMock).toHaveBeenCalledWith({
         id: '170dd8c0-8bad-498b-bb26-671dcf19aa3c',

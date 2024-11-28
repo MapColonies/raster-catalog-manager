@@ -2,7 +2,7 @@ import { singleton } from 'tsyringe';
 import { GeoJSON } from 'geojson';
 import { GeoJSONGeometry, stringify as geoJsonToWkt } from 'wellknown';
 import { LayerMetadata, Link, IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
-import { IFindRecordRequest, IFindRecordResponse, IUpdateRecordRequest } from '../../common/dataModels/records';
+import { IEditRecordRequest, IFindRecordRequest, IFindRecordResponse, IUpdateRecordRequest } from '../../common/dataModels/records';
 import { RecordEntity } from '../entity/generated';
 
 @singleton()
@@ -23,6 +23,13 @@ export class RecordModelConvertor {
       entity.links = this.linksToString(model.links);
     }
 
+    return entity;
+  }
+
+  public editModelToEntity(model: IEditRecordRequest): RecordEntity {
+    const entity = {} as RecordEntity;
+    this.parseMetadata(entity, model.metadata);
+    entity.id = model.id;
     return entity;
   }
 

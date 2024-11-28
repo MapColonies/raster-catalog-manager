@@ -15,6 +15,10 @@ export class RecordsRequestSender {
     return supertest.agent(this.app).put(`/records/${id}`).set('Content-Type', 'application/json').send(body);
   }
 
+  public async editResource(id: string, body: Record<string, unknown>): Promise<supertest.Response> {
+    return supertest.agent(this.app).put(`/records/metadata/${id}`).set('Content-Type', 'application/json').send(body);
+  }
+
   public async deleteResource(id: string): Promise<supertest.Response> {
     return supertest.agent(this.app).delete(`/records/${id}`);
   }
