@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.2.0](https://github.com/MapColonies/raster-catalog-manager/compare/v6.1.3...v6.2.0) (2024-11-28)
+
+
+### Features
+
+* Add edit route(MAPCO-5518, MAPCO-5415,MAPCO-5416) ([#71](https://github.com/MapColonies/raster-catalog-manager/issues/71)) ([e767b3c](https://github.com/MapColonies/raster-catalog-manager/commit/e767b3c72c9396339bbb2e9a4b55e222220c011a))
+
 ### [6.1.3](https://github.com/MapColonies/raster-catalog-manager/compare/v6.1.2...v6.1.3) (2024-11-27)
 
 ### [6.1.2](https://github.com/MapColonies/raster-catalog-manager/compare/v6.1.1...v6.1.2) (2024-11-27)
