@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.1](https://github.com/MapColonies/raster-catalog-manager/compare/v6.2.0...v6.2.1) (2024-12-05)
+
+
+### Bug Fixes
+
+* add keywords to editable metadata fields ([#72](https://github.com/MapColonies/raster-catalog-manager/issues/72)) ([9aafef5](https://github.com/MapColonies/raster-catalog-manager/commit/9aafef547707024f33f358f337111a479d0ea76f))
+
 ## [6.2.0](https://github.com/MapColonies/raster-catalog-manager/compare/v6.1.3...v6.2.0) (2024-11-28)
 
 
