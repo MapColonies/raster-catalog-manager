@@ -13,6 +13,7 @@ describe('SchemasValidator', () => {
           producerName: 'Producer',
           region: ['Region1', 'Region2'],
           scale: 10000,
+          keywords: 'key',
         },
       };
 
