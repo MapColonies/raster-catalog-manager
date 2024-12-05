@@ -11,6 +11,7 @@ const editableMetadataSchema = z
     producerName: z.string().optional(),
     region: z.array(z.string().min(1)).min(1).optional(),
     scale: z.number().min(VALIDATIONS.scale.min).max(VALIDATIONS.scale.max).optional(),
+    keywords: z.string().optional(),
   })
   .passthrough();
 
