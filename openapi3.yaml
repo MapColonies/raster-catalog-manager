@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Raster Catalog Manager
   description: CRUD Raster Records On Catalog DB
-  version: 6.2.1
+  version: 6.2.2
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT

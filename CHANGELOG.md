@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.2](https://github.com/MapColonies/raster-catalog-manager/compare/v6.2.1...v6.2.2) (2024-12-10)
+
+
+### Bug Fixes
+
+* changed horizontal accuracies to numeric in db schema ([#73](https://github.com/MapColonies/raster-catalog-manager/issues/73)) ([0be5a79](https://github.com/MapColonies/raster-catalog-manager/commit/0be5a79edbce3f49fe35b914f4cd6583f18da9b5))
+
 ### [6.2.1](https://github.com/MapColonies/raster-catalog-manager/compare/v6.2.0...v6.2.1) (2024-12-05)
 
 
