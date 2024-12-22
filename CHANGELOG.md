@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.2.3](https://github.com/MapColonies/raster-catalog-manager/compare/v6.2.2...v6.2.3) (2024-12-22)
+
+
+### Bug Fixes
+
+* update migration to readd horizontal accuracy constraint ([#75](https://github.com/MapColonies/raster-catalog-manager/issues/75)) ([9e850a2](https://github.com/MapColonies/raster-catalog-manager/commit/9e850a25bec03eb512e3efd6db7490495f69755b))
+
 ### [6.2.2](https://github.com/MapColonies/raster-catalog-manager/compare/v6.2.1...v6.2.2) (2024-12-10)
 
 
