@@ -13,3 +13,4 @@ node_modules
 coverage
 helm
 src/DAL/entity/generated.ts
+.release-please-manifest.json

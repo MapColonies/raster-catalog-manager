@@ -49,7 +49,7 @@ cloudProvider:
 image:
   repository: raster-catalog-manager
   # If commented, appVersion will be taken. See: _helpers.tpl
-  # tag: 'latest'
+  tag: 'latest'
 
 # add pod annotations
 # example:
