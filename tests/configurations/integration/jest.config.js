@@ -9,7 +9,7 @@ module.exports = {
     '!*/node_modules/',
     '!/vendor/**',
     '!*/common/**',
-    '!**/models/**',
+    '**/models/**',
     '!<rootDir>/src/*',
     '!<rootDir>/src/DAL/convertors/*',
   ],

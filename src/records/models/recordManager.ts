@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-import { IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
+import { IRasterCatalogUpsertRequestBody, RecordStatus } from '@map-colonies/mc-model-types';
 import { Logger } from '@map-colonies/js-logger';
 import { withSpanAsyncV4 } from '@map-colonies/telemetry';
 import { Tracer } from '@opentelemetry/api';
@@ -74,6 +74,13 @@ export class RecordManager {
     const repo = await this.getRepository();
     const res = await repo.getRecordVersions(req);
     return res;
+  }
+
+  @withSpanAsyncV4
+  public async updateRecordStatus(id: string, productStatus: RecordStatus): Promise<void> {
+    const repo = await this.getRepository();
+    this.logger.info(`updating record ${id} with status ${productStatus}`);
+    await repo.updateRecordStatus(id, productStatus);
   }
 
   private async getRepository(): Promise<RecordRepository> {
