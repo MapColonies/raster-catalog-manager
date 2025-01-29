@@ -7,3 +7,4 @@ ALTER TABLE records
     ALTER COLUMN imaging_time_end_utc SET NOT NULL,
     ALTER COLUMN srs SET NOT NULL,
     ALTER COLUMN srs_name SET NOT NULL;
+    
