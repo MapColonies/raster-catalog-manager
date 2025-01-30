@@ -2,6 +2,7 @@
 
 
 ALTER TABLE records 
+    ALTER COLUMN product_version SET NOT NULL,
     ALTER COLUMN creation_date_utc SET NOT NULL,
     ALTER COLUMN imaging_time_begin_utc SET NOT NULL,
     ALTER COLUMN imaging_time_end_utc SET NOT NULL,
