@@ -97,6 +97,50 @@ paths:
                 $ref: '#/components/schemas/error'
       tags:
         - records
+  /records/status/{recordId}:
+    parameters:
+      - $ref: '#/components/parameters/recordId'
+    put:
+      operationId: update product status
+      summary: Updates a record status
+      tags:
+        - records
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                productStatus:
+                  type: string
+                  pattern: '^(UNPUBLISHED|PUBLISHED)$'
+                  description: The status of the layer
+      responses:
+        '200':
+          description: Record updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/operationRecordResponse'
+        '400':
+          description: Bad Request, could not update record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '404':
+          description: Record not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /records/metadata/{recordId}:
     parameters:
       - $ref: '#/components/parameters/recordId'

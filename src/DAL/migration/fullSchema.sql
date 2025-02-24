@@ -2,7 +2,9 @@ SET search_path TO public;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS postgis;
 
+
 SET search_path TO "RasterCatalogManager", public; -- CHANGE SCHEMA NAME TO MATCH ENVIRONMENT
+CREATE TYPE product_status AS ENUM ('PUBLISHED', 'UNPUBLISHED'); 
 -- Table: records
 -- DROP TABLE records;
 CREATE TABLE records
@@ -17,7 +19,7 @@ CREATE TABLE records
     wkt_geometry text COLLATE pg_catalog."default",
     wkb_geometry geometry(Geometry,4326),
     anytext_tsvector tsvector,
-
+    product_status product_status NOT NULL DEFAULT 'PUBLISHED',
     product_id text COLLATE pg_catalog."default" NOT NULL CHECK (product_id ~* '^[a-zA-Z0-9_-]+$'),
     product_name text COLLATE pg_catalog."default",
     product_version text COLLATE pg_catalog."default" CHECK (product_version ~* '^\d+\.\d{1,2}$'),

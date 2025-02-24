@@ -1,6 +1,6 @@
 import { Repository, EntityRepository } from 'typeorm';
 import { container } from 'tsyringe';
-import { IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
+import { IRasterCatalogUpsertRequestBody, RecordStatus } from '@map-colonies/mc-model-types';
 import { Logger } from '@map-colonies/js-logger';
 import { ConflictError } from '@map-colonies/error-types';
 import { SERVICES } from '../../common/constants';
@@ -45,6 +45,15 @@ export class RecordRepository extends Repository<RecordEntity> {
     }
 
     const entity = this.recordConvertor.editModelToEntity(req);
+    await this.save(entity);
+  }
+
+  public async updateRecordStatus(id: string, productStatus: RecordStatus): Promise<void> {
+    if (!(await this.exists(id))) {
+      throw new EntityNotFound(`record ${id} was not found for update request`);
+    }
+
+    const entity = this.recordConvertor.updateStatusModelToEntity(id, productStatus);
     await this.save(entity);
   }
 
