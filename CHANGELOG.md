@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.3.0](https://github.com/MapColonies/raster-catalog-manager/compare/v6.2.4...v6.3.0) (2025-03-09)
+
+
+### Features
+
+* update fullSchema.sql not null columns and create new migration file ([#78](https://github.com/MapColonies/raster-catalog-manager/issues/78)) ([558c3e6](https://github.com/MapColonies/raster-catalog-manager/commit/558c3e6b004a7e4ede167ae3c4a7149d9c3a8d8c))
+
 ### [6.2.4](https://github.com/MapColonies/raster-catalog-manager/compare/v6.2.3...v6.2.4) (2025-02-24)
 
 
