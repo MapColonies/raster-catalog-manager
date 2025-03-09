@@ -13,6 +13,7 @@ import {
   IRecordRequestParams,
   IUpdateRecordRequest,
   IEditRecordRequest,
+  UpdateRecordStatus,
 } from '../../common/dataModels/records';
 import { RecordManager } from '../models/recordManager';
 import { validateUpdatableFields } from '../../utils/zod/updateRequestSchema';
@@ -24,6 +25,7 @@ type DeleteRecordHandler = RequestHandler<IRecordRequestParams, IRecordOperation
 type RecordExistsHandler = RequestHandler<IRecordRequestParams, IRecordExistsResponse>;
 type FindRecordHandler = RequestHandler<undefined, IFindRecordResponse[], IFindRecordRequest>;
 type GetRecordVersionsHandler = RequestHandler<undefined, string[], IFindRecordRequest>;
+type UpdateRecordStatusHandler = RequestHandler<IRecordRequestParams, IRecordOperationResponse, UpdateRecordStatus>;
 
 @injectable()
 export class RecordController {
@@ -103,6 +105,20 @@ export class RecordController {
     try {
       const record = await this.manager.getRecordVersions(req.body);
       return res.status(httpStatus.OK).json(record);
+    } catch (err) {
+      return next(err);
+    }
+  };
+
+  public updateRecordStatus: UpdateRecordStatusHandler = async (req, res, next) => {
+    try {
+      const { productStatus } = req.body;
+      const { id } = req.params;
+      await this.manager.updateRecordStatus(id, productStatus);
+      return res.status(httpStatus.OK).json({
+        id: id,
+        status: OperationStatusEnum.SUCCESS,
+      });
     } catch (err) {
       return next(err);
     }
