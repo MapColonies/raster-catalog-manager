@@ -19,7 +19,7 @@ CREATE TABLE records
     wkt_geometry text COLLATE pg_catalog."default",
     wkb_geometry geometry(Geometry,4326),
     anytext_tsvector tsvector,
-    product_status product_status NOT NULL DEFAULT 'PUBLISHED',
+    product_status product_status NOT NULL DEFAULT 'UNPUBLISHED',
     product_id text COLLATE pg_catalog."default" NOT NULL CHECK (product_id ~* '^[a-zA-Z0-9_-]+$'),
     product_name text COLLATE pg_catalog."default",
     product_version text COLLATE pg_catalog."default" NOT NULL CHECK (product_version ~* '^\d+\.\d{1,2}$'),

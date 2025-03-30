@@ -126,7 +126,7 @@ describe('RecordModelConverter', () => {
         maxResolutionMeter: 0.5,
         minResolutionMeter: 0.5,
         productBoundingBox: '0,0 : 1,1',
-        productStatus: RecordStatus.PUBLISHED,
+        productStatus: RecordStatus.UNPUBLISHED,
       } as unknown as LayerMetadata;
 
       const res = convertor.metadataToPartialEntity(testMetadata);

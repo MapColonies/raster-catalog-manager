@@ -135,7 +135,7 @@ describe('records', () => {
         xml: '',
         sensors: 'Pan_Sharpen,test',
         region: 'a,b',
-        productStatus: 'PUBLISHED',
+        productStatus: 'UNPUBLISHED',
       };
 
       const executeResponse = {
