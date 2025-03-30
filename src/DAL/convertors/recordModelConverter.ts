@@ -17,7 +17,10 @@ export class RecordModelConvertor {
 
   public updateModelToEntity(model: IUpdateRecordRequest): RecordEntity {
     const entity = {} as RecordEntity;
-    this.parseMetadata(entity, model.metadata);
+    /* eslint-disable @typescript-eslint/no-unnecessary-condition */
+    if (model.metadata !== undefined) {
+      this.parseMetadata(entity, model.metadata);
+    }
     entity.id = model.id;
     if (model.links != undefined) {
       entity.links = this.linksToString(model.links);

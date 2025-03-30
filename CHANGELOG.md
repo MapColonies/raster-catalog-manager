@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.3.0](https://github.com/MapColonies/raster-catalog-manager/compare/v6.2.4...v6.3.0) (2025-03-09)
+
+
+### Features
+
+* update fullSchema.sql not null columns and create new migration file ([#78](https://github.com/MapColonies/raster-catalog-manager/issues/78)) ([558c3e6](https://github.com/MapColonies/raster-catalog-manager/commit/558c3e6b004a7e4ede167ae3c4a7149d9c3a8d8c))
+
+### [6.2.4](https://github.com/MapColonies/raster-catalog-manager/compare/v6.2.3...v6.2.4) (2025-02-24)
+
+
+### Bug Fixes
+
+* error on no metadata on update ([#76](https://github.com/MapColonies/raster-catalog-manager/issues/76)) ([2456708](https://github.com/MapColonies/raster-catalog-manager/commit/24567082e848faa41f6b6b91716a656392a62c1f))
+* removing max_old_space_size from Dockerfile ([#79](https://github.com/MapColonies/raster-catalog-manager/issues/79)) ([cb862d6](https://github.com/MapColonies/raster-catalog-manager/commit/cb862d61f0b5ecb43facde551154a158535afd73))
+
 ### [6.2.3](https://github.com/MapColonies/raster-catalog-manager/compare/v6.2.2...v6.2.3) (2024-12-22)
 
 
