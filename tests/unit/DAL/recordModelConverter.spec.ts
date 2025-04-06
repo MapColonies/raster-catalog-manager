@@ -6,6 +6,8 @@ import {
   RecordType,
   EditLayerMetadata,
   RecordStatus,
+  Transparency,
+  TileOutputFormat,
 } from '@map-colonies/mc-model-types';
 import { IUpdateRecordRequest, IEditRecordRequest } from '../../../src/common/dataModels/records';
 import { RecordModelConvertor } from '../../../src/DAL/convertors/recordModelConverter';
@@ -91,7 +93,6 @@ describe('RecordModelConverter', () => {
         productName: 'test',
         productVersion: '1',
         productType: ProductType.ORTHOPHOTO,
-        productSubType: undefined,
         description: 'test test',
         creationDateUTC: date,
         ingestionDate: date,
@@ -127,6 +128,10 @@ describe('RecordModelConverter', () => {
         minResolutionMeter: 0.5,
         productBoundingBox: '0,0 : 1,1',
         productStatus: RecordStatus.UNPUBLISHED,
+        displayPath: 'testDisplayPath',
+        tileMimeFormat: 'image/png',
+        transparency: Transparency.TRANSPARENT,
+        tileOutputFormat: TileOutputFormat.JPEG,
       } as unknown as LayerMetadata;
 
       const res = convertor.metadataToPartialEntity(testMetadata);
@@ -135,7 +140,7 @@ describe('RecordModelConverter', () => {
         productId: 'testId',
         productName: 'test',
         productVersion: '1',
-        productType: 'Orthophoto',
+        productType: ProductType.ORTHOPHOTO,
         description: 'test test',
         creationDateUTC: date,
         ingestionDate: date,
@@ -176,9 +181,18 @@ describe('RecordModelConverter', () => {
         maxResolutionMeter: 0.5,
         minResolutionMeter: 0.5,
         productBoundingBox: '0,0 : 1,1',
-        productStatus: 'PUBLISHED',
+        productStatus: RecordStatus.UNPUBLISHED,
+        displayPath: 'testDisplayPath',
+        tileMimeFormat: 'image/png',
+        transparency: Transparency.TRANSPARENT,
+        tileOutputFormat: TileOutputFormat.JPEG,
+        anyText: undefined,
+        wkbGeometry: undefined,
+        productSubType: undefined,
+        id: undefined,
+        links: undefined,
+        insertDate: undefined,
       } as unknown as RecordEntity;
-
       expect(res).toBeInstanceOf(RecordEntity);
       expect(res).toEqual(expectedEntity);
     });
