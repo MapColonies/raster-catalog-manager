@@ -11,7 +11,7 @@ export interface IFindRecordRequest extends Partial<IUpdateRecordRequest> {}
 
 export interface IEditRecordRequest extends IRasterCatalogEditRequestBody, IRecordRequestParams {}
 
-export interface UpdateRecordStatus {
+export interface UpdateRecordStatusRequest {
   productStatus: RecordStatus;
 }
 
