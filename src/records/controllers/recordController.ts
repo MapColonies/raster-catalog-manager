@@ -13,7 +13,7 @@ import {
   IRecordRequestParams,
   IUpdateRecordRequest,
   IEditRecordRequest,
-  UpdateRecordStatusRequest,
+  IUpdateRecordStatusRequest,
 } from '../../common/dataModels/records';
 import { RecordManager } from '../models/recordManager';
 import { validateUpdatableFields } from '../../utils/zod/updateRequestSchema';
@@ -25,7 +25,7 @@ type DeleteRecordHandler = RequestHandler<IRecordRequestParams, IRecordOperation
 type RecordExistsHandler = RequestHandler<IRecordRequestParams, IRecordExistsResponse>;
 type FindRecordHandler = RequestHandler<undefined, IFindRecordResponse[], IFindRecordRequest>;
 type GetRecordVersionsHandler = RequestHandler<undefined, string[], IFindRecordRequest>;
-type UpdateRecordStatusHandler = RequestHandler<IRecordRequestParams, IRecordOperationResponse, UpdateRecordStatusRequest>;
+type UpdateRecordStatusHandler = RequestHandler<IRecordRequestParams, IRecordOperationResponse, IUpdateRecordStatusRequest>;
 
 @injectable()
 export class RecordController {
