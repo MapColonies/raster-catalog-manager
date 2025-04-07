@@ -101,7 +101,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/recordId'
     put:
-      operationId: update product status
+      operationId: updateProductStatus
       summary: Updates a record status
       tags:
         - records
