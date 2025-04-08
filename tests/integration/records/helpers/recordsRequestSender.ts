@@ -1,7 +1,8 @@
+import { Application } from 'express';
 import * as supertest from 'supertest';
 
 export class RecordsRequestSender {
-  public constructor(private readonly app: Express.Application) {}
+  public constructor(private readonly app: Application) {}
 
   public async recordExists(id: string): Promise<supertest.Response> {
     return supertest.agent(this.app).get(`/records/exists/${id}`);
@@ -13,6 +14,10 @@ export class RecordsRequestSender {
 
   public async updateResource(id: string, body: Record<string, unknown>): Promise<supertest.Response> {
     return supertest.agent(this.app).put(`/records/${id}`).set('Content-Type', 'application/json').send(body);
+  }
+
+  public async updateResourceStatus(id: string, body: Record<string, unknown>): Promise<supertest.Response> {
+    return supertest.agent(this.app).put(`/records/status/${id}`).set('Content-Type', 'application/json').send(body);
   }
 
   public async editResource(id: string, body: Record<string, unknown>): Promise<supertest.Response> {

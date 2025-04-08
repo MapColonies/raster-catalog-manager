@@ -1,4 +1,4 @@
-import { IRasterCatalogEditRequestBody, IRasterCatalogUpsertRequestBody } from '@map-colonies/mc-model-types';
+import { IRasterCatalogEditRequestBody, IRasterCatalogUpsertRequestBody, RecordStatus } from '@map-colonies/mc-model-types';
 
 //requests
 export interface IRecordRequestParams {
@@ -10,6 +10,10 @@ export interface IUpdateRecordRequest extends IRasterCatalogUpsertRequestBody, I
 export interface IFindRecordRequest extends Partial<IUpdateRecordRequest> {}
 
 export interface IEditRecordRequest extends IRasterCatalogEditRequestBody, IRecordRequestParams {}
+
+export interface IUpdateRecordStatusRequest {
+  productStatus: RecordStatus;
+}
 
 //responses
 export enum OperationStatusEnum {

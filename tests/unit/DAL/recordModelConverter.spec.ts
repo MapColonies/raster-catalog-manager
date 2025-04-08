@@ -1,4 +1,14 @@
-import { IRasterCatalogUpsertRequestBody, LayerMetadata, Link, ProductType, RecordType, EditLayerMetadata } from '@map-colonies/mc-model-types';
+import {
+  IRasterCatalogUpsertRequestBody,
+  LayerMetadata,
+  Link,
+  ProductType,
+  RecordType,
+  EditLayerMetadata,
+  RecordStatus,
+  Transparency,
+  TileOutputFormat,
+} from '@map-colonies/mc-model-types';
 import { IUpdateRecordRequest, IEditRecordRequest } from '../../../src/common/dataModels/records';
 import { RecordModelConvertor } from '../../../src/DAL/convertors/recordModelConverter';
 import { RecordEntity } from '../../../src/DAL/entity/generated';
@@ -83,7 +93,6 @@ describe('RecordModelConverter', () => {
         productName: 'test',
         productVersion: '1',
         productType: ProductType.ORTHOPHOTO,
-        productSubType: undefined,
         description: 'test test',
         creationDateUTC: date,
         ingestionDate: date,
@@ -118,6 +127,11 @@ describe('RecordModelConverter', () => {
         maxResolutionMeter: 0.5,
         minResolutionMeter: 0.5,
         productBoundingBox: '0,0 : 1,1',
+        productStatus: RecordStatus.UNPUBLISHED,
+        displayPath: 'testDisplayPath',
+        tileMimeFormat: 'image/png',
+        transparency: Transparency.TRANSPARENT,
+        tileOutputFormat: TileOutputFormat.JPEG,
       } as unknown as LayerMetadata;
 
       const res = convertor.metadataToPartialEntity(testMetadata);
@@ -126,7 +140,7 @@ describe('RecordModelConverter', () => {
         productId: 'testId',
         productName: 'test',
         productVersion: '1',
-        productType: 'Orthophoto',
+        productType: ProductType.ORTHOPHOTO,
         description: 'test test',
         creationDateUTC: date,
         ingestionDate: date,
@@ -167,8 +181,18 @@ describe('RecordModelConverter', () => {
         maxResolutionMeter: 0.5,
         minResolutionMeter: 0.5,
         productBoundingBox: '0,0 : 1,1',
+        productStatus: RecordStatus.UNPUBLISHED,
+        displayPath: 'testDisplayPath',
+        tileMimeFormat: 'image/png',
+        transparency: Transparency.TRANSPARENT,
+        tileOutputFormat: TileOutputFormat.JPEG,
+        anyText: undefined,
+        wkbGeometry: undefined,
+        productSubType: undefined,
+        id: undefined,
+        links: undefined,
+        insertDate: undefined,
       } as unknown as RecordEntity;
-
       expect(res).toBeInstanceOf(RecordEntity);
       expect(res).toEqual(expectedEntity);
     });
@@ -314,6 +338,19 @@ describe('RecordModelConverter', () => {
       };
 
       expect(entity).toEqual(expectedResponse);
+    });
+  });
+
+  describe('updateStatusModelToEntity', () => {
+    it('converted entity has id and productStatus', () => {
+      const updateRecordModel = {
+        id: 'some-id',
+        productStatus: RecordStatus.PUBLISHED,
+      };
+
+      const res = convertor.updateStatusModelToEntity(updateRecordModel.id, updateRecordModel.productStatus);
+
+      expect(res).toEqual({ ...updateRecordModel });
     });
   });
 });

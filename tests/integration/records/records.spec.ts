@@ -99,6 +99,10 @@ const findWithMetadata = {
   },
 };
 
+const updateRecordStatusRequest = {
+  productStatus: 'UNPUBLISHED',
+};
+
 describe('records', () => {
   beforeEach(() => {
     //remove AJV warnings from filling test log
@@ -131,6 +135,7 @@ describe('records', () => {
         xml: '',
         sensors: 'Pan_Sharpen,test',
         region: 'a,b',
+        productStatus: 'UNPUBLISHED',
       };
 
       const executeResponse = {
@@ -157,7 +162,7 @@ describe('records', () => {
       expect(response).toSatisfyApiSpec();
     });
 
-    it('should update record status and return 200', async () => {
+    it('should update record and return 200', async () => {
       const recordCountMock = recordRepositoryMocks.countMock;
       const recordSaveMock = recordRepositoryMocks.saveMock;
 
@@ -229,7 +234,7 @@ describe('records', () => {
       expect(response.body).toEqual({ exists: true });
     });
 
-    it("should return 200 and false when record doesn't exists", async () => {
+    it("should return 200 and false when record doesn't exist", async () => {
       const recordCountMock = recordRepositoryMocks.countMock;
       recordCountMock.mockResolvedValue(0);
 
@@ -307,6 +312,27 @@ describe('records', () => {
       });
       expect(response).toSatisfyApiSpec();
     });
+
+    it('should update record productStatus and return 200', async () => {
+      const recordCountMock = recordRepositoryMocks.countMock;
+      const recordSaveMock = recordRepositoryMocks.saveMock;
+
+      recordCountMock.mockResolvedValue(1);
+      recordSaveMock.mockResolvedValue({});
+
+      const response = await requestSender.updateResourceStatus('170dd8c0-8bad-498b-bb26-671dcf19aa3c', updateRecordStatusRequest);
+      expect(response).toSatisfyApiSpec();
+
+      expect(response.status).toBe(httpStatusCodes.OK);
+      expect(recordSaveMock).toHaveBeenCalledTimes(1);
+      expect(recordSaveMock).toHaveBeenCalledWith({
+        productStatus: 'UNPUBLISHED',
+        id: '170dd8c0-8bad-498b-bb26-671dcf19aa3c',
+      });
+
+      const body = response.body as unknown;
+      expect(body).toEqual({ id: '170dd8c0-8bad-498b-bb26-671dcf19aa3c', status: OperationStatusEnum.SUCCESS });
+    });
   });
   describe('Bad Path', () => {
     // due to bug in validator additional properties is not compilable with allof
@@ -351,6 +377,14 @@ describe('records', () => {
       expect(recordCountMock).toHaveBeenCalledTimes(0);
       expect(response).toSatisfyApiSpec();
     });
+
+    it('should return status code 400 on PUT update productStatus request with invalid body', async () => {
+      const recordCountMock = recordRepositoryMocks.countMock;
+      const response = await requestSender.updateResourceStatus('3fa85f64-5717-4562-b3fc-2c963f66a888', { productStatus: 'invalid' });
+      expect(response.status).toBe(httpStatusCodes.BAD_REQUEST);
+      expect(recordCountMock).toHaveBeenCalledTimes(0);
+      expect(response).toSatisfyApiSpec();
+    });
   });
 
   describe('Sad Path', () => {
@@ -373,6 +407,20 @@ describe('records', () => {
       const recordSaveMock = recordRepositoryMocks.saveMock;
       recordCountMock.mockResolvedValue(0);
       const response = await requestSender.editResource('170dd8c0-8bad-498b-bb26-671dcf19aa3c', testEditRecordRequest);
+      expect(recordCountMock).toHaveBeenCalledTimes(1);
+      expect(recordCountMock).toHaveBeenCalledWith({
+        id: '170dd8c0-8bad-498b-bb26-671dcf19aa3c',
+      });
+      expect(recordSaveMock).toHaveBeenCalledTimes(0);
+      expect(response.status).toBe(httpStatusCodes.NOT_FOUND);
+      expect(response).toSatisfyApiSpec();
+    });
+
+    it('should return status code 404 on PUT productStatus request for non existing record', async () => {
+      const recordCountMock = recordRepositoryMocks.countMock;
+      const recordSaveMock = recordRepositoryMocks.saveMock;
+      recordCountMock.mockResolvedValue(0);
+      const response = await requestSender.updateResourceStatus('170dd8c0-8bad-498b-bb26-671dcf19aa3c', updateRecordStatusRequest);
       expect(recordCountMock).toHaveBeenCalledTimes(1);
       expect(recordCountMock).toHaveBeenCalledWith({
         id: '170dd8c0-8bad-498b-bb26-671dcf19aa3c',

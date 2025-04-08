@@ -8,6 +8,7 @@ const recordRouterFactory: FactoryFunction<Router> = (dependencyContainer) => {
 
   router.get('/exists/:id', recordsController.recordExists);
   router.put('/metadata/:id', recordsController.editRecord);
+  router.put('/status/:id', recordsController.updateRecordStatus);
   router.post('/', recordsController.createRecord);
   router.put('/:id', recordsController.updateRecord);
   router.delete('/:id', recordsController.deleteRecord);
