@@ -1,5 +1,6 @@
 SET search_path TO "RasterCatalogManager", public; -- CHANGE SCHEMA NAME TO MATCH ENVIRONMENT
 
+-- Add product_status column with PUBLISHED/UNPUBLISHED enum to records table
 DO $$
 DECLARE
     updated_count INTEGER;
