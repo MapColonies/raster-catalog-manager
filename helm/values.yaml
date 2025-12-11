@@ -19,6 +19,17 @@ global:
   ingress:
     domain: 'apps.aroapp.io'    
 
+mclabels:
+  component: backend
+  partOf: core
+  owner: raster
+  gisDomain: raster
+  prometheus:
+    enabled: true
+    port: 5432
+  logScraping: true
+
+
 db:
   host: ""
   name: ""
