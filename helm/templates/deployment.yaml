@@ -15,16 +15,26 @@ kind: Deployment
 metadata:
   name: {{ $deploymentName }}
   labels:
+    app: {{ $chartName }}
+    component: {{ $chartName }}
+    environment: {{ include "raster-catalog-manager.environment" . }}
+    release: {{ $releaseName }}
     {{- include "raster-catalog-manager.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
+      app: {{ $chartName }}
+      release: {{ $releaseName }}
+      run: {{ $releaseName }}-{{ $chartName }}
       {{- include "raster-catalog-manager.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "raster-catalog-manager.selectorLabels" . | nindent 8 }}
+        app: {{ $chartName }}
+        release: {{ $releaseName }}
+        run: {{ $releaseName }}-{{ $chartName }}
+        {{- include "raster-catalog-manager.labels" . | nindent 8 }}
       annotations:
       {{- if .Values.resetOnConfigChange }}
         checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
