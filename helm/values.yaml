@@ -27,8 +27,6 @@ mclabels:
   prometheus:
     enabled: true
     port: 5432
-  logScraping: true
-
 
 db:
   host: ""
