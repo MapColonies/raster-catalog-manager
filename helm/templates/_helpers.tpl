@@ -30,12 +30,14 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "raster-catalog-manager.labels" -}}
+app.kubernetes.io/name: {{ include "raster-catalog-manager.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
 helm.sh/chart: {{ include "raster-catalog-manager.chart" . }}
-{{ include "raster-catalog-manager.selectorLabels" . }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{ include "mclabels.labels" . }}
 {{- end }}
 
 {{/*
@@ -51,6 +53,7 @@ Selector labels
 {{- define "raster-catalog-manager.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "raster-catalog-manager.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+{{ include "mclabels.selectorLabels" . }}
 {{- end }}
 
 {{/*
