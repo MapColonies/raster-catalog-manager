@@ -22,6 +22,7 @@
     "assets:copy": "copyfiles -f ./config/* ./dist/config && copyfiles -f ./bundledApi.yaml ./dist/ && copyfiles ./package.json dist",
     "copySchema": "copyfiles -u 5 \"./node_modules/@map-colonies/mc-model-types/Schema/yaml/**/*\" ./Schema",
     "clean": "rimraf dist src/DAL/entity/generated.ts bundledApi.yaml",
+    "postinstall": "command -v ./node_modules/.bin/copyfiles > /dev/null && command -v ./node_modules/.bin/openapi > /dev/null && command -v ./node_modules/.bin/rimraf > /dev/null && npm run bundleOpenApi || echo 'skipping postinstall since openapi is not available'",
     "install": "npx husky install",
     "generate-record-entity": "code-generator -p raster -gt orm -tf src/DAL/entity/generated.ts",
     "pretest:integration": "npm run bundleOpenApi",
