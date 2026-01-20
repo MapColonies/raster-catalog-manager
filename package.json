@@ -1,6 +1,6 @@
 {
   "name": "raster-catalog-manager",
-  "version": "7.0.2",
+  "version": "7.0.3",
   "description": "Service for inserting records into raster-catalog-manager",
   "main": "./src/index.ts",
   "scripts": {
@@ -80,7 +80,7 @@
     "@map-colonies/prettier-config": "0.0.1",
     "@map-colonies/standard-version-update-helm-version": "^2.0.1",
     "@map-colonies/standard-version-update-openapi3-version": "0.0.2",
-    "@redocly/cli": "^2.14.2",    
+    "@redocly/cli": "^2.14.2",
     "@types/compression": "^1.7.5",
     "@types/config": "^3.3.0",
     "@types/express": "^4.17.17",
