@@ -2,8 +2,8 @@ apiVersion: v2
 name: raster-catalog-manager
 description: A Helm chart for raster-catalog-manager service
 type: application
-version: 7.0.3
-appVersion: 7.0.3
+version: 7.1.0
+appVersion: 7.1.0
 dependencies:
   - name: mclabels
     version: 1.0.1
