@@ -33,15 +33,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out TS Project Git repository
-        uses: actions/checkout@v5
-
-      - name: Init Nodejs
-        uses: MapColonies/shared-workflows/actions/init-npm@init-npm-v1
-
-      - name: OpenAPI Lint Checks
-        run: npx @redocly/cli lint --format=github-actions openapi3.yaml
-
+      - name: openapi-lint
+        uses: MapColonies/shared-workflows/actions/openapi-lint@openapi-lint-v1.0.0
+        with:
+          node_version: ${{ matrix.node }}
 
   tests:
     name: Run Tests
