@@ -35,6 +35,9 @@ jobs:
     strategy: *node-strategy
 
     steps:
+      - name: Bundle OpenAPI file
+        run: npm run bundleOpenApi
+
       - name: openapi-lint
         uses: MapColonies/shared-workflows/actions/openapi-lint@openapi-lint-v1.0.0
         with:
