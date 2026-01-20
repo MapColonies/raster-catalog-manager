@@ -108,5 +108,8 @@
     "supertest": "^6.3.3",
     "ts-jest": "^29.0.5",
     "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=24.0.0"
   }
 }
