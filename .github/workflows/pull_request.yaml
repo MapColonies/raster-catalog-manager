@@ -15,14 +15,30 @@ jobs:
         with: 
           node_version: ${{ matrix.node }}
 
+  helm-lint:
+    name: Run Helm lint Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out TS Project Git repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
       - name: Helm Lint Checks
         uses: MapColonies/shared-workflows/actions/helm-lint@helm-lint-v1
 
+  openapi-lint:
+    name: Run OpenAPI lint Check
+    runs-on: ubuntu-latest
+
+    strategy: *node-strategy
+
+    steps:
       - name: openapi-lint
         uses: MapColonies/shared-workflows/actions/openapi-lint@openapi-lint-v1.0.0
         with:
           node_version: ${{ matrix.node }}
-          openapi_file: './bundleApi.yaml'
 
   tests:
     name: Run Tests
