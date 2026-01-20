@@ -29,15 +29,18 @@ jobs:
         uses: MapColonies/shared-workflows/actions/helm-lint@helm-lint-v1
 
   openapi-lint:
-    strategy: *node-strategy
-    name: Run OpenAPI Lint Check
+    name: Run OpenAPI lint Check
     runs-on: ubuntu-latest
-    steps: 
-    - name: Run OpenAPI Lint
-      uses: MapColonies/shared-workflows/actions/openapi-lint@openapi-lint-v1.0.0
-      with:
-        node_version: ${{ matrix.node }}
-        openapi-file: "./openapi3.yaml"
+
+    steps:
+      - name: Check out TS Project Git repository
+        uses: actions/checkout@v5
+
+      - name: Init Nodejs
+        uses: MapColonies/shared-workflows/actions/init-npm@init-npm-v1
+
+      - name: OpenAPI Lint Checks
+        run: npx @redocly/cli lint --format=github-actions openapi3.yaml
 
 
   tests:
