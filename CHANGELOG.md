@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.1.0](https://github.com/MapColonies/raster-catalog-manager/compare/v7.0.3...v7.1.0) (2026-01-20)
+
+### [7.0.3](https://github.com/MapColonies/raster-catalog-manager/compare/v7.0.2...v7.0.3) (2026-01-20)
+
+### [7.0.2](https://github.com/MapColonies/raster-catalog-manager/compare/v7.0.1...v7.0.2) (2026-01-05)
+
+### [7.0.1](https://github.com/MapColonies/raster-catalog-manager/compare/v7.0.0...v7.0.1) (2026-01-01)
+
+
+### Bug Fixes
+
+* product status published for existing records ([#81](https://github.com/MapColonies/raster-catalog-manager/issues/81)) ([7851e56](https://github.com/MapColonies/raster-catalog-manager/commit/7851e560ee35de89f9abf554e4148bf3fe9ee2d8))
+
 ## [7.0.0](https://github.com/MapColonies/raster-catalog-manager/compare/v6.3.0...v7.0.0) (2025-04-08)
 
 
