@@ -27,7 +27,10 @@ export class RecordRepository extends Repository<RecordEntity> {
       throw new ConflictError(`Duplicate identifier: ${entity.id}`);
     }
     const res = await this.createQueryBuilder().insert().values(entity).returning('identifier').execute();
-    return res.identifiers[0]['id'] as string;
+    if (!res.identifiers || res.identifiers.length === 0) {
+      throw new Error('Failed to create record: no identifier returned');
+    }
+    return res.identifiers[0]!['id'] as string;
   }
 
   public async updateRecord(req: IUpdateRecordRequest): Promise<void> {

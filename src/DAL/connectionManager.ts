@@ -1,9 +1,9 @@
 import { readFileSync } from 'fs';
 import { createConnection, Connection, ObjectType, ConnectionOptions } from 'typeorm';
 import { inject, singleton } from 'tsyringe';
-import { Logger } from '@map-colonies/js-logger';
+import type { Logger } from '@map-colonies/js-logger';
 import { SERVICES } from '../common/constants';
-import { IConfig, IDbConfig } from '../common/interfaces';
+import type { IConfig, IDbConfig } from '../common/interfaces';
 import { DBConnectionError } from '../common/errors';
 import { RecordRepository } from './repositories/recordRepository';
 

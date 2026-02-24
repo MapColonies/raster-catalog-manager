@@ -5,10 +5,12 @@ import { OpenapiViewerRouter, OpenapiRouterConfig } from '@map-colonies/openapi-
 import { getErrorHandlerMiddleware } from '@map-colonies/error-express-handler';
 import { middleware as OpenApiMiddleware } from 'express-openapi-validator';
 import { inject, injectable } from 'tsyringe';
-import { Logger } from '@map-colonies/js-logger';
-import httpLogger from '@map-colonies/express-access-log-middleware';
+import { Registry } from 'prom-client';
+import type { Logger } from '@map-colonies/js-logger';
+import { httpLogger } from '@map-colonies/express-access-log-middleware';
 import { SERVICES } from './common/constants';
-import { IConfig } from './common/interfaces';
+import type { IConfig } from './common/interfaces';
+import { collectMetricsExpressMiddleware } from '@map-colonies/prometheus';
 import { RECORD_ROUTER_SYMBOL } from './records/routes/recordRouter';
 
 @injectable()
@@ -18,6 +20,7 @@ export class ServerBuilder {
   public constructor(
     @inject(SERVICES.CONFIG) private readonly config: IConfig,
     @inject(SERVICES.LOGGER) private readonly logger: Logger,
+    @inject(SERVICES.METRICS) private readonly metricsRegistry: Registry,
     @inject(RECORD_ROUTER_SYMBOL) private readonly recordRouter: Router
   ) {
     this.serverInstance = express();
@@ -46,6 +49,7 @@ export class ServerBuilder {
   }
 
   private registerPreRoutesMiddleware(): void {
+    this.serverInstance.use(collectMetricsExpressMiddleware({ registry: this.metricsRegistry }));
     this.serverInstance.use(httpLogger({ logger: this.logger }));
 
     if (this.config.get<boolean>('server.response.compression.enabled')) {

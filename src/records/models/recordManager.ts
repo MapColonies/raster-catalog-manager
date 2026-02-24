@@ -1,11 +1,11 @@
 import { inject, injectable } from 'tsyringe';
-import { IRasterCatalogUpsertRequestBody, RecordStatus } from '@map-colonies/mc-model-types';
-import { Logger } from '@map-colonies/js-logger';
+import type { IRasterCatalogUpsertRequestBody, RecordStatus } from '@map-colonies/mc-model-types';
+import type { Logger } from '@map-colonies/js-logger';
 import { withSpanAsyncV4 } from '@map-colonies/telemetry';
-import { Tracer } from '@opentelemetry/api';
+import type { Tracer } from '@opentelemetry/api';
 import { SERVICES } from '../../common/constants';
 import { ConnectionManager } from '../../DAL/connectionManager';
-import {
+import type {
   IEditRecordRequest,
   IFindRecordRequest,
   IFindRecordResponse,
