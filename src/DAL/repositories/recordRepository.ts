@@ -1,13 +1,13 @@
 import { Repository, EntityRepository } from 'typeorm';
 import { container } from 'tsyringe';
-import { IRasterCatalogUpsertRequestBody, RecordStatus } from '@map-colonies/mc-model-types';
-import { Logger } from '@map-colonies/js-logger';
+import type { IRasterCatalogUpsertRequestBody, RecordStatus } from '@map-colonies/mc-model-types';
+import type { Logger } from '@map-colonies/js-logger';
 import { ConflictError } from '@map-colonies/error-types';
 import { SERVICES } from '../../common/constants';
 import { RecordEntity } from '../entity/generated';
 import { RecordModelConvertor } from '../convertors/recordModelConverter';
 import { EntityNotFound } from '../../common/errors';
-import { IEditRecordRequest, IFindRecordRequest, IFindRecordResponse, IUpdateRecordRequest } from '../../common/dataModels/records';
+import type { IEditRecordRequest, IFindRecordRequest, IFindRecordResponse, IUpdateRecordRequest } from '../../common/dataModels/records';
 
 @EntityRepository(RecordEntity)
 export class RecordRepository extends Repository<RecordEntity> {
@@ -23,11 +23,12 @@ export class RecordRepository extends Repository<RecordEntity> {
 
   public async createRecord(req: IRasterCatalogUpsertRequestBody): Promise<string> {
     const entity = this.recordConvertor.createModelToEntity(req);
+
     if (await this.exists(entity.id)) {
       throw new ConflictError(`Duplicate identifier: ${entity.id}`);
     }
     const res = await this.createQueryBuilder().insert().values(entity).returning('identifier').execute();
-    return res.identifiers[0]['id'] as string;
+    return res.identifiers[0]!['id'] as string;
   }
 
   public async updateRecord(req: IUpdateRecordRequest): Promise<void> {

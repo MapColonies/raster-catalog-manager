@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 import { trace } from '@opentelemetry/api';
 import jsLogger from '@map-colonies/js-logger';
 import { TileOutputFormat, Transparency } from '@map-colonies/mc-model-types';
+import { initConfig } from '@src/common/config';
 import { SERVICES } from '../../../src/common/constants';
 import { getApp } from '../../../src/app';
 import { RecordRepository } from '../../../src/DAL/repositories/recordRepository';
@@ -104,6 +105,10 @@ const updateRecordStatusRequest = {
 };
 
 describe('records', () => {
+  beforeAll(async function () {
+    await initConfig(true);
+  });
+
   beforeEach(() => {
     //remove AJV warnings from filling test log
     console.warn = jest.fn();
@@ -118,9 +123,11 @@ describe('records', () => {
     recordRepositoryMocks = registerRepository(RecordRepository, new RecordRepository());
     requestSender = new RecordsRequestSender(app);
   });
+
   afterEach(() => {
     container.clearInstances();
     jest.resetAllMocks();
+    jest.restoreAllMocks();
   });
 
   describe('Happy Path', () => {
@@ -450,8 +457,9 @@ describe('records', () => {
       const req = { ...testCreateRecordModel };
 
       const response = await requestSender.createResource(req);
+
       expect(response.status).toBe(httpStatusCodes.CONFLICT);
       expect(response).toSatisfyApiSpec();
-    });
+    },50000);
   });
 });

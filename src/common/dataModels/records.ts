@@ -7,6 +7,7 @@ export interface IRecordRequestParams {
 
 export interface IUpdateRecordRequest extends IRasterCatalogUpsertRequestBody, IRecordRequestParams {}
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface IFindRecordRequest extends Partial<IUpdateRecordRequest> {}
 
 export interface IEditRecordRequest extends IRasterCatalogEditRequestBody, IRecordRequestParams {}
@@ -29,4 +30,5 @@ export interface IRecordExistsResponse {
   exists: boolean;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface IFindRecordResponse extends Partial<IRasterCatalogUpsertRequestBody> {}

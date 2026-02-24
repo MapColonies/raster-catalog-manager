@@ -35,4 +35,10 @@ data:
   DB_SCHEMA: {{ $db.schema }}
   DB_LOGGING: {{ $db.logging | quote }}
   PGAPPNAME: {{ $chartName }}
+  {{- with .Values.configManagement }}
+  CONFIG_NAME: {{ .name| quote }}
+  CONFIG_VERSION: {{ .version | quote }}
+  CONFIG_OFFLINE_MODE: {{ .offlineMode | quote }}
+  CONFIG_SERVER_URL: {{ .serverUrl | quote }}
+  {{- end -}}
 {{- end }}
