@@ -460,6 +460,6 @@ describe('records', () => {
 
       expect(response.status).toBe(httpStatusCodes.CONFLICT);
       expect(response).toSatisfyApiSpec();
-    },50000);
+    });
   });
 });
