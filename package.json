@@ -53,7 +53,7 @@
     "@map-colonies/error-express-handler": "^4.0.0",
     "@map-colonies/error-types": "^1.2.0",
     "@map-colonies/express-access-log-middleware": "^4.0.0",
-    "@map-colonies/js-logger": "^1.0.1",
+    "@map-colonies/js-logger": "^4.0.0",
     "@map-colonies/mc-model-types": "^18.0.0",
     "@map-colonies/openapi-express-viewer": "^5.0.0",
     "@map-colonies/prometheus": "^1.0.0",
