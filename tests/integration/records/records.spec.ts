@@ -1,7 +1,7 @@
 import httpStatusCodes from 'http-status-codes';
 import { container } from 'tsyringe';
 import { trace } from '@opentelemetry/api';
-import { jsLogger } from '@map-colonies/js-logger';
+import jsLogger from '@map-colonies/js-logger';
 import { TileOutputFormat, Transparency } from '@map-colonies/mc-model-types';
 import { initConfig } from '@src/common/config';
 import { SERVICES } from '../../../src/common/constants';

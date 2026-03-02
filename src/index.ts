@@ -9,12 +9,12 @@ import { getApp } from './app';
 import { ConnectionManager } from './DAL/connectionManager';
 import { ConfigType } from './common/config';
 
+const app = getApp();
+
 const logger = container.resolve<Logger>(SERVICES.LOGGER);
 const config = container.resolve<ConfigType>(SERVICES.CONFIG);
 const serverConfig = config.get('server');
 const port: number = serverConfig.port || DEFAULT_SERVER_PORT;
-
-const app = getApp();
 
 const stubHealthcheck = async (): Promise<void> => Promise.resolve();
 
