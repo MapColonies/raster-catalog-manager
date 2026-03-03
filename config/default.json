@@ -11,10 +11,12 @@
       "prettyPrint": false
     },
     "shared": {},
-    "tracing": {}
+    "tracing": {
+      "isEnabled": false
+    }
   },
   "server": {
-    "port": 8083,
+    "port": 8080,
     "request": {
       "payload": {
         "limit": "10mb"

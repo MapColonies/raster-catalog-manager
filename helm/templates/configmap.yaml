@@ -1,10 +1,7 @@
 {{- $chartName := include "raster-catalog-manager.name" . -}}
 {{- $configmapName := include "configmap.fullname" . }}
 {{- $tracingUrl := include "raster-catalog-manager.tracingUrl" . -}}
-{{- $metricsUrl := include "raster-catalog-manager.metricsUrl" . -}}
 {{- $tracingEnabled := include "raster-catalog-manager.tracingEnabled" . -}}
-{{- $metricsEnabled := include "raster-catalog-manager.metricsEnabled" . -}}
-{{- $metricsBuckets := include "raster-catalog-manager.metricsBuckets" . -}}
 {{- $db := (include "common.db.merged" .) | fromYaml }}
 {{- if .Values.enabled -}}
 apiVersion: v1
@@ -19,11 +16,6 @@ data:
   TELEMETRY_TRACING_ENABLED: {{ $tracingEnabled | quote }}
   {{ if $tracingEnabled }}
   TELEMETRY_TRACING_URL: {{ $tracingUrl }}
-  {{ end }}
-  TELEMETRY_METRICS_ENABLED: {{ $metricsEnabled | quote }}
-  {{ if $metricsEnabled }}
-  TELEMETRY_METRICS_URL: {{ $metricsUrl }}
-  TELEMETRY_METRICS_BUCKETS: {{ $metricsBuckets | toJson | quote }}
   {{ end }}
   DB_HOST: {{ $db.host }}
   DB_PORT:  {{ $db.port | quote }}
