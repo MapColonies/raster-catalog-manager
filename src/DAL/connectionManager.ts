@@ -1,9 +1,10 @@
 import { readFileSync } from 'fs';
 import { createConnection, Connection, ObjectType, ConnectionOptions } from 'typeorm';
 import { inject, singleton } from 'tsyringe';
-import { Logger } from '@map-colonies/js-logger';
+import type { Logger } from '@map-colonies/js-logger';
+import type { ConfigType } from '@src/common/config';
+import { IDbConfig } from '@src/common/interfaces';
 import { SERVICES } from '../common/constants';
-import { IConfig, IDbConfig } from '../common/interfaces';
 import { DBConnectionError } from '../common/errors';
 import { RecordRepository } from './repositories/recordRepository';
 
@@ -12,15 +13,16 @@ export class ConnectionManager {
   private connection?: Connection;
   private connectionStatusPromise?: Promise<Connection>;
 
-  public constructor(@inject(SERVICES.LOGGER) private readonly logger: Logger, @inject(SERVICES.CONFIG) private readonly config: IConfig) {}
+  public constructor(
+    @inject(SERVICES.LOGGER) private readonly logger: Logger,
+    @inject(SERVICES.CONFIG) private readonly config: ConfigType
+  ) {}
 
   public async init(): Promise<void> {
-    const connectionConfig = this.config.get<IDbConfig>('typeOrm');
+    const connectionConfig = this.config.get('typeOrm') as IDbConfig; // TODO: remove this cast after added schemas in @map-coloneis/schemas
     this.logger.info(`connection to database ${connectionConfig.database as string} on ${connectionConfig.host as string}`);
     try {
-      if (this.connectionStatusPromise === undefined) {
-        this.connectionStatusPromise = createConnection(this.createConnectionOptions(connectionConfig));
-      }
+      this.connectionStatusPromise ??= createConnection(this.createConnectionOptions(connectionConfig));
       this.connection = await this.connectionStatusPromise;
     } catch (err) {
       const errString = JSON.stringify(err, Object.getOwnPropertyNames(err));

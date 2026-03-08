@@ -1,38 +1,38 @@
 import { Application } from 'express';
-import * as supertest from 'supertest';
+import { type Response, agent } from 'supertest';
 
 export class RecordsRequestSender {
   public constructor(private readonly app: Application) {}
 
-  public async recordExists(id: string): Promise<supertest.Response> {
-    return supertest.agent(this.app).get(`/records/exists/${id}`);
+  public async recordExists(id: string): Promise<Response> {
+    return agent(this.app).get(`/records/exists/${id}`);
   }
 
-  public async createResource(body: Record<string, unknown>): Promise<supertest.Response> {
-    return supertest.agent(this.app).post(`/records`).set('Content-Type', 'application/json').send(body);
+  public async createResource(body: Record<string, unknown>): Promise<Response> {
+    return agent(this.app).post(`/records`).set('Content-Type', 'application/json').send(body);
   }
 
-  public async updateResource(id: string, body: Record<string, unknown>): Promise<supertest.Response> {
-    return supertest.agent(this.app).put(`/records/${id}`).set('Content-Type', 'application/json').send(body);
+  public async updateResource(id: string, body: Record<string, unknown>): Promise<Response> {
+    return agent(this.app).put(`/records/${id}`).set('Content-Type', 'application/json').send(body);
   }
 
-  public async updateResourceStatus(id: string, body: Record<string, unknown>): Promise<supertest.Response> {
-    return supertest.agent(this.app).put(`/records/status/${id}`).set('Content-Type', 'application/json').send(body);
+  public async updateResourceStatus(id: string, body: Record<string, unknown>): Promise<Response> {
+    return agent(this.app).put(`/records/status/${id}`).set('Content-Type', 'application/json').send(body);
   }
 
-  public async editResource(id: string, body: Record<string, unknown>): Promise<supertest.Response> {
-    return supertest.agent(this.app).put(`/records/metadata/${id}`).set('Content-Type', 'application/json').send(body);
+  public async editResource(id: string, body: Record<string, unknown>): Promise<Response> {
+    return agent(this.app).put(`/records/metadata/${id}`).set('Content-Type', 'application/json').send(body);
   }
 
-  public async deleteResource(id: string): Promise<supertest.Response> {
-    return supertest.agent(this.app).delete(`/records/${id}`);
+  public async deleteResource(id: string): Promise<Response> {
+    return agent(this.app).delete(`/records/${id}`);
   }
 
-  public async findRecord(body: Record<string, unknown>): Promise<supertest.Response> {
-    return supertest.agent(this.app).post('/records/find').set('Content-Type', 'application/json').send(body);
+  public async findRecord(body: Record<string, unknown>): Promise<Response> {
+    return agent(this.app).post('/records/find').set('Content-Type', 'application/json').send(body);
   }
 
-  public async getRecordVersions(body: Record<string, unknown>): Promise<supertest.Response> {
-    return supertest.agent(this.app).post('/records/find/versions').set('Content-Type', 'application/json').send(body);
+  public async getRecordVersions(body: Record<string, unknown>): Promise<Response> {
+    return agent(this.app).post('/records/find/versions').set('Content-Type', 'application/json').send(body);
   }
 }

@@ -19,3 +19,4 @@ reports
 helm
 node_modules
 .vscode
+local.json

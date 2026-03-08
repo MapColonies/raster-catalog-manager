@@ -1,12 +1,13 @@
-import config from 'config';
-import { getOtelMixin } from '@map-colonies/telemetry';
+import { getOtelMixin } from '@map-colonies/tracing-utils';
 import { trace } from '@opentelemetry/api';
 import { DependencyContainer } from 'tsyringe/dist/typings/types';
-import jsLogger, { LoggerOptions } from '@map-colonies/js-logger';
+import jsLogger from '@map-colonies/js-logger';
+import { Registry } from 'prom-client';
 import { SERVICES, SERVICE_NAME } from './common/constants';
-import { tracing } from './common/tracing';
+import { getTracing } from './common/tracing';
 import { InjectionObject, registerDependencies } from './common/dependencyRegistration';
 import { recordRouterFactory, RECORD_ROUTER_SYMBOL } from './records/routes/recordRouter';
+import { getConfig } from './common/config';
 
 export interface RegisterOptions {
   override?: InjectionObject<unknown>[];
@@ -14,23 +15,27 @@ export interface RegisterOptions {
 }
 
 export const registerExternalValues = (options?: RegisterOptions): DependencyContainer => {
-  const loggerConfig = config.get<LoggerOptions>('telemetry.logger');
+  const configInstance = getConfig();
+
+  const loggerConfig = configInstance.get('telemetry.logger');
+
   const logger = jsLogger({ ...loggerConfig, prettyPrint: loggerConfig.prettyPrint, mixin: getOtelMixin() });
 
-  tracing.start();
   const tracer = trace.getTracer(SERVICE_NAME);
+  const metricsRegistry = new Registry();
 
   const dependencies: InjectionObject<unknown>[] = [
-    { token: SERVICES.CONFIG, provider: { useValue: config } },
+    { token: SERVICES.CONFIG, provider: { useValue: configInstance } },
     { token: SERVICES.LOGGER, provider: { useValue: logger } },
     { token: SERVICES.TRACER, provider: { useValue: tracer } },
+    { token: SERVICES.METRICS, provider: { useValue: metricsRegistry } },
     { token: RECORD_ROUTER_SYMBOL, provider: { useFactory: recordRouterFactory } },
     {
       token: 'onSignal',
       provider: {
         useValue: {
           useValue: async (): Promise<void> => {
-            await Promise.all([tracing.stop()]);
+            await Promise.all([getTracing().stop()]);
           },
         },
       },

@@ -10,13 +10,13 @@
       "level": "info",
       "prettyPrint": false
     },
+    "shared": {},
     "tracing": {
-      "enabled": "false",
-      "url": "http://localhost:4318/v1/traces"
+      "isEnabled": false
     }
   },
   "server": {
-    "port": "8080",
+    "port": 8080,
     "request": {
       "payload": {
         "limit": "10mb"

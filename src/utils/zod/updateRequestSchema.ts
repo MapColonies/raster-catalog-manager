@@ -56,6 +56,5 @@ export const validateUpdatableFields = (data: unknown): IRasterCatalogEditReques
     throw new BadRequestError(formatStrError(result.error));
   }
   const validData = result.data;
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return validData;
 };

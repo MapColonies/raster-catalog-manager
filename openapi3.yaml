@@ -191,6 +191,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/recordExistsResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /records/find:
     post:
       operationId: findRecords

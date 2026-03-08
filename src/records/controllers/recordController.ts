@@ -1,4 +1,4 @@
-import { Logger } from '@map-colonies/js-logger';
+import type { Logger } from '@map-colonies/js-logger';
 import { RequestHandler } from 'express';
 import httpStatus from 'http-status-codes';
 import { injectable, inject } from 'tsyringe';
@@ -29,11 +29,15 @@ type UpdateRecordStatusHandler = RequestHandler<IRecordRequestParams, IRecordOpe
 
 @injectable()
 export class RecordController {
-  public constructor(@inject(SERVICES.LOGGER) private readonly logger: Logger, private readonly manager: RecordManager) {}
+  public constructor(
+    @inject(SERVICES.LOGGER) private readonly logger: Logger,
+    @inject(RecordManager) private readonly manager: RecordManager
+  ) {}
 
   public createRecord: CreateRecordHandler = async (req, res, next) => {
     try {
       const recordId = await this.manager.createRecord(req.body);
+
       return res.status(httpStatus.CREATED).json({
         id: recordId,
         status: OperationStatusEnum.SUCCESS,

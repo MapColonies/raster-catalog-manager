@@ -7,7 +7,7 @@ export interface IRecordRequestParams {
 
 export interface IUpdateRecordRequest extends IRasterCatalogUpsertRequestBody, IRecordRequestParams {}
 
-export interface IFindRecordRequest extends Partial<IUpdateRecordRequest> {}
+export type IFindRecordRequest = Partial<IUpdateRecordRequest>;
 
 export interface IEditRecordRequest extends IRasterCatalogEditRequestBody, IRecordRequestParams {}
 
@@ -29,4 +29,4 @@ export interface IRecordExistsResponse {
   exists: boolean;
 }
 
-export interface IFindRecordResponse extends Partial<IRasterCatalogUpsertRequestBody> {}
+export type IFindRecordResponse = Partial<IRasterCatalogUpsertRequestBody>;
