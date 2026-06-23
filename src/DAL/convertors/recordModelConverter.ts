@@ -115,6 +115,9 @@ export class RecordModelConvertor {
     });
     metadata.sensors = record.sensors !== '' ? record.sensors.split(',') : [];
     metadata.region = record.region ? record.region.split(',') : [];
+    if (record.keywords != null) {
+      (metadata as unknown as Record<string, unknown>)['keywords'] = record.keywords;
+    }
     if (typeof metadata.footprint === 'string') {
       metadata.footprint = JSON.parse(metadata.footprint) as GeoJSON;
     }

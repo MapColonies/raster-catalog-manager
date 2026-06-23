@@ -293,8 +293,13 @@ components:
       description: raster catalog find model
       properties:
         metadata:
-          $ref: >-
-            ./Schema/fullLayerMetadata.yaml#/components/schemas/fullLayerMetadata
+          allOf:
+            - $ref: >-
+                ./Schema/fullLayerMetadata.yaml#/components/schemas/fullLayerMetadata
+            - properties:
+                keywords:
+                  type: string
+                  description: The keywords of the product
         links:
           type: array
           items:
