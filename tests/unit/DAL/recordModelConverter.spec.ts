@@ -325,7 +325,7 @@ describe('RecordModelConverter', () => {
 
       const model = convertor.entityToModel(entity);
 
-      expect((model.metadata as unknown as Record<string, unknown>)['keywords']).toBe('satellite,aerial');
+      expect(model.metadata?.keywords).toBe('satellite,aerial');
     });
 
     it('converted model omits keywords when entity keywords is null', () => {
@@ -337,7 +337,7 @@ describe('RecordModelConverter', () => {
 
       const model = convertor.entityToModel(entity);
 
-      expect((model.metadata as unknown as Record<string, unknown>)['keywords']).toBeUndefined();
+      expect(model.metadata?.keywords).toBeUndefined();
     });
   });
 
