@@ -299,7 +299,7 @@ components:
             - properties:
                 keywords:
                   type: string
-                  description: The keywords of the product
+                  description: Product's keywords
         links:
           type: array
           items:
