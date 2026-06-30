@@ -107,7 +107,10 @@ export class RecordModelConvertor {
   }
 
   private recordToMetadata(record: RecordEntity): LayerMetadata & Pick<PycswLayerCatalogRecord, 'keywords'> {
-    const metadata = new LayerMetadata() as LayerMetadata & Pick<PycswLayerCatalogRecord, 'keywords'>;
+    const metadata: LayerMetadata & Pick<PycswLayerCatalogRecord, 'keywords'> = {
+      ...new LayerMetadata(),
+      keywords: undefined,
+    };
     Object.keys(new LayerMetadata()).forEach((key) => {
       if (record[key as keyof RecordEntity] !== null) {
         (metadata[key as keyof LayerMetadata] as unknown) = record[key as keyof RecordEntity];
