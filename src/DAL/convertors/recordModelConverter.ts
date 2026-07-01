@@ -111,7 +111,7 @@ export class RecordModelConvertor {
       ...new LayerMetadata(),
       keywords: undefined,
     };
-    Object.keys(new LayerMetadata()).forEach((key) => {
+    Object.keys(metadata).forEach((key) => {
       if (record[key as keyof RecordEntity] !== null) {
         (metadata[key as keyof LayerMetadata] as unknown) = record[key as keyof RecordEntity];
       }
