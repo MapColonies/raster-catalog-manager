@@ -1,7 +1,7 @@
 import { singleton } from 'tsyringe';
 import { GeoJSON } from 'geojson';
 import { GeoJSONGeometry, stringify as geoJsonToWkt } from 'wellknown';
-import { LayerMetadata, Link, IRasterCatalogUpsertRequestBody, RecordStatus } from '@map-colonies/mc-model-types';
+import { LayerMetadata, Link, IRasterCatalogUpsertRequestBody, RecordStatus, PycswLayerCatalogRecord } from '@map-colonies/mc-model-types';
 import { IEditRecordRequest, IFindRecordRequest, IFindRecordResponse, IUpdateRecordRequest } from '../../common/dataModels/records';
 import { RecordEntity } from '../entity/generated';
 
@@ -106,8 +106,11 @@ export class RecordModelConvertor {
     return links;
   }
 
-  private recordToMetadata(record: RecordEntity): LayerMetadata {
-    const metadata = new LayerMetadata();
+  private recordToMetadata(record: RecordEntity): LayerMetadata & Pick<PycswLayerCatalogRecord, 'keywords'> {
+    const metadata: LayerMetadata & Pick<PycswLayerCatalogRecord, 'keywords'> = {
+      ...new LayerMetadata(),
+      keywords: undefined,
+    };
     Object.keys(metadata).forEach((key) => {
       if (record[key as keyof RecordEntity] !== null) {
         (metadata[key as keyof LayerMetadata] as unknown) = record[key as keyof RecordEntity];
@@ -115,6 +118,9 @@ export class RecordModelConvertor {
     });
     metadata.sensors = record.sensors !== '' ? record.sensors.split(',') : [];
     metadata.region = record.region ? record.region.split(',') : [];
+    if (record.keywords != null) {
+      metadata.keywords = record.keywords;
+    }
     if (typeof metadata.footprint === 'string') {
       metadata.footprint = JSON.parse(metadata.footprint) as GeoJSON;
     }

@@ -315,6 +315,32 @@ describe('RecordModelConverter', () => {
     });
   });
 
+  describe('entityToModel - keywords', () => {
+    it('converted model includes keywords when entity has keywords value', () => {
+      const entity = {
+        sensors: '',
+        region: null,
+        keywords: 'satellite,aerial',
+      } as unknown as RecordEntity;
+
+      const model = convertor.entityToModel(entity);
+
+      expect(model.metadata?.keywords).toBe('satellite,aerial');
+    });
+
+    it('converted model omits keywords when entity keywords is null', () => {
+      const entity = {
+        sensors: '',
+        region: null,
+        keywords: null,
+      } as unknown as RecordEntity;
+
+      const model = convertor.entityToModel(entity);
+
+      expect(model.metadata?.keywords).toBeUndefined();
+    });
+  });
+
   describe('findModelToEntity', () => {
     it('find should return the given attribute', () => {
       const testUpdateRecordRequest = {
