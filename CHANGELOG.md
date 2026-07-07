@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.3.0](https://github.com/MapColonies/raster-catalog-manager/compare/v7.2.0...v7.3.0) (2026-07-07)
+
+
+### Features
+
+* add keywords field to API response and OpenAPI spec (MAPCO-8284) ([#112](https://github.com/MapColonies/raster-catalog-manager/issues/112)) ([8989465](https://github.com/MapColonies/raster-catalog-manager/commit/8989465aafbbaee2a710f082ee87e998db7ec476))
+
 ## [7.2.0](https://github.com/MapColonies/raster-catalog-manager/compare/v7.1.0...v7.2.0) (2026-03-08)
 
 
