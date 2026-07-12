@@ -21,6 +21,9 @@ data:
   OPENTELEMETRY_LOGGING_ENABLED: {{ $openTelemetryOptions.enabled | quote }}
   {{ if $openTelemetryOptions.enabled }}
   OTLP_LOGGER_ENDPOINT_URL: {{ $openTelemetryOptions.url }}
+  {{ if $openTelemetryOptions.resourceAttributes }}
+  OPENTELEMETRY_RESOURCE_ATTRIBUTES: {{ $openTelemetryOptions.resourceAttributes | toJson | quote }}
+  {{ end }}
   {{ end }}
   DB_HOST: {{ $db.host }}
   DB_PORT:  {{ $db.port | quote }}
