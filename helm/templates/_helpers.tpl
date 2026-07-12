@@ -125,24 +125,3 @@ Returns the tracing url from global if exists or from the chart's values
 {{- end -}}
 {{- end -}}
 
-{{/*
-Returns if opentelemetry logging (alloy) is enabled from global if exists or from the chart's values
-*/}}
-{{- define "raster-catalog-manager.openTelemetryLoggingEnabled" -}}
-{{- if .Values.global.openTelemetryOptions.enabled }}
-    {{- .Values.global.openTelemetryOptions.enabled -}}
-{{- else -}}
-    {{- .Values.env.openTelemetryOptions.enabled -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Returns the opentelemetry logging (alloy) url from global if exists or from the chart's values
-*/}}
-{{- define "raster-catalog-manager.openTelemetryLoggingUrl" -}}
-{{- if .Values.global.openTelemetryOptions.url }}
-    {{- .Values.global.openTelemetryOptions.url -}}
-{{- else -}}
-    {{- .Values.env.openTelemetryOptions.url -}}
-{{- end -}}
-{{- end -}}
