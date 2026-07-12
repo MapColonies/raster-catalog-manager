@@ -2,6 +2,8 @@
 {{- $configmapName := include "configmap.fullname" . }}
 {{- $tracingUrl := include "raster-catalog-manager.tracingUrl" . -}}
 {{- $tracingEnabled := include "raster-catalog-manager.tracingEnabled" . -}}
+{{- $openTelemetryLoggingUrl := include "raster-catalog-manager.openTelemetryLoggingUrl" . -}}
+{{- $openTelemetryLoggingEnabled := include "raster-catalog-manager.openTelemetryLoggingEnabled" . -}}
 {{- $db := (include "common.db.merged" .) | fromYaml }}
 {{- if .Values.enabled -}}
 apiVersion: v1
@@ -16,6 +18,10 @@ data:
   TELEMETRY_TRACING_ENABLED: {{ $tracingEnabled | quote }}
   {{ if $tracingEnabled }}
   TELEMETRY_TRACING_URL: {{ $tracingUrl }}
+  {{ end }}
+  OPENTELEMETRY_LOGGING_ENABLED: {{ $openTelemetryLoggingEnabled | quote }}
+  {{ if $openTelemetryLoggingEnabled }}
+  OTLP_LOGGER_ENDPOINT_URL: {{ $openTelemetryLoggingUrl }}
   {{ end }}
   DB_HOST: {{ $db.host }}
   DB_PORT:  {{ $db.port | quote }}
