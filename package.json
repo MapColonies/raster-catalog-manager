@@ -122,5 +122,13 @@
   },
   "engines": {
     "node": ">=24.0.0"
+  },
+  "overrides": {
+    "@map-colonies/mc-priority-queue": {
+      "@map-colonies/js-logger": "$@map-colonies/js-logger"
+    },
+    "@map-colonies/mc-utils": {
+      "@map-colonies/js-logger": "$@map-colonies/js-logger"
+    }
   }
 }
