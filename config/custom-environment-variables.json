@@ -17,7 +17,7 @@
           "__name": "OPENTELEMETRY_LOGGING_ENABLED",
           "__format": "boolean"
         },
-        "url": "OTLP_LOGGER_ENDPOINT_URL",
+        "url": "OPENTELEMETRY_LOGGING_URL",
         "resourceAttributes": {
           "__name": "OPENTELEMETRY_RESOURCE_ATTRIBUTES",
           "__format": "json"

@@ -20,7 +20,7 @@ data:
   {{ end }}
   OPENTELEMETRY_LOGGING_ENABLED: {{ $openTelemetryOptions.enabled | quote }}
   {{ if $openTelemetryOptions.enabled }}
-  OTLP_LOGGER_ENDPOINT_URL: {{ $openTelemetryOptions.url }}
+  OPENTELEMETRY_LOGGING_URL: {{ $openTelemetryOptions.url }}
   {{ if $openTelemetryOptions.resourceAttributes }}
   OPENTELEMETRY_RESOURCE_ATTRIBUTES: {{ $openTelemetryOptions.resourceAttributes | toJson | quote }}
   {{ end }}
