@@ -60,3 +60,7 @@ Custom definitions
 {{- define "common.fs.merged" -}}
 {{- include "common.tplvalues.merge" ( dict "values" ( list .Values.storage.fs .Values.global.storage.fs ) "context" . ) }}
 {{- end -}}
+
+{{- define "common.openTelemetryOptions.merged" -}}
+{{- include "common.tplvalues.merge" ( dict "values" ( list .Values.env.openTelemetryOptions .Values.global.openTelemetryOptions ) "context" . ) }}
+{{- end -}}

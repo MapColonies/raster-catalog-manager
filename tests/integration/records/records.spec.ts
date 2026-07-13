@@ -1,7 +1,7 @@
 import httpStatusCodes from 'http-status-codes';
 import { container } from 'tsyringe';
 import { trace } from '@opentelemetry/api';
-import jsLogger from '@map-colonies/js-logger';
+import { jsLogger } from '@map-colonies/js-logger';
 import { TileOutputFormat, Transparency } from '@map-colonies/mc-model-types';
 import { initConfig } from '@src/common/config';
 import { SERVICES } from '../../../src/common/constants';
@@ -109,13 +109,13 @@ describe('records', () => {
     await initConfig(true);
   });
 
-  beforeEach(() => {
+  beforeEach(async () => {
     //remove AJV warnings from filling test log
     console.warn = jest.fn();
     initTypeOrmMocks();
-    const app = getApp({
+    const app = await getApp({
       override: [
-        { token: SERVICES.LOGGER, provider: { useValue: jsLogger({ enabled: false }) } },
+        { token: SERVICES.LOGGER, provider: { useValue: await jsLogger({ enabled: false }) } },
         { token: SERVICES.TRACER, provider: { useValue: trace.getTracer('testTracer') } },
       ],
       useChild: false, //child container is incompatible with the typeorm repositories implementation

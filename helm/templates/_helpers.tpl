@@ -124,3 +124,4 @@ Returns the tracing url from global if exists or from the chart's values
     {{- .Values.env.tracing.url -}}
 {{- end -}}
 {{- end -}}
+
