@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.4.0](https://github.com/MapColonies/raster-catalog-manager/compare/v7.3.0...v7.4.0) (2026-07-15)
+
+
+### Miscellaneous Chores
+
+* force alignment to rc track ([b060c3c](https://github.com/MapColonies/raster-catalog-manager/commit/b060c3cb249d79155cefcb9c97acbc32691d02dd))
+
 ## [7.3.0](https://github.com/MapColonies/raster-catalog-manager/compare/v7.2.0...v7.3.0) (2026-07-07)
 
 
