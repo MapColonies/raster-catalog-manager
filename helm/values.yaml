@@ -81,8 +81,8 @@ env:
   responseCompressionEnabled: true
   requestPayloadLimit: 5mb
   tracing:
-    enabled: false
-    url: http://localhost:55681/v1/traces
+    enabled: true
+    url: ""
   openTelemetryOptions:
     enabled: false
     url: ''
