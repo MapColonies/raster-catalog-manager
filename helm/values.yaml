@@ -84,8 +84,8 @@ env:
     enabled: true
     url: ""
   openTelemetryOptions:
-    enabled: false
-    url: ''
+    enabled: true
+    url: ""
     resourceAttributes: {}
 
 resources:
