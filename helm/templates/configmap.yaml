@@ -16,7 +16,7 @@ data:
   LOG_PRETTY_PRINT_ENABLED: {{ .Values.env.logPrettyPrintEnabled | quote }}
   TELEMETRY_TRACING_ENABLED: {{ $tracingEnabled | quote }}
   {{ if $tracingEnabled }}
-  TELEMETRY_TRACING_URL: {{ $tracingUrl }}
+  TELEMETRY_TRACING_URL: {{ $tracingUrl | quote }}
   {{ end }}
   OPENTELEMETRY_LOGGING_ENABLED: {{ $openTelemetryOptions.enabled | quote }}
   {{ if $openTelemetryOptions.enabled }}
