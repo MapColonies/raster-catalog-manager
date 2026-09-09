@@ -67,7 +67,7 @@ image:
 podAnnotations: {}
 
 configManagement:
-  offlineMode: false
+  offlineMode: true
   name: 'raster-catalog-manager'
   version: 'latest'
   serverUrl: 'http://localhost:8080/api'
