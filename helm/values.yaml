@@ -76,10 +76,10 @@ env:
   port: 80
   targetPort: 8080
   protocol: TCP
-  logLevel: warn
+  logLevel: info
   logPrettyPrintEnabled: false
   responseCompressionEnabled: true
-  requestPayloadLimit: 1mb
+  requestPayloadLimit: 5mb
   tracing:
     enabled: false
     url: http://localhost:55681/v1/traces
