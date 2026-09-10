@@ -18,10 +18,7 @@
           "__format": "boolean"
         },
         "url": "OTLP_LOGGER_ENDPOINT_URL",
-        "resourceAttributes": {
-          "__name": "OPENTELEMETRY_RESOURCE_ATTRIBUTES",
-          "__format": "json"
-        }
+        "resourceAttributes": "OTEL_RESOURCE_ATTRIBUTES"
       }
     },
     "tracing": {

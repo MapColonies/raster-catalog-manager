@@ -24,7 +24,6 @@ data:
   OTLP_LOGGER_ENDPOINT_URL: {{ $opentelemetryLoggingUrl | quote }}
   {{- if .resourceAttributes }}
   OTEL_RESOURCE_ATTRIBUTES: {{ include "raster-catalog-manager.otelResourceAttributes" .resourceAttributes | quote }}
-  OPENTELEMETRY_RESOURCE_ATTRIBUTES: {{ .resourceAttributes | toJson | quote }}
   {{- end }}
   {{- end }}
   {{- end }}
