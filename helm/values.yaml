@@ -1,7 +1,9 @@
 global:
   cloudProvider: {}
-  tracing: {}
-  openTelemetryOptions: {}
+  telemetry:
+    tracing: {}
+    logger:
+      opentelemetryOptions: {}
   environment: ""
   db:
     host: ""
@@ -72,21 +74,27 @@ configManagement:
   version: 'latest'
   serverUrl: 'http://localhost:8080/api'
 
-env:
+server:
   port: 80
   targetPort: 8080
   protocol: TCP
-  logLevel: info
-  logPrettyPrintEnabled: false
   responseCompressionEnabled: true
   requestPayloadLimit: 5mb
+
+telemetry:
+  logger:
+    level: info
+    prettyPrint: false
+    opentelemetryOptions:
+      enabled: true
+      url: http://localhost:4317
+      # Rendered as OTEL_RESOURCE_ATTRIBUTES in "key=value,key=value" format
+      # resourceAttributes:
+      #   service.namespace: namespace
+      #   deployment.environment: dev
   tracing:
     enabled: true
-    url: ""
-  openTelemetryOptions:
-    enabled: true
-    url: ""
-    resourceAttributes: {}
+    url: http://localhost:55681/v1/traces
 
 resources:
   enabled: false

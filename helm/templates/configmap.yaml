@@ -1,8 +1,9 @@
 {{- $chartName := include "raster-catalog-manager.name" . -}}
 {{- $configmapName := include "configmap.fullname" . }}
+{{- $server := .Values.server -}}
+{{- $telemetry := .Values.telemetry -}}
 {{- $tracingUrl := include "raster-catalog-manager.tracingUrl" . -}}
-{{- $tracingEnabled := include "raster-catalog-manager.tracingEnabled" . -}}
-{{- $openTelemetryOptions := (include "common.openTelemetryOptions.merged" .) | fromYaml }}
+{{- $opentelemetryLoggingUrl := include "raster-catalog-manager.opentelemetryLoggingUrl" . -}}
 {{- $db := (include "common.db.merged" .) | fromYaml }}
 {{- if .Values.enabled -}}
 apiVersion: v1
@@ -10,21 +11,27 @@ kind: ConfigMap
 metadata:
   name: {{ $configmapName }}
 data:
-  REQUEST_PAYLOAD_LIMIT: {{ .Values.env.requestPayloadLimit | quote }}
-  RESPONSE_COMPRESSION_ENABLED: {{ .Values.env.responseCompressionEnabled | quote }}
-  LOG_LEVEL: {{ .Values.env.logLevel | quote }}
-  LOG_PRETTY_PRINT_ENABLED: {{ .Values.env.logPrettyPrintEnabled | quote }}
-  TELEMETRY_TRACING_ENABLED: {{ $tracingEnabled | quote }}
-  {{ if $tracingEnabled }}
+  {{- with $server }}
+  REQUEST_PAYLOAD_LIMIT: {{ .requestPayloadLimit | quote }}
+  RESPONSE_COMPRESSION_ENABLED: {{ .responseCompressionEnabled | quote }}
+  {{- end }}
+  {{- with $telemetry }}
+  LOG_LEVEL: {{ .logger.level | quote }}
+  LOG_PRETTY_PRINT_ENABLED: {{ .logger.prettyPrint | quote }}
+  {{- with .logger.opentelemetryOptions }}
+  {{- if .enabled }}
+  OPENTELEMETRY_LOGGING_ENABLED: 'true'
+  OTLP_LOGGER_ENDPOINT_URL: {{ $opentelemetryLoggingUrl | quote }}
+  {{- if .resourceAttributes }}
+  OTEL_RESOURCE_ATTRIBUTES: {{ include "raster-catalog-manager.otelResourceAttributes" .resourceAttributes | quote }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+  {{- if .tracing.enabled }}
+  TELEMETRY_TRACING_ENABLED: 'true'
   TELEMETRY_TRACING_URL: {{ $tracingUrl | quote }}
-  {{ end }}
-  OPENTELEMETRY_LOGGING_ENABLED: {{ $openTelemetryOptions.enabled | quote }}
-  {{ if $openTelemetryOptions.enabled }}
-  OPENTELEMETRY_LOGGING_URL: {{ $openTelemetryOptions.url | quote }}
-  {{ if $openTelemetryOptions.resourceAttributes }}
-  OPENTELEMETRY_RESOURCE_ATTRIBUTES: {{ $openTelemetryOptions.resourceAttributes | toJson | quote }}
-  {{ end }}
-  {{ end }}
+  {{- end }}
+  {{- end }}
   DB_HOST: {{ $db.host }}
   DB_PORT:  {{ $db.port | quote }}
   DB_NAME: {{ $db.name }}
@@ -36,7 +43,7 @@ data:
   DB_LOGGING: {{ $db.logging | quote }}
   PGAPPNAME: {{ $chartName }}
   {{- with .Values.configManagement }}
-  CONFIG_NAME: {{ .name| quote }}
+  CONFIG_NAME: {{ .name | quote }}
   CONFIG_VERSION: {{ .version | quote }}
   CONFIG_OFFLINE_MODE: {{ .offlineMode | quote }}
   CONFIG_SERVER_URL: {{ .serverUrl | quote }}

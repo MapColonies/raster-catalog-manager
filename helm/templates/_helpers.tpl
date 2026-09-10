@@ -104,24 +104,35 @@ Returns the cloud provider image pull secret name from global if exists or from 
 {{- end -}}
 
 {{/*
-Returns if tracing is enabled from global if exists or from the chart's values
+Returns the tracing url from global if set, otherwise from the chart's values
 */}}
-{{- define "raster-catalog-manager.tracingEnabled" -}}
-{{- if .Values.global.tracing.enabled }}
-    {{- .Values.global.tracing.enabled -}}
-{{- else -}}
-    {{- .Values.env.tracing.enabled -}}
+{{- define "raster-catalog-manager.tracingUrl" -}}
+{{- if .Values.global.telemetry.tracing.url }}
+    {{- .Values.global.telemetry.tracing.url -}}
+{{- else if .Values.telemetry.tracing.url -}}
+    {{- .Values.telemetry.tracing.url -}}
 {{- end -}}
 {{- end -}}
 
 {{/*
-Returns the tracing url from global if exists or from the chart's values
+Returns the opentelemetry logging url from global if set, otherwise from the chart's values
 */}}
-{{- define "raster-catalog-manager.tracingUrl" -}}
-{{- if .Values.global.tracing.url }}
-    {{- .Values.global.tracing.url -}}
-{{- else if .Values.cloudProvider -}}
-    {{- .Values.env.tracing.url -}}
+{{- define "raster-catalog-manager.opentelemetryLoggingUrl" -}}
+{{- if .Values.global.telemetry.logger.opentelemetryOptions.url }}
+    {{- .Values.global.telemetry.logger.opentelemetryOptions.url -}}
+{{- else if .Values.telemetry.logger.opentelemetryOptions.url -}}
+    {{- .Values.telemetry.logger.opentelemetryOptions.url -}}
 {{- end -}}
 {{- end -}}
 
+{{/*
+Renders a map of resource attributes as key=value,key=value for OTEL_RESOURCE_ATTRIBUTES.
+Usage: {{ include "raster-catalog-manager.otelResourceAttributes" .resourceAttributes }}
+*/}}
+{{- define "raster-catalog-manager.otelResourceAttributes" -}}
+{{- $attributes := list }}
+{{- range $key, $value := . }}
+{{- $attributes = append $attributes (printf "%s=%s" $key (toString $value)) }}
+{{- end }}
+{{- join "," $attributes }}
+{{- end -}}
