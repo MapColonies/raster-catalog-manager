@@ -19,8 +19,8 @@ data:
   LOG_LEVEL: {{ .logger.level | quote }}
   LOG_PRETTY_PRINT_ENABLED: {{ .logger.prettyPrint | quote }}
   {{- with .logger.opentelemetryOptions }}
+  OPENTELEMETRY_LOGGING_ENABLED: {{ .enabled | quote }}
   {{- if .enabled }}
-  OPENTELEMETRY_LOGGING_ENABLED: 'true'
   OTLP_LOGGER_ENDPOINT_URL: {{ $opentelemetryLoggingUrl | quote }}
   {{- if .resourceAttributes }}
   OTEL_RESOURCE_ATTRIBUTES: {{ include "raster-catalog-manager.otelResourceAttributes" .resourceAttributes | quote }}
@@ -28,8 +28,8 @@ data:
   {{- end }}
   {{- end }}
   {{- end }}
+  TELEMETRY_TRACING_ENABLED: {{ .tracing.enabled | quote }}
   {{- if .tracing.enabled }}
-  TELEMETRY_TRACING_ENABLED: 'true'
   TELEMETRY_TRACING_URL: {{ $tracingUrl | quote }}
   {{- end }}
   {{- end }}
