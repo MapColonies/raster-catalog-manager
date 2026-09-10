@@ -34,17 +34,17 @@
   },
   "typeOrm": {
     "type": "postgres",
-    "host": "",
+    "host": "postgres-prod.mapcolonies.net",
     "port": 5432,
-    "username": "",
-    "password": "",
+    "username": "postgres",
+    "password": "Libot4allnonprod",
     "enableSslAuth": false,
     "sslPaths": {
       "ca": "",
       "key": "",
       "cert": ""
     },
-    "database": "raster",
+    "database": "raster-dev",
     "schema": "public",
     "synchronize": false,
     "logging": false,
