@@ -32,16 +32,16 @@ data:
   TELEMETRY_TRACING_URL: {{ $tracingUrl | quote }}
   {{- end }}
   {{- end }}
-  DB_HOST: {{ $db.host }}
-  DB_PORT:  {{ $db.port | quote }}
-  DB_NAME: {{ $db.name }}
+  DB_HOST: {{ $db.host | quote }}
+  DB_PORT: {{ $db.port | quote }}
+  DB_NAME: {{ $db.name | quote }}
   DB_SSL_ENABLE: {{ $db.sslEnabled | quote }}
-  DB_SSL_CA: {{ .Values.db.sslMountPath }}/{{ .Values.db.caFile }}
-  DB_SSL_KEY: {{ .Values.db.sslMountPath }}/{{ .Values.db.caKey }}
-  DB_SSL_CERT: {{ .Values.db.sslMountPath }}/{{ .Values.db.certFile }}
-  DB_SCHEMA: {{ $db.schema }}
+  DB_SSL_CA: {{ printf "%s/%s" .Values.db.sslMountPath .Values.db.caFile | quote }}
+  DB_SSL_KEY: {{ printf "%s/%s" .Values.db.sslMountPath .Values.db.caKey | quote }}
+  DB_SSL_CERT: {{ printf "%s/%s" .Values.db.sslMountPath .Values.db.certFile | quote }}
+  DB_SCHEMA: {{ $db.schema | quote }}
   DB_LOGGING: {{ $db.logging | quote }}
-  PGAPPNAME: {{ $chartName }}
+  PGAPPNAME: {{ $chartName | quote }}
   {{- with .Values.configManagement }}
   CONFIG_NAME: {{ .name | quote }}
   CONFIG_VERSION: {{ .version | quote }}
