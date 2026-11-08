@@ -1,4 +1,3 @@
--- Ported from src/DAL/migration/fullSchema.sql. Creates the schema on first deployments and is safe to apply on existing ones.
 SET search_path TO public;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS postgis;
