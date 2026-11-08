@@ -15,3 +15,6 @@ export const SERVICES = {
   METER: Symbol('Meter'),
 } satisfies Record<string, symbol>;
 /* eslint-enable @typescript-eslint/naming-convention */
+
+// Fixed across all environments; also hard-coded in drizzle.config.ts and the migration SQL files.
+export const DB_SCHEMA = 'RasterCatalogManager';
