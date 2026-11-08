@@ -56,5 +56,18 @@
       "migrationsDir": "src/DAL/migration",
       "subscribersDir": "src/DAL/subscriber"
     }
+  },
+  "db": {
+    "host": "",
+    "port": 5432,
+    "username": "",
+    "password": "",
+    "database": "raster",
+    "ssl": {
+      "enabled": false,
+      "ca": "",
+      "key": "",
+      "cert": ""
+    }
   }
 }

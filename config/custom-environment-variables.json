@@ -62,5 +62,24 @@
     "database": "DB_NAME",
     "schema": "DB_SCHEMA",
     "logging": "DB_LOGGING"
+  },
+  "db": {
+    "host": "DB_HOST",
+    "port": {
+      "__name": "DB_PORT",
+      "__format": "number"
+    },
+    "username": "DB_USER",
+    "password": "DB_PASSWORD",
+    "database": "DB_NAME",
+    "ssl": {
+      "enabled": {
+        "__name": "DB_SSL_ENABLE",
+        "__format": "boolean"
+      },
+      "ca": "DB_SSL_CA",
+      "key": "DB_SSL_KEY",
+      "cert": "DB_SSL_CERT"
+    }
   }
 }
