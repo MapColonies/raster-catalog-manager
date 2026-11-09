@@ -1,5 +1,5 @@
 // Standalone entrypoint that applies pending Drizzle migrations and exits.
-// It is not part of the service runtime; it is run manually through the migrations image (see migrations.Dockerfile).
+// It is not part of the service runtime; it is run manually from the service image with the command overridden (see README).
 import { createConnectionOptions, runMigrations } from '@map-colonies/drizzle-utils';
 import { jsLogger } from '@map-colonies/js-logger';
 import type { commonDbFullV1Type, commonDbFullV3Type } from '@map-colonies/schemas';
