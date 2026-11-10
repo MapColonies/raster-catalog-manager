@@ -2,12 +2,21 @@ SET search_path TO public;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS postgis;
 
+CREATE SCHEMA IF NOT EXISTS "RasterCatalogManager";
 
-SET search_path TO "RasterCatalogManager", public; -- CHANGE SCHEMA NAME TO MATCH ENVIRONMENT
-CREATE TYPE product_status AS ENUM ('PUBLISHED', 'UNPUBLISHED'); 
+SET search_path TO "RasterCatalogManager", public;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_type t JOIN pg_namespace n ON n.oid = t.typnamespace
+    WHERE t.typname = 'product_status' AND n.nspname = 'RasterCatalogManager'
+  ) THEN
+    CREATE TYPE product_status AS ENUM ('PUBLISHED', 'UNPUBLISHED');
+  END IF;
+END $$;
 -- Table: records
 -- DROP TABLE records;
-CREATE TABLE records
+CREATE TABLE IF NOT EXISTS records
 (
     identifier text COLLATE pg_catalog."default" NOT NULL,
     typename text COLLATE pg_catalog."default" NOT NULL,
@@ -61,86 +70,85 @@ CREATE TABLE records
 
 -- Index: ix_product_id
 -- DROP INDEX ix_product_id;
-CREATE INDEX ix_product_id
+CREATE INDEX IF NOT EXISTS ix_product_id
     ON records USING btree
     (product_id COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: ix_product_name
 -- DROP INDEX ix_product_name;
-CREATE INDEX ix_product_name
+CREATE INDEX IF NOT EXISTS ix_product_name
     ON records USING btree
     (product_name COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: ix_product_version
 -- DROP INDEX ix_product_version;
-CREATE INDEX ix_product_version
+CREATE INDEX IF NOT EXISTS ix_product_version
     ON records USING btree
     (product_version COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: ix_product_type
 -- DROP INDEX ix_product_type;
-CREATE INDEX ix_product_type
+CREATE INDEX IF NOT EXISTS ix_product_type
     ON records USING btree
     (product_type COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: ix_product_sub_type
 -- DROP INDEX ix_product_sub_type;
-CREATE INDEX ix_product_sub_type
+CREATE INDEX IF NOT EXISTS ix_product_sub_type
     ON records USING btree
     (product_sub_type COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: ix_creation_date
 -- DROP INDEX ix_creation_date;
-CREATE INDEX ix_creation_date_utc
+CREATE INDEX IF NOT EXISTS ix_creation_date_utc
     ON records USING btree
     (creation_date_utc ASC NULLS LAST);
 
 -- Index: ix_update_date
 -- DROP INDEX ix_update_date;
-CREATE INDEX ix_update_date_utc
+CREATE INDEX IF NOT EXISTS ix_update_date_utc
     ON records USING btree
     (update_date_utc ASC NULLS LAST);
 
 -- Index: ix_source_start_date
 -- DROP INDEX ix_source_start_date;
-CREATE INDEX ix_imaging_time_begin_utc
+CREATE INDEX IF NOT EXISTS ix_imaging_time_begin_utc
     ON records USING btree
     (imaging_time_begin_utc ASC NULLS LAST);
 
 -- Index: ix_source_end_date
 -- DROP INDEX ix_source_end_date;
-CREATE INDEX ix_imaging_time_end_utc
+CREATE INDEX IF NOT EXISTS ix_imaging_time_end_utc
     ON records USING btree
     (imaging_time_end_utc ASC NULLS LAST);
 
 -- Index: ix_max_resolution_meter
 -- DROP INDEX ix_max_resolution_meter;
-CREATE INDEX ix_max_resolution_meter
+CREATE INDEX IF NOT EXISTS ix_max_resolution_meter
     ON records USING btree
     (max_resolution_meter ASC);
 
-
 -- Index: ix_min_resolution_meter
 -- DROP INDEX ix_min_resolution_meter;
-CREATE INDEX ix_min_resolution_meter
+CREATE INDEX IF NOT EXISTS ix_min_resolution_meter
     ON records USING btree
-    (min_resolution_meter ASC);    
+    (min_resolution_meter ASC);
 
 -- Index: ix_max_srs_id
 -- DROP INDEX ix_srs_id;
-CREATE INDEX ix_max_srs_id
+CREATE INDEX IF NOT EXISTS ix_max_srs_id
     ON records USING btree
     (srs COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: ix_classification
 -- DROP INDEX ix_classification;
-CREATE INDEX ix_classification
+CREATE INDEX IF NOT EXISTS ix_classification
     ON records USING btree
     (classification COLLATE pg_catalog."default" ASC NULLS LAST);
 
 -- Index: records_wkb_geometry_idx
 -- DROP INDEX records_wkb_geometry_idx;
-CREATE INDEX records_wkb_geometry_idx
+CREATE INDEX IF NOT EXISTS records_wkb_geometry_idx
     ON records USING gist
     (wkb_geometry);
 
@@ -148,16 +156,16 @@ CREATE INDEX records_wkb_geometry_idx
 -- DROP INDEX fts_gin_idx;
 -- DO NOT CHANGE THIS INDEX NAME --
 -- changing its name will disable pycsw full text index
-CREATE INDEX fts_gin_idx
+CREATE INDEX IF NOT EXISTS fts_gin_idx
     ON records USING gin
     (anytext_tsvector);
 
 -- Trigger function : records_update_anytext
-CREATE FUNCTION records_update_anytext() RETURNS trigger
+CREATE OR REPLACE FUNCTION records_update_anytext() RETURNS trigger
     SET search_path FROM CURRENT
     LANGUAGE plpgsql
     AS $$
-BEGIN   
+BEGIN
   IF TG_OP = 'INSERT' THEN
     NEW.anytext := CONCAT (
       NEW.product_name,' ',
@@ -190,11 +198,11 @@ $$;
 
 -- Trigger: ftsupdate
 -- DROP TRIGGER ftsupdate ON records;
-CREATE TRIGGER ftsupdate
+CREATE OR REPLACE TRIGGER ftsupdate
     BEFORE INSERT OR UPDATE
     ON records
     FOR EACH ROW
-    WHEN (NEW.product_name IS NOT NULL 
+    WHEN (NEW.product_name IS NOT NULL
       OR NEW.product_version IS NOT NULL
       OR NEW.product_type IS NOT NULL
       OR NEW.product_sub_type IS NOT NULL
@@ -207,7 +215,7 @@ CREATE TRIGGER ftsupdate
 	 EXECUTE PROCEDURE records_update_anytext();
 
 -- Trigger function : records_update_geometry
-CREATE FUNCTION records_update_geometry() RETURNS trigger
+CREATE OR REPLACE FUNCTION records_update_geometry() RETURNS trigger
     SET search_path FROM CURRENT
     LANGUAGE plpgsql
     AS $$
@@ -222,11 +230,11 @@ $$;
 
 -- Trigger: records_update_geometry
 -- DROP TRIGGER records_update_geometry ON records;
-CREATE TRIGGER records_update_geometry
+CREATE OR REPLACE TRIGGER records_update_geometry
     BEFORE INSERT OR UPDATE
     ON records
     FOR EACH ROW
     EXECUTE PROCEDURE records_update_geometry();
 
 --DROP INDEX product_id_and_type_case_insensitive
-CREATE UNIQUE INDEX product_id_and_type_case_insensitive on "records" (LOWER(product_id),LOWER(product_type));   
+CREATE UNIQUE INDEX IF NOT EXISTS product_id_and_type_case_insensitive on "records" (LOWER(product_id),LOWER(product_type));

@@ -6,9 +6,10 @@
       "@src/*": ["src/*"],
       "@tests/*": ["tests/*"],
       "@common/*": ["src/common/*"],
-      "@openapi": ["src/openapi"]
+      "@openapi": ["src/openapi"],
+      "@db": ["src/db"]
     }
   },
-  "include": ["src", "tests"],
+  "include": ["src", "tests", "drizzle.config.ts"],
   "exclude": ["node_modules", "dist"]
 }
